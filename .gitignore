@@ -1,0 +1,5 @@
+node_modules/
+plugins/
+www/lib
+**/*.js
+**/*.css
