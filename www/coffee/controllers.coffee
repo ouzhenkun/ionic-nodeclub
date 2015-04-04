@@ -24,8 +24,8 @@ angular.module('starter.controllers', [])
     $timeout (-> $scope.closeLogin()), 1000
 )
 
-.controller('PlaylistsCtrl', ($scope) ->
-  $scope.playlists = [
+.controller('ItemListsCtrl', ($scope) ->
+  $scope.items = [
     {
       title: 'Reggae'
       id: 1
@@ -53,4 +53,4 @@ angular.module('starter.controllers', [])
   ]
 )
 
-.controller 'PlaylistCtrl', ($scope, $stateParams) ->
+.controller 'ItemDetailCtrl', ($scope, $stateParams) ->

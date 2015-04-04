@@ -30,30 +30,24 @@ angular.module('starter', [
       templateUrl: 'templates/menu.html'
       controller: 'AppCtrl'
 
-    .state 'app.search',
-      url: '/search',
+    .state 'app.lists',
+      url: '/lists',
       views:
         menuContent:
-          templateUrl: 'templates/search.html'
+          templateUrl: 'templates/lists.html'
+          controller: 'ItemListsCtrl'
 
-    .state 'app.browse',
-      url: '/browse',
+    .state 'app.detail',
+      url: '/lists/:itemId'
       views:
         menuContent:
-          templateUrl: 'templates/browse.html'
+          templateUrl: 'templates/detail.html'
+          controller: 'ItemDetailCtrl'
 
-    .state 'app.playlists',
-      url: '/playlists',
+    .state 'app.settings',
+      url: '/settings',
       views:
         menuContent:
-          templateUrl: 'templates/playlists.html'
-          controller: 'PlaylistsCtrl'
+          templateUrl: 'templates/settings.html'
 
-    .state 'app.single',
-      url: '/playlists/:playlistId'
-      views:
-        menuContent:
-          templateUrl: 'templates/playlist.html'
-          controller: 'PlaylistCtrl'
-
-  $urlRouterProvider.otherwise '/app/playlists'
+  $urlRouterProvider.otherwise '/app/lists'
