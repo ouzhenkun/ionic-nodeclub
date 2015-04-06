@@ -5,9 +5,19 @@
                    on-refresh="doRefresh()">
     </ion-refresher>
     <ion-list>
-      <ion-item ng-repeat="topic in topics"
+      <ion-item class="item-avatar"
+                collection-repeat="topic in topics"
+                collection-item-width="'100%'"
+                collection-item-height="72"
                 ui-sref="app.topic({topicId: topic.id})">
-        {{topic.title}}
+        <img ng-src="{{topic.author.avatar_url}}">
+        <h2>{{topic.title}}</h2>
+        <p class="summary">
+          {{topic.author.loginname}}
+          <span class="item-note"
+                am-time-ago="topic.last_reply_at">
+          </span>
+        </p>
       </ion-item>
     </ion-list>
     <ion-infinite-scroll on-infinite="loadMore()"
@@ -15,7 +25,8 @@
                          spinner="spiral"
                          distance="1%">
     </ion-infinite-scroll>
-    <div class="padding text-center" ng-if="!hasMoreTopics">
+    <div class="padding text-center"
+         ng-if="!hasMoreTopics">
       no more topics
     </div>
   </ion-content>

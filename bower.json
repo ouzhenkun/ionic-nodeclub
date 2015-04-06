@@ -3,16 +3,30 @@
   "private": true,
   "dependencies": {
     "ionic": "driftyco/ionic-bower#1.0.0-rc.1",
-    "restangular": "~1.5.1"
+    "restangular": "~1.5.1",
+    "angular-moment": "~0.9.2"
   },
   "devDependencies": {},
   "overrides": {
-    "angular": { "ignore": true },
-    "angular-animate": { "ignore": true },
-    "angular-sanitize": { "ignore": true },
-    "angular-ui-router": { "ignore": true },
+    "angular": {
+      "ignore": true
+    },
+    "angular-animate": {
+      "ignore": true
+    },
+    "angular-sanitize": {
+      "ignore": true
+    },
+    "angular-ui-router": {
+      "ignore": true
+    },
     "ionic": {
       "main": "js/ionic.bundle.js"
+    },
+    "moment": {
+      "main": [
+        "min/moment-with-locales.js"
+      ]
     }
   }
 }

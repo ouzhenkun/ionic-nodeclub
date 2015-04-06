@@ -7,9 +7,11 @@
 angular.module('starter', [
   'ionic'
   'restangular'
+  'angularMoment'
 ])
 
-.run ($ionicPlatform) ->
+.run ($ionicPlatform, amMoment) ->
+  amMoment.changeLocale('zh-cn')
 
   $ionicPlatform.ready ->
     # Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
