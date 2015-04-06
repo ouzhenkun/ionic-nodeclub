@@ -27,14 +27,14 @@ angular.module('starter')
 .controller('TopicsCtrl', ($scope, Restangular) ->
 
   loading = false
-  currentPage = 1
   pageLimit = 10
 
   loadTopics = ->
     loading = true
+    page = ~~($scope.topics.length / pageLimit) + 1
     Restangular
       .one('topics')
-      .get(page: currentPage, limit: pageLimit)
+      .get(page: page, limit: pageLimit)
       .then (result) ->
         newTopics = result.data
         $scope.topics = $scope.topics.concat(newTopics)
@@ -49,13 +49,11 @@ angular.module('starter')
     hasMoreTopics: true
     doRefresh: ->
       if loading then return
-      currentPage = 1
       $scope.topics = []
       $scope.hasMoreTopics = true
       loadTopics()
     loadMore: ->
       if loading then return
-      currentPage += 1
       loadTopics()
 )
 
