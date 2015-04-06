@@ -6,7 +6,7 @@
 
 angular.module('starter', [
   'ionic'
-  'starter.controllers'
+  'restangular'
 ])
 
 .run ($ionicPlatform) ->
@@ -21,33 +21,3 @@ angular.module('starter', [
       # org.apache.cordova.statusbar required
       StatusBar.styleDefault()
 
-.config ($stateProvider, $urlRouterProvider) ->
-
-  $stateProvider
-    .state 'app',
-      url: '/app'
-      abstract: true
-      templateUrl: 'templates/menu.html'
-      controller: 'AppCtrl'
-
-    .state 'app.lists',
-      url: '/lists',
-      views:
-        menuContent:
-          templateUrl: 'templates/lists.html'
-          controller: 'ItemListsCtrl'
-
-    .state 'app.detail',
-      url: '/lists/:itemId'
-      views:
-        menuContent:
-          templateUrl: 'templates/detail.html'
-          controller: 'ItemDetailCtrl'
-
-    .state 'app.settings',
-      url: '/settings',
-      views:
-        menuContent:
-          templateUrl: 'templates/settings.html'
-
-  $urlRouterProvider.otherwise '/app/lists'

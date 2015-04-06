@@ -1,14 +1,15 @@
 var gulp = require('gulp');
-var bower = require('bower');
 var sass = require('gulp-sass');
 var coffee = require('gulp-coffee');
 var rename = require('gulp-rename');
 var concat = require('gulp-concat');
 var minifyCss = require('gulp-minify-css');
+var bowerFiles = require("main-bower-files");
 
 var paths = {
   sass: ['./www/scss/*.scss'],
-  coffee: ['./www/coffee/*.coffee']
+  coffee: ['./www/coffee/*.coffee'],
+  bower: ['./www/lib/*.js']
 };
 
 var handleError = function(error) {
@@ -34,10 +35,19 @@ gulp.task('coffee', function(done) {
     .on('end', done);
 });
 
+gulp.task('bower', function(done) {
+  console.log(bowerFiles({ filter: /.js$/ }));
+  gulp.src(bowerFiles({ filter: /.js$/ }))
+    .pipe(concat('vender.js'))
+    .pipe(gulp.dest('./www/js'))
+    .on('end', done);
+});
+
 gulp.task('watch', function() {
   gulp.watch(paths.sass, ['sass']);
   gulp.watch(paths.coffee, ['coffee']);
+  gulp.watch(paths.bower, ['vender']);
 });
 
-gulp.task('default', ['sass', 'coffee']);
+gulp.task('default', ['sass', 'coffee', 'bower']);
 

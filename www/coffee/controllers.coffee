@@ -1,4 +1,4 @@
-angular.module('starter.controllers', [])
+angular.module('starter')
 
 .controller('AppCtrl', ($scope, $ionicModal, $timeout) ->
   # Form data for the login modal
@@ -24,33 +24,18 @@ angular.module('starter.controllers', [])
     $timeout (-> $scope.closeLogin()), 1000
 )
 
-.controller('ItemListsCtrl', ($scope) ->
-  $scope.items = [
-    {
-      title: 'Reggae'
-      id: 1
-    }
-    {
-      title: 'Chill'
-      id: 2
-    }
-    {
-      title: 'Dubstep'
-      id: 3
-    }
-    {
-      title: 'Indie'
-      id: 4
-    }
-    {
-      title: 'Rap'
-      id: 5
-    }
-    {
-      title: 'Cowbell'
-      id: 6
-    }
-  ]
+.controller('TopicsCtrl', ($scope, Restangular) ->
+  Restangular
+    .one('topics')
+    .get()
+    .then (result) ->
+      $scope.topics = result?.data
 )
 
-.controller 'ItemDetailCtrl', ($scope, $stateParams) ->
+.controller 'TopicCtrl', ($scope, $stateParams, Restangular) ->
+  Restangular
+    .one('topic', $stateParams.topicId)
+    .get()
+    .then (result) ->
+      console.log result
+      $scope.topic = result?.data
