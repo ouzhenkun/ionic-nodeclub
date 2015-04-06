@@ -1,6 +1,14 @@
 <ion-view view-title="详情">
-  <ion-content>
-    <h1>{{topic.title}}</h1>
-    <article ng-bind-html="topic.content"></article>
+  <ion-content class="padding">
+    <h2>{{topic.title}}</h2>
+    <hr clas="stable"/>
+    <a class="item-author">
+      <img class="avatar" src="{{topic.author.avatar_url}}">
+      {{topic.author.loginname}}
+      <span class="item-note"
+            am-time-ago="topic.create_at">
+      </span>
+    </a>
+    <div class="padding-vertical" ng-bind-html="topic.content"></div>
   </ion-content>
 </ion-view>

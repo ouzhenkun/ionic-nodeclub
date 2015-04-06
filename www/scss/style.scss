@@ -22,4 +22,31 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 // Include all of Ionic
 @import "../lib/ionic/scss/ionic";
 
+hr {
+  border-top: none;
+  border-left: none;
+  border-right: none;
+}
 
+img {
+  max-width: 100%;
+}
+
+.item-author {
+  line-height: 20px;
+  .avatar {
+    border-radius: 4px;
+    height: 16px;
+    float: left;
+    margin-right: 5px;
+    margin-top: 2px;
+  }
+}
+.item-topic {
+  .item-content {
+    img {
+      border-radius: 4px !important;
+    }
+    padding-right: 16px !important;
+  }
+}

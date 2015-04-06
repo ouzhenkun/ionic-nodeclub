@@ -1,18 +1,19 @@
 <ion-view view-title="主题">
   <ion-content>
     <ion-refresher pulling-text="下拉刷新..."
+                   pulling-icon="ion-ios-arrow-down"
                    spinner="spiral"
                    on-refresh="doRefresh()">
     </ion-refresher>
     <ion-list>
-      <ion-item class="item-avatar"
+      <ion-item class="item-avatar item-topic"
                 collection-repeat="topic in topics"
                 collection-item-width="'100%'"
                 collection-item-height="72"
                 ui-sref="app.topic({topicId: topic.id})">
         <img ng-src="{{topic.author.avatar_url}}">
         <h2>{{topic.title}}</h2>
-        <p class="summary">
+        <p>
           {{topic.author.loginname}}
           <span class="item-note"
                 am-time-ago="topic.last_reply_at">
