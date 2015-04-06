@@ -1,10 +1,22 @@
 <ion-view view-title="Lists">
   <ion-content>
+    <ion-refresher pulling-text="下拉刷新..."
+                   spinner="spiral"
+                   on-refresh="doRefresh()">
+    </ion-refresher>
     <ion-list>
       <ion-item ng-repeat="topic in topics"
                 ui-sref="app.topic({topicId: topic.id})">
         {{topic.title}}
       </ion-item>
     </ion-list>
+    <ion-infinite-scroll on-infinite="loadMore()"
+                         ng-if="hasMoreTopics"
+                         spinner="spiral"
+                         distance="1%">
+    </ion-infinite-scroll>
+    <div class="padding text-center" ng-if="!hasMoreTopics">
+      no more topics
+    </div>
   </ion-content>
 </ion-view>
