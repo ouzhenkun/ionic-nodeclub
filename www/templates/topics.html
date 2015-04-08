@@ -1,4 +1,4 @@
-<ion-view view-title="主题">
+<ion-view view-title="{{tabLabel}}板块">
   <ion-content>
     <ion-refresher pulling-text="下拉刷新..."
                    pulling-icon="ion-ios-arrow-down"
@@ -27,8 +27,10 @@
                          distance="1%">
     </ion-infinite-scroll>
     <div class="padding text-center"
-         ng-if="!hasMoreTopics">
-      没有了...
+         ng-if="!loading && (!hasMoreTopics || !topics.length)">
+      <span ng-if="topics.length">没有了...</span>
+      <span ng-if="!topics.length">暂无话题</span>
+    </div>
     </div>
   </ion-content>
 </ion-view>
