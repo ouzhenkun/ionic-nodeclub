@@ -41,10 +41,25 @@ angular.module('starter')
       if $scope.loading then return
       loadTopics()
 
-.controller 'TopicCtrl', ($scope, $stateParams, Restangular) ->
+.controller 'TopicCtrl', ($scope, $ionicModal, $stateParams, Restangular) ->
+
+  $ionicModal
+    .fromTemplateUrl('templates/replies.html', scope:$scope)
+    .then (modal) ->
+      $scope.repliesModal = modal
 
   Restangular
     .one('topic', $stateParams.topicId)
     .get()
     .then (result) ->
       $scope.topic = result?.data
+
+  angular.extend $scope,
+    topic: null
+    repliesModal: null
+    showReplies: ->
+      console.log 'showReplies'
+      $scope.repliesModal.show()
+    closeReplies: ->
+      $scope.repliesModal.hide()
+

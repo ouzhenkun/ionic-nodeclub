@@ -1,4 +1,10 @@
 <ion-view view-title="正文">
+  <ion-nav-buttons side="right">
+    <button class="button button-small button-replies"
+            ng-click="showReplies()">
+      {{topic.replies.length}}回复
+    </button>
+  </ion-nav-buttons>
   <ion-content>
     <article class="padding">
       <h2>{{topic.title}}</h2>
@@ -12,25 +18,14 @@
       </a>
       <div class="padding-vertical" ng-bind-html="topic.content"></div>
     </article>
-    <div class="list">
-      <div class="item item-divider">
-        <span class="positive" ng-if="topic.replies.length">
-          {{topic.replies.length}} 回复
-        </span>
-        <span ng-if="!topic.replies.length">
-          暂无回复
-        </span>
-      </div>
-      <div class="item" ng-repeat="reply in topic.replies">
-        <a class="item-author">
-          <img class="avatar" src="{{topic.author.avatar_url}}">
-          {{topic.author.loginname}}
-          <span class="item-note"
-                am-time-ago="topic.create_at">
-          </span>
-        </a>
-        <div class="padding-top item-text-wrap" ng-bind-html="reply.content"></div>
-      </div>
+    <div class="item item-divider"
+         ng-click="showReplies()">
+      <span class="positive" ng-if="topic.replies.length">
+        {{topic.replies.length}} 回复
+      </span>
+      <span ng-if="!topic.replies.length">
+        暂无回复
+      </span>
     </div>
   </ion-content>
 </ion-view>

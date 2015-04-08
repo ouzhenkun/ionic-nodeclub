@@ -1,0 +1,26 @@
+<ion-modal-view>
+  <ion-header-bar class="bar-positive">
+    <h1 class="title">{{topic.replies.length}}回复</h1>
+    <div class="buttons">
+      <button class="button button-clear" ng-click="closeReplies()">关闭</button>
+    </div>
+  </ion-header-bar>
+  <ion-content>
+    <div class="list">
+      <div class="item item-divider"
+           ng-if="!topic.replies.length">
+        暂无回复
+      </div>
+      <div class="item" ng-repeat="reply in topic.replies">
+        <a class="item-author">
+          <img class="avatar" src="{{topic.author.avatar_url}}">
+          {{topic.author.loginname}}
+          <span class="item-note"
+                am-time-ago="topic.create_at">
+          </span>
+        </a>
+        <div class="padding-top item-text-wrap" ng-bind-html="reply.content"></div>
+      </div>
+    </div>
+  </ion-content>
+</ion-modal-view>
