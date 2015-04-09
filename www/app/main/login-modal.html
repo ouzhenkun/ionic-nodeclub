@@ -7,18 +7,17 @@
     </div>
   </ion-header-bar>
   <ion-content>
-    <form ng-submit="doLogin()">
+    <form ng-submit="doLogin(accessToken)">
       <div class="list">
         <label class="item item-input">
-          <span class="input-label">用户名</span>
-          <input type="text" ng-model="loginData.username">
-        </label>
-        <label class="item item-input">
-          <span class="input-label">密码</span>
-          <input type="password" ng-model="loginData.password">
+          <span class="input-label">Access Token</span>
+          <input type="password"
+                 placeholder="填入您的Access Token字符串"
+                 ng-model="accessToken">
         </label>
         <label class="item">
-          <button class="button button-block button-positive" type="submit">登录</button>
+          <button class="button button-block button-positive"
+                  type="submit">登录</button>
         </label>
       </div>
     </form>
