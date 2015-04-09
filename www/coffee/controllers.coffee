@@ -1,26 +1,39 @@
 angular.module('starter')
 
-.controller 'AppCtrl', ($scope, tabs) ->
+#TODO refactor 拆分出来几个 ctrl
+
+.controller 'AppCtrl', ($scope, tabs, $ionicModal) ->
+
+  $ionicModal
+    .fromTemplateUrl('templates/login.html', scope: $scope)
+    .then (modal) ->
+      $scope.loginModal = modal
 
   # Export Properties
   angular.extend $scope,
     tabs: tabs
+    loginModal: null
+    showLogin: ->
+      $scope.loginModal.show()
+    closeLogin: ->
+      $scope.loginModal.hide()
 
 
 .controller 'TopicsCtrl', ($scope, tabs, Restangular, $stateParams) ->
 
-  pageLimit = 10
+  PAGELIMIT = 10
+  tabParam = $stateParams.tab ? 'all'
 
   loadTopics = ->
     $scope.loading = true
-    page = ~~($scope.topics.length / pageLimit) + 1
+    page = ~~($scope.topics.length / PAGELIMIT) + 1
     Restangular
       .one('topics')
-      .get(page: page, limit: pageLimit, tab: $stateParams.tab)
+      .get(page: page, limit: PAGELIMIT, tab: tabParam)
       .then (result) ->
         newTopics = result.data
         $scope.topics = $scope.topics.concat(newTopics)
-        $scope.hasMoreTopics = newTopics.length is pageLimit
+        $scope.hasMoreTopics = newTopics.length is PAGELIMIT
       .finally ->
         $scope.loading = false
         $scope.$broadcast('scroll.refreshComplete')
@@ -29,7 +42,7 @@ angular.module('starter')
   # Export Properties
   angular.extend $scope,
     loading: false
-    tabLabel: _.find(tabs, value:$stateParams.tab ? 'all')?.label
+    tabLabel: _.find(tabs, value: tabParam)?.label
     topics: []
     hasMoreTopics: true
     doRefresh: ->
@@ -44,7 +57,7 @@ angular.module('starter')
 .controller 'TopicCtrl', ($scope, $ionicModal, $stateParams, Restangular) ->
 
   $ionicModal
-    .fromTemplateUrl('templates/replies.html', scope:$scope)
+    .fromTemplateUrl('templates/replies.html', scope: $scope)
     .then (modal) ->
       $scope.repliesModal = modal
 
@@ -58,7 +71,6 @@ angular.module('starter')
     topic: null
     repliesModal: null
     showReplies: ->
-      console.log 'showReplies'
       $scope.repliesModal.show()
     closeReplies: ->
       $scope.repliesModal.hide()
