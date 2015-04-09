@@ -51,7 +51,7 @@ img {
     padding-right: 16px !important;
   }
 }
-.button-replies {
+.header-replies-button {
   min-height: 25px !important;
   line-height: 24px !important;
   height: 25px !important;
@@ -66,6 +66,16 @@ img {
     border-right: 10px solid transparent;
     left: -1px;
     bottom: -5px;
+  }
+}
+.header-avatar-button {
+  line-height: 34px;
+  height: 34px;
+  .avatar {
+    height: 25px;
+    margin-right: 5px;
+    border-radius: 50%;
+    vertical-align:middle;
   }
 }
 

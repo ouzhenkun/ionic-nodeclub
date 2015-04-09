@@ -11,6 +11,8 @@ angular.module('starter', [
 ])
 
 .run ($ionicPlatform, amMoment) ->
+  # TODO reload user
+
   amMoment.changeLocale('zh-cn')
 
   $ionicPlatform.ready ->
