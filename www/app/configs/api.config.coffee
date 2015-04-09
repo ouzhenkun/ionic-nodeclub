@@ -1,7 +1,12 @@
 angular.module('starter')
 
-.config (RestangularProvider) ->
-  RestangularProvider.setBaseUrl('http://ionichina.com/api/v1')
+.constant 'API',
+  server: 'http://cnodejs.org'
+  #server: 'http://ionichina.com'
+  path: '/api/v1'
+
+.config (RestangularProvider, API) ->
+  RestangularProvider.setBaseUrl(API.server + API.path)
   RestangularProvider.setRestangularFields(id: 'id')
 
 .config ($httpProvider) ->

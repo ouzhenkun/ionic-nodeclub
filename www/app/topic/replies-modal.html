@@ -12,13 +12,12 @@
            ng-if="!topic.replies.length">
         暂无回复
       </ion-item>
-      <ion-item collection-repeat="reply in topic.replies"
-                collection-item-width="100%">
+      <ion-item ng-repeat="reply in topic.replies">
         <a class="item-author">
-          <img class="avatar" src="{{topic.author.avatar_url}}">
-          {{topic.author.loginname}}
+          <img class="avatar" src="{{reply.author.avatar_url | prefixServerUrl}}">
+          {{reply.author.loginname}}
           <span class="item-note"
-                am-time-ago="topic.create_at">
+                am-time-ago="reply.create_at">
           </span>
         </a>
         <div class="padding-top item-text-wrap" ng-bind-html="reply.content"></div>

@@ -3,16 +3,22 @@
     <button ng-click="doLogout()"
             ng-if="me.loginname==user.loginname"
             class="button button-clear">
-      退出登录
+      登出
     </button>
   </ion-nav-buttons>
   <ion-content>
-    <div class="item item-avatar">
-      <img src="{{user.avatar_url}}">
+    <div class="text-center padding"
+         ng-if="!user">
+      <ion-spinner icon="spiral"></ion-spinner>
+      <p>加载中...</p>
+    </div>
+    <div class="item item-avatar"
+         ng-if="user">
+      <img ng-if="user.avatar_url" src="{{user.avatar_url | prefixServerUrl}}">
       <h2>{{user.loginname}}</h2>
       <p>{{user.score}}积分</p>
     </div>
-    <div class="item item-body">
+    <div class="item item-body" ng-if="user">
       <a href="https://github.com/{{user.githubUsername}}"
          target="_blank"
          class="subdued">
@@ -23,7 +29,8 @@
         注册时间：<span am-time-ago="user.create_at"></span>
       </p>
     </div>
-    <div class="item tabs tabs-secondary tabs-icon-left">
+    <div class="item item-divider tabs tabs-secondary tabs-icon-left"
+         ng-if="user">
       <a class="tab-item"
          ng-if="user.collect_topics.length"
          href
@@ -47,14 +54,14 @@
         最近参与
       </a>
     </div>
-    <ion-list class="user-topics">
+    <ion-list ng-if="user">
       <ion-item ng-if="!user[topicType].length">无话题</ion-item>
       <ion-item class="item-avatar item-topic"
                 collection-repeat="topic in user[topicType] track by topic.id"
                 collection-item-width="100%"
                 collection-item-height="72"
                 ui-sref="app.topic({topicId: topic.id})">
-        <img ng-src="{{topic.author.avatar_url}}">
+        <img ng-src="{{topic.author.avatar_url | prefixServerUrl}}">
         <h2>{{topic.title}}</h2>
         <p>
           {{topic.author.loginname}}

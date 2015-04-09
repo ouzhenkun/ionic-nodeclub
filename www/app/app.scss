@@ -78,3 +78,18 @@ img {
     vertical-align:middle;
   }
 }
+.label {
+  border-radius: 3px;
+  padding: 2px 4px;
+  font-size: 12px;
+  color: white;
+  margin-right: 2px;
+  &.label-positive {
+    background-color: $button-positive-active-bg;
+    color: white;
+  }
+  &.label-default {
+    background: #e5e5e5;
+    color: #999;
+  }
+}

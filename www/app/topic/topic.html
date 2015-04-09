@@ -1,17 +1,22 @@
 <ion-view view-title="正文">
   <ion-nav-buttons side="right">
     <button class="button button-small header-replies-button"
+            ng-if="topic"
             ng-click="showReplies()">
       {{topic.replies.length}}回复
     </button>
   </ion-nav-buttons>
   <ion-content>
-    <article class="padding">
+    <div class="text-center padding" ng-if="!topic">
+      <ion-spinner icon="spiral"></ion-spinner>
+      <p>加载中...</p>
+    </div>
+    <article class="padding" ng-if="topic">
       <h2>{{topic.title}}</h2>
       <hr clas="stable"/>
       <a class="item-author"
          ui-sref="app.user({loginname: topic.author.loginname})">
-        <img class="avatar" src="{{topic.author.avatar_url}}">
+        <img ng-if="topic.author.avatar_url" class="avatar" src="{{topic.author.avatar_url | prefixServerUrl}}">
         {{topic.author.loginname}}
         <span class="item-note"
               am-time-ago="topic.create_at">
@@ -20,6 +25,7 @@
       <div class="padding-vertical" ng-bind-html="topic.content"></div>
     </article>
     <div class="item item-divider"
+         ng-if="topic"
          ng-click="showReplies()">
       <span class="positive" ng-if="topic.replies.length">
         {{topic.replies.length}} 回复

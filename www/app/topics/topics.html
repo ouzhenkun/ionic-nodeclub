@@ -1,4 +1,4 @@
-<ion-view view-title="{{tabLabel}}">
+<ion-view view-title="{{selectedTab | tabLabel}}">
   <ion-content>
     <ion-refresher pulling-text="下拉刷新..."
                    pulling-icon="ion-ios-arrow-down"
@@ -11,9 +11,21 @@
                 collection-item-width="100%"
                 collection-item-height="72"
                 ui-sref="app.topic({topicId: topic.id})">
-        <img ng-src="{{topic.author.avatar_url}}">
+        <img ng-src="{{topic.author.avatar_url | prefixServerUrl}}">
         <h2>{{topic.title}}</h2>
         <p>
+          <span class="label label-positive"
+                ng-if="topic.top">
+            置顶
+          </span>
+          <span class="label label-positive"
+                ng-if="selectedTab == 'all' && topic.good && !topic.top">
+            精华
+          </span>
+          <span class="label label-default"
+                ng-if="selectedTab == 'all' && !topic.top && !topic.good">
+            {{topic.tab | tabLabel}}
+          </span>
           {{topic.author.loginname}}
           <span class="item-note"
                 am-time-ago="topic.last_reply_at">
@@ -22,14 +34,15 @@
       </ion-item>
     </ion-list>
     <ion-infinite-scroll on-infinite="loadMore()"
-                         ng-if="hasMoreTopics"
+                         ng-if="hasMoreTopics && !error"
                          spinner="spiral"
                          distance="1%">
     </ion-infinite-scroll>
     <div class="padding text-center"
          ng-if="!loading && (!hasMoreTopics || !topics.length)">
       <span ng-if="topics.length">没有了...</span>
-      <span ng-if="!topics.length">暂无话题</span>
+      <span ng-if="!error && !topics.length">暂无话题</span>
+      <span ng-if="error">囧，出错啦...</span>
     </div>
     </div>
   </ion-content>
