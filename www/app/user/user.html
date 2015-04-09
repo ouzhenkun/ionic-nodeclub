@@ -6,60 +6,64 @@
       退出登录
     </button>
   </ion-nav-buttons>
-  <ion-content class="padding">
-    <div class="list">
-      <div class="item item-divider">
-        个人主页
-      </div>
-      <div class="item item-avatar">
-        <img src="{{user.avatar_url}}">
-        <h2>{{user.loginname}}</h2>
-        <p>{{user.score}}积分</p>
-      </div>
-
-      <div class="item item-body">
-        <a href="https://github.com/{{user.githubUsername}}"
-           target="_blank"
-           class="subdued">
-          <i class="ion ion-social-github"></i>
-          &nbsp;@{{user.githubUsername}}
-        </a>
-        <p class="text-muted">注册时间：<span am-time-ago="user.create_at"></span></p>
-      </div>
-
-      <div class="item item-divider">
-        最近创建的话题
-      </div>
-      <div ng-if="!user.recent_topics.length" class="item">无话题</div>
-      <div class="item item-avatar item-topic"
-           ng-repeat="topic in user.recent_topics"
-           ui-sref="app.topic({topicId: topic.id})">
-        <img ng-src="{{topic.author.avatar_url}}">
-        <h2>{{topic.title}}</h2>
-        <p>
-          {{topic.author.loginname}}
-          <span class="item-note"
-                am-time-ago="topic.last_reply_at">
-          </span>
-        </p>
-      </div>
-
-      <div class="item item-divider">
-        最近参与的话题
-      </div>
-      <div ng-if="!user.recent_replies.length" class="item">无话题</div>
-      <div class="item item-avatar item-topic"
-           ng-repeat="topic in user.recent_replies"
-           ui-sref="app.topic({topicId: topic.id})">
-        <img ng-src="{{topic.author.avatar_url}}">
-        <h2>{{topic.title}}</h2>
-        <p>
-          {{topic.author.loginname}}
-          <span class="item-note"
-                am-time-ago="topic.last_reply_at">
-          </span>
-        </p>
-      </div>
+  <ion-content>
+    <div class="item item-avatar">
+      <img src="{{user.avatar_url}}">
+      <h2>{{user.loginname}}</h2>
+      <p>{{user.score}}积分</p>
     </div>
+    <div class="item item-body">
+      <a href="https://github.com/{{user.githubUsername}}"
+         target="_blank"
+         class="subdued">
+        <i class="ion ion-social-github"></i>
+        &nbsp;@{{user.githubUsername}}
+      </a>
+      <p class="subdued">
+        注册时间：<span am-time-ago="user.create_at"></span>
+      </p>
+    </div>
+    <div class="item tabs tabs-secondary tabs-icon-left">
+      <a class="tab-item"
+         ng-if="user.collect_topics.length"
+         href
+         ng-class="{'active positive':topicType=='collect_topics'}"
+         ng-click="changeType('collect_topics')">
+        <i class="icon ion-star"></i>
+        {{user.collect_topics.length}}话题收藏
+      </a>
+      <a class="tab-item"
+         href
+         ng-class="{'active positive':topicType=='recent_topics'}"
+         ng-click="changeType('recent_topics')">
+        <i class="icon ion-chatbox"></i>
+        最近创建
+      </a>
+      <a class="tab-item"
+         href
+         ng-class="{'active positive':topicType=='recent_replies'}"
+         ng-click="changeType('recent_replies')">
+        <i class="icon ion-chatboxes"></i>
+        最近参与
+      </a>
+    </div>
+    <ion-list class="user-topics">
+      <ion-item ng-if="!user[topicType].length">无话题</ion-item>
+      <ion-item class="item-avatar item-topic"
+                collection-repeat="topic in user[topicType] track by topic.id"
+                collection-item-width="100%"
+                collection-item-height="72"
+                ui-sref="app.topic({topicId: topic.id})">
+        <img ng-src="{{topic.author.avatar_url}}">
+        <h2>{{topic.title}}</h2>
+        <p>
+          {{topic.author.loginname}}
+          <span class="item-note"
+                am-time-ago="topic.last_reply_at">
+          </span>
+        </p>
+      </ion-item>
+    </ion-list>
+
   </ion-content>
 </ion-view>
