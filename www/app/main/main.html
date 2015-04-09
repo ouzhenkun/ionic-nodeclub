@@ -11,15 +11,12 @@
               ng-if="!me"
               ng-click="showLogin()"></button>
       <div class="header-avatar-button"
+           ui-sref="app.user({loginname:me.loginname})"
            ng-if="me">
         <img class="avatar" ng-src="{{me.avatar_url}}">
       </div>
     </ion-nav-buttons>
   </ion-nav-bar>
-
-  <ion-side-menu-content>
-    <ion-nav-view name="menuContent"></ion-nav-view>
-  </ion-side-menu-content>
 
   <ion-side-menu side="left">
     <ion-content>
@@ -36,4 +33,9 @@
       </ion-list>
     </ion-content>
   </ion-side-menu>
+
+  <ion-side-menu-content>
+    <ion-nav-view name="mainContent"></ion-nav-view>
+  </ion-side-menu-content>
+
 </ion-side-menus>

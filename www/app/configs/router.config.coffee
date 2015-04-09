@@ -10,18 +10,25 @@ angular.module('starter')
       controller: 'MainCtrl'
 
     .state 'app.topics',
-      url: '/topics?:tab',
+      url: '/topics/:tab',
       views:
-        menuContent:
+        mainContent:
           templateUrl: 'app/topics/topics.html'
           controller: 'TopicsCtrl'
 
     .state 'app.topic',
-      url: '/topics/:topicId'
+      url: '/topic/:topicId'
       views:
-        menuContent:
+        mainContent:
           templateUrl: 'app/topic/topic.html'
           controller: 'TopicCtrl'
 
-  $urlRouterProvider.otherwise "/app/topics?tab=#{tabs[0].value}"
+    .state 'app.user',
+      url: '/user/:loginname'
+      views:
+        mainContent:
+          templateUrl: 'app/user/user.html'
+          controller: 'UserCtrl'
+
+  $urlRouterProvider.otherwise "/app/topics/#{tabs[0].value}"
 

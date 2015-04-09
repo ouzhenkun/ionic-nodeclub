@@ -9,7 +9,8 @@
     <article class="padding">
       <h2>{{topic.title}}</h2>
       <hr clas="stable"/>
-      <a class="item-author">
+      <a class="item-author"
+         ui-sref="app.user({loginname: topic.author.loginname})">
         <img class="avatar" src="{{topic.author.avatar_url}}">
         {{topic.author.loginname}}
         <span class="item-note"

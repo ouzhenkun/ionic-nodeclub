@@ -3,6 +3,7 @@ angular.module('starter')
 .controller 'MainCtrl', (
   tabs
   $scope
+  $state
   storage
   Restangular
   $ionicModal
@@ -39,6 +40,8 @@ angular.module('starter')
           console.log 'login error', error
           $ionicLoading.show(template: '登录失败: ' + error?.data?.error_msg, duration: 1000)
     doLogout: ->
-      storage.remove 'user'
+      #storage.remove 'user'
       $scope.me = null
+      $ionicLoading.show(template: '您已登出', duration: 1000)
 
+  console.log 'me', $scope.me

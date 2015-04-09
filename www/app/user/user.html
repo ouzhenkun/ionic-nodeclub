@@ -1,0 +1,65 @@
+<ion-view view-title="{{$stateParams.loginname}}">
+  <ion-nav-buttons side="right">
+    <button ng-click="doLogout()"
+            ng-if="me.loginname==user.loginname"
+            class="button button-clear">
+      退出登录
+    </button>
+  </ion-nav-buttons>
+  <ion-content class="padding">
+    <div class="list">
+      <div class="item item-divider">
+        个人主页
+      </div>
+      <div class="item item-avatar">
+        <img src="{{user.avatar_url}}">
+        <h2>{{user.loginname}}</h2>
+        <p>{{user.score}}积分</p>
+      </div>
+
+      <div class="item item-body">
+        <a href="https://github.com/{{user.githubUsername}}"
+           target="_blank"
+           class="subdued">
+          <i class="ion ion-social-github"></i>
+          &nbsp;@{{user.githubUsername}}
+        </a>
+        <p class="text-muted">注册时间：<span am-time-ago="user.create_at"></span></p>
+      </div>
+
+      <div class="item item-divider">
+        最近创建的话题
+      </div>
+      <div ng-if="!user.recent_topics.length" class="item">无话题</div>
+      <div class="item item-avatar item-topic"
+           ng-repeat="topic in user.recent_topics"
+           ui-sref="app.topic({topicId: topic.id})">
+        <img ng-src="{{topic.author.avatar_url}}">
+        <h2>{{topic.title}}</h2>
+        <p>
+          {{topic.author.loginname}}
+          <span class="item-note"
+                am-time-ago="topic.last_reply_at">
+          </span>
+        </p>
+      </div>
+
+      <div class="item item-divider">
+        最近参与的话题
+      </div>
+      <div ng-if="!user.recent_replies.length" class="item">无话题</div>
+      <div class="item item-avatar item-topic"
+           ng-repeat="topic in user.recent_replies"
+           ui-sref="app.topic({topicId: topic.id})">
+        <img ng-src="{{topic.author.avatar_url}}">
+        <h2>{{topic.title}}</h2>
+        <p>
+          {{topic.author.loginname}}
+          <span class="item-note"
+                am-time-ago="topic.last_reply_at">
+          </span>
+        </p>
+      </div>
+    </div>
+  </ion-content>
+</ion-view>
