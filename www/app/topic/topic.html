@@ -3,7 +3,7 @@
     <button class="button header-replies-button"
             ui-sref="app.replies({topicId: topic.id})"
             ng-if="topic">
-      {{topic.replies.length}}回复
+      {{topic.reply_count}}回复
     </button>
     <button class="button button-icon ion-more"
             ng-if="popover"
@@ -37,10 +37,10 @@
     <div class="item item-divider"
          ng-if="!loading"
          ui-sref="app.replies({topicId: topic.id})">
-      <span class="positive" ng-if="topic.replies.length">
-        {{topic.replies.length}} 回复
+      <span class="positive" ng-if="topic.reply_count">
+        {{topic.reply_count}} 回复
       </span>
-      <span ng-if="!topic.replies.length">
+      <span ng-if="!topic.reply_count">
         暂无回复
       </span>
     </div>

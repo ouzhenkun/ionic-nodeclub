@@ -1,13 +1,23 @@
-<ion-view view-title="{{replies.length}}回复">
+<ion-view view-title="回复">
   <ion-nav-buttons side="right">
   </ion-nav-buttons>
   <ion-content>
-    <ion-list>
+    <div class="text-center padding"
+         ng-if="loading">
+      <ion-spinner icon="spiral"></ion-spinner>
+      <p>加载中...</p>
+    </div>
+    <div class="padding text-center"
+         ng-if="error">
+      囧，出错啦...
+    </div>
+    <ion-list ng-if="!loading">
       <ion-item class="item-divider"
            ng-if="!replies.length">
         暂无回复
       </ion-item>
-      <ion-item ng-repeat="reply in replies">
+      <ion-item ng-repeat="reply in replies"
+                on-hold="showAction()">
         <a class="item-author positive"
            ui-sref="app.user({loginname: reply.author.loginname})">
           <img class="avatar" src="{{reply.author.avatar_url | prefixServerUrl}}">
@@ -16,7 +26,9 @@
                 am-time-ago="reply.create_at">
           </span>
         </a>
-        <div class="padding-top item-text-wrap" ng-bind-html="reply.content"></div>
+        <div class="padding-top item-text-wrap"
+             ng-click="showAction()"
+             ng-bind-html="reply.content"></div>
       </ion-item>
     </ion-list>
   </ion-content>

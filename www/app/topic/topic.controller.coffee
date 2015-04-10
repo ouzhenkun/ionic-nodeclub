@@ -3,9 +3,9 @@ angular.module('starter')
 .controller 'TopicCtrl', (
   $scope
   $timeout
-  Restangular
-  $stateParams
   userService
+  topicService
+  $stateParams
   $ionicPopover
 ) ->
 
@@ -24,16 +24,13 @@ angular.module('starter')
       $timeout ->
         $scope.popover.hide(event)
       , 100
-    reload: ->
+    loadTopic: (reload = false) ->
       $scope.loading = true
-      Restangular
-        .one('topic', $stateParams.topicId)
-        .get()
-        .then (result) ->
-          $scope.topic = result?.data
+      topicService.getDetail $stateParams.topicId, reload
+        .then (topic) ->
+          $scope.topic = topic
         .catch (error) ->
           $scope.error = error
-          $scope.topic = null
         .finally ->
           $scope.loading = false
     collectTopic: (topic) ->
@@ -47,7 +44,7 @@ angular.module('starter')
     replyTopic: (topic) ->
       console.log 'replyTopic', $scope.me, topic
 
-  $scope.reload()
+  $scope.loadTopic()
   userService.hasCollect $stateParams.topicId
     .then (collected) ->
       $scope.collected = collected

@@ -33,13 +33,12 @@ angular.module('starter')
             noBackdrop: true
 
   logout: ->
-    $q (resolve, reject) ->
-      #storage.remove 'user'
-      resolve()
-      $ionicLoading.show
-        template: '您已登出',
-        duration: 1000
-        noBackdrop: true
+    @reset()
+    #storage.remove 'user'
+    $ionicLoading.show
+      template: '您已登出',
+      duration: 1000
+      noBackdrop: true
 
   hasCollect: (topicId) ->
     $q (resolve, reject) =>
@@ -81,8 +80,8 @@ angular.module('starter')
     $q (resolve, reject) ->
       if _.isEmpty(loginname)
         return reject('错误的 loginname: ' + loginname)
-      if !reload and users[loginname]
-        return resolve users[loginname]
+      if !reload and cacheUser = users[loginname]
+        return resolve cacheUser
       Restangular
         .one('user', loginname)
         .get()

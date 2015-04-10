@@ -23,6 +23,15 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 // Include all of Ionic
 @import "../lib/ionic/scss/ionic";
 
+// TODO refactor
+.platform-android {
+  .action-sheet-group {
+    .button {
+      padding: 0 10px;
+    }
+  }
+}
+
 hr {
   border-top: none;
   border-left: none;

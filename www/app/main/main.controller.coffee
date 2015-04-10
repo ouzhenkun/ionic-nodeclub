@@ -26,7 +26,6 @@ angular.module('starter')
           $scope.loginModal?.hide()
     doLogout: ->
       userService.logout()
-        .then ->
-          $scope.me = null
+      $scope.me = null
 
   console.log 'me', $scope.me
