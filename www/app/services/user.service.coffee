@@ -4,7 +4,6 @@ angular.module('starter')
   $q
   storage
   Restangular
-  $ionicLoading
 ) ->
 
   cache = {}
@@ -13,7 +12,6 @@ angular.module('starter')
     cache = {}
 
   login: (token) ->
-    $ionicLoading.show(template: '登录中...')
     $q (resolve, reject) ->
       Restangular
         .all('accessToken')
@@ -21,24 +19,12 @@ angular.module('starter')
         .then (user) ->
           storage.set 'user', angular.extend(user, token: token)
           resolve(user)
-          $ionicLoading.show
-            template: '登录成功，欢迎您: ' + user?.loginname
-            duration: 1000
-            noBackdrop: true
-        .catch (error) ->
-          reject(error)
-          $ionicLoading.show
-            template: '登录失败: ' + error?.data?.error_msg
-            duration: 1000
-            noBackdrop: true
+        .catch reject
 
   logout: ->
     @reset()
+    # TODO 加 fakeLogout config
     #storage.remove 'user'
-    $ionicLoading.show
-      template: '您已登出',
-      duration: 1000
-      noBackdrop: true
 
   getDetail: (loginname, reload = false) ->
     $q (resolve, reject) ->
@@ -52,6 +38,7 @@ angular.module('starter')
         .then (resp) ->
           dbUser = resp.data
           cache[loginname] = dbUser
+          # TODO return a clone ?
           resolve dbUser
         .catch reject
 
@@ -64,10 +51,6 @@ angular.module('starter')
         .then (resp) ->
           if cacheUser = cache[user.loginname]
             cacheUser.collect_topics.push topic
-          $ionicLoading.show
-            template: '收藏成功',
-            duration: 1000
-            noBackdrop: true
           resolve(resp)
         .catch reject
 
@@ -83,7 +66,7 @@ angular.module('starter')
           resolve(resp)
         .catch reject
 
-  hasCollect: (topicId) ->
+  checkCollect: (topicId) ->
     $q (resolve, reject) =>
       user = storage.get('user')
       @getDetail(user?.loginname)

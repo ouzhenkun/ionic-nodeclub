@@ -7,6 +7,7 @@ angular.module('starter')
   storage
   userService
   $ionicModal
+  $ionicLoading
 ) ->
 
   $ionicModal
@@ -20,12 +21,26 @@ angular.module('starter')
     tabs: tabs
     loginModal: null
     doLogin: (token) ->
+      $ionicLoading.show(template: '登录中...')
       userService.login(token)
         .then (user) ->
           $scope.me = user
           $scope.loginModal?.hide()
+          $ionicLoading.show
+            template: '登录成功，欢迎您: ' + user.loginname
+            duration: 1000
+            noBackdrop: true
+        .catch (error) ->
+          $ionicLoading.show
+            template: '登录失败: ' + error?.data?.error_msg
+            duration: 1000
+            noBackdrop: true
     doLogout: ->
       userService.logout()
       $scope.me = null
+      $ionicLoading.show
+        template: '您已登出',
+        duration: 1000
+        noBackdrop: true
 
   console.log 'me', $scope.me

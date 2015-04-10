@@ -7,6 +7,7 @@ angular.module('starter')
   topicService
   $stateParams
   $ionicPopover
+  $ionicLoading
 ) ->
 
   $ionicPopover.fromTemplateUrl 'app/topic/topic-popover.html',
@@ -37,6 +38,10 @@ angular.module('starter')
       userService.collectTopic topic
         .then ->
           $scope.collected = true
+          $ionicLoading.show
+            template: '收藏成功',
+            duration: 1000
+            noBackdrop: true
     deCollectTopic: (topic) ->
       userService.deCollectTopic topic
         .then ->
@@ -45,7 +50,7 @@ angular.module('starter')
       console.log 'replyTopic', $scope.me, topic
 
   $scope.loadTopic()
-  userService.hasCollect $stateParams.topicId
+  userService.checkCollect $stateParams.topicId
     .then (collected) ->
       $scope.collected = collected
 

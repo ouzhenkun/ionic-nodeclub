@@ -5,6 +5,7 @@ angular.module('starter')
   Restangular
 ) ->
 
+  #TODO config
   PAGE_LIMIT = 10
   cache = {}
 
@@ -37,6 +38,7 @@ angular.module('starter')
         .then (resp) ->
           dbTopic = resp.data
           cache[topicId] = dbTopic
+          # TODO return a clone ?
           resolve dbTopic
         .catch reject
 
@@ -49,8 +51,9 @@ angular.module('starter')
         .get()
         .then (resp) ->
           dbTopic = resp.data
-          #TODO extend?
+          # TODO extend ?
           cache[topicId] = dbTopic
+          # TODO return a clone ?
           resolve dbTopic.replies
         .catch reject
 
