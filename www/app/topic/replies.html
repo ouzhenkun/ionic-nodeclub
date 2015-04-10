@@ -1,19 +1,15 @@
-<ion-modal-view>
-  <ion-header-bar class="bar-positive">
-    <h1 class="title">{{topic.replies.length}}回复</h1>
-    <div class="buttons">
-      <button class="button button-icon button-clear ion-ios-close-empty"
-              ng-click="closeReplies()"></button>
-    </div>
-  </ion-header-bar>
+<ion-view view-title="{{replies.length}}回复">
+  <ion-nav-buttons side="right">
+  </ion-nav-buttons>
   <ion-content>
     <ion-list>
       <ion-item class="item-divider"
-           ng-if="!topic.replies.length">
+           ng-if="!replies.length">
         暂无回复
       </ion-item>
-      <ion-item ng-repeat="reply in topic.replies">
-        <a class="item-author">
+      <ion-item ng-repeat="reply in replies">
+        <a class="item-author"
+           ui-sref="app.user({loginname: reply.author.loginname})">
           <img class="avatar" src="{{reply.author.avatar_url | prefixServerUrl}}">
           {{reply.author.loginname}}
           <span class="item-note"
@@ -24,4 +20,4 @@
       </ion-item>
     </ion-list>
   </ion-content>
-</ion-modal-view>
+</ion-view>

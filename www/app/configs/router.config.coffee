@@ -23,6 +23,13 @@ angular.module('starter')
           templateUrl: 'app/topic/topic.html'
           controller: 'TopicCtrl'
 
+    .state 'app.replies',
+      url: '/replies/:topicId'
+      views:
+        mainContent:
+          templateUrl: 'app/topic/replies.html'
+          controller: 'RepliesCtrl'
+
     .state 'app.user',
       url: '/user/:loginname'
       views:

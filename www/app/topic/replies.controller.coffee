@@ -1,13 +1,13 @@
 angular.module('starter')
 
-.controller 'TopicCtrl', ($scope, $ionicModal, $stateParams, Restangular) ->
+.controller 'RepliesCtrl', ($scope, $ionicModal, $stateParams, Restangular) ->
 
   Restangular
     .one('topic', $stateParams.topicId)
     .get()
     .then (result) ->
-      $scope.topic = result?.data
+      $scope.replies = result?.data?.replies
 
   angular.extend $scope,
-    topic: null
+    replies: null
 
