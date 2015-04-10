@@ -7,10 +7,10 @@ angular.module('starter')
   $ionicLoading
 ) ->
 
-  users = {}
+  cache = {}
 
   reset: ->
-    users = {}
+    cache = {}
 
   login: (token) ->
     $ionicLoading.show(template: '登录中...')
@@ -40,12 +40,19 @@ angular.module('starter')
       duration: 1000
       noBackdrop: true
 
-  hasCollect: (topicId) ->
-    $q (resolve, reject) =>
-      user = storage.get('user')
-      @get(user?.loginname)
-        .then (dbUser) ->
-           resolve _.find(dbUser.collect_topics, id:topicId)?
+  getDetail: (loginname, reload = false) ->
+    $q (resolve, reject) ->
+      if _.isEmpty(loginname)
+        return reject('错误的 loginname: ' + loginname)
+      if !reload and cacheUser = cache[loginname]
+        return resolve cacheUser
+      Restangular
+        .one('user', loginname)
+        .get()
+        .then (resp) ->
+          dbUser = resp.data
+          cache[loginname] = dbUser
+          resolve dbUser
         .catch reject
 
   collectTopic: (topic) ->
@@ -55,7 +62,7 @@ angular.module('starter')
         .all('topic/collect')
         .post(accesstoken: user?.token, topic_id: topic.id)
         .then (resp) ->
-          if cacheUser = users[user.loginname]
+          if cacheUser = cache[user.loginname]
             cacheUser.collect_topics.push topic
           $ionicLoading.show
             template: '收藏成功',
@@ -71,23 +78,16 @@ angular.module('starter')
         .all('topic/de_collect')
         .post(accesstoken: user?.token, topic_id: topic.id)
         .then (resp) ->
-          if cacheUser = users[user.loginname]
+          if cacheUser = cache[user.loginname]
             _.remove(cacheUser.collect_topics, id:topic.id)
           resolve(resp)
         .catch reject
 
-  get: (loginname, reload = false) ->
-    $q (resolve, reject) ->
-      if _.isEmpty(loginname)
-        return reject('错误的 loginname: ' + loginname)
-      if !reload and cacheUser = users[loginname]
-        return resolve cacheUser
-      Restangular
-        .one('user', loginname)
-        .get()
-        .then (resp) ->
-          dbUser = resp.data
-          users[loginname] = dbUser
-          resolve dbUser
+  hasCollect: (topicId) ->
+    $q (resolve, reject) =>
+      user = storage.get('user')
+      @getDetail(user?.loginname)
+        .then (dbUser) ->
+           resolve _.find(dbUser.collect_topics, id:topicId)?
         .catch reject
 

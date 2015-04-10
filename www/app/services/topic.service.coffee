@@ -54,4 +54,3 @@ angular.module('starter')
           resolve dbTopic.replies
         .catch reject
 
-

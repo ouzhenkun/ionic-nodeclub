@@ -6,7 +6,7 @@ angular.module('starter')
   $stateParams
 ) ->
 
-  userService.get($stateParams.loginname, true)
+  userService.getDetail($stateParams.loginname, true)
     .then (user) ->
       $scope.user = user
       $scope.topicType =
