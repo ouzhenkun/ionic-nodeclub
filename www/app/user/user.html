@@ -32,7 +32,7 @@
     <div class="item item-divider tabs tabs-secondary tabs-icon-left"
          ng-if="user">
       <a class="tab-item"
-         ng-if="user.collect_topics.length"
+         ng-if="showCollect()"
          href
          ng-class="{'active positive':topicType=='collect_topics'}"
          ng-click="changeType('collect_topics')">

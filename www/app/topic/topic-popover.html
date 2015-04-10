@@ -1,0 +1,21 @@
+<ion-popover-view ng-click="hidePopover($event)">
+  <ion-content>
+    <div class="list">
+      <a class="item" href ng-click="reload()">
+        重新加载
+      </a>
+      <a class="item" href ng-click="replyTopic(topic)">
+        回复主题
+      </a>
+      <a class="item" href ng-click="collectTopic(topic)">
+        收藏主题
+      </a>
+      <a class="item" href ui-sref="app.user({loginname:me.loginname})">
+        我的收藏
+      </a>
+      <a class="item" ui-sref="app.user({loginname: topic.author.loginname})">
+        关于作者
+      </a>
+    </div>
+  </ion-content>
+</ion-popover-view>

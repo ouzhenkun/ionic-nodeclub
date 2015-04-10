@@ -8,7 +8,7 @@
         暂无回复
       </ion-item>
       <ion-item ng-repeat="reply in replies">
-        <a class="item-author"
+        <a class="item-author positive"
            ui-sref="app.user({loginname: reply.author.loginname})">
           <img class="avatar" src="{{reply.author.avatar_url | prefixServerUrl}}">
           {{reply.author.loginname}}

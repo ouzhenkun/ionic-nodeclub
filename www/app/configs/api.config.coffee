@@ -1,7 +1,7 @@
 angular.module('starter')
 
 .constant 'API',
-  server: 'http://cnodejs.org'
+  server: 'https://cnodejs.org'
   #server: 'http://ionichina.com'
   path: '/api/v1'
 

@@ -8,7 +8,7 @@ angular.module('starter')
     .then (result) ->
       $scope.user = result?.data
       $scope.topicType =
-        if $scope.user.collect_topics.length
+        if $scope.showCollect()
           'collect_topics'
         else
           'recent_topics'
@@ -16,6 +16,11 @@ angular.module('starter')
 
   angular.extend $scope,
     $stateParams: $stateParams
+    showCollect: ->
+      $scope.user and (
+        $scope.me?.loginname is $scope.user?.loginname or
+        $scope.user?.collect_topics.length
+      )
     user: null
     topicType: null
     changeType: (type) ->

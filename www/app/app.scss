@@ -35,6 +35,7 @@ img {
 
 .item-author {
   line-height: 20px;
+  text-decoration: none;
   .avatar {
     border-radius: 4px;
     height: 16px;
@@ -56,7 +57,7 @@ img {
   line-height: 24px !important;
   height: 25px !important;
   background-color: $button-positive-border !important;
-  margin-top: 4px;
+  margin: 4px;
   position: relative;
   &:before {
     content: '';

@@ -10,11 +10,11 @@
       <button class="button button-icon button-clear ion-android-person"
               ng-if="!me"
               ng-click="showLogin()"></button>
-      <div class="header-avatar-button"
-           ui-sref="app.user({loginname:me.loginname})"
-           ng-if="me">
+      <a class="button button-clear header-avatar-button"
+         ui-sref="app.user({loginname:me.loginname})"
+         ng-if="me">
         <img class="avatar" ng-src="{{me.avatar_url}}">
-      </div>
+      </a>
     </ion-nav-buttons>
   </ion-nav-bar>
 
