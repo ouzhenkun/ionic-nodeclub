@@ -5,6 +5,7 @@ angular.module('starter')
   $timeout
   Restangular
   $stateParams
+  userService
   $ionicPopover
 ) ->
 
@@ -16,6 +17,7 @@ angular.module('starter')
   angular.extend $scope,
     loading: false
     error: null
+    collected: false
     topic: null
     popover: null
     hidePopover: (event) ->
@@ -35,9 +37,18 @@ angular.module('starter')
         .finally ->
           $scope.loading = false
     collectTopic: (topic) ->
-      console.log 'collectTopic', $scope.me, topic
+      userService.collectTopic topic
+        .then ->
+          $scope.collected = true
+    deCollectTopic: (topic) ->
+      userService.deCollectTopic topic
+        .then ->
+          $scope.collected = false
     replyTopic: (topic) ->
       console.log 'replyTopic', $scope.me, topic
 
   $scope.reload()
+  userService.hasCollect $stateParams.topicId
+    .then (collected) ->
+      $scope.collected = collected
 

@@ -14,7 +14,7 @@ angular.module('starter')
     request: (config) ->
       config
     responseError: (rejection) ->
-      if rejection.status is 403
-        storage.remove 'user'
+      #if rejection.status is 403
+        #storage.remove 'user'
       $q.reject rejection
 

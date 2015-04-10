@@ -7,8 +7,17 @@
       <a class="item" href ng-click="replyTopic(topic)">
         回复主题
       </a>
-      <a class="item" href ng-click="collectTopic(topic)">
+      <a class="item"
+         href
+         ng-if="!collected"
+         ng-click="collectTopic(topic)">
         收藏主题
+      </a>
+      <a class="item"
+         href
+         ng-if="collected"
+         ng-click="deCollectTopic(topic)">
+        取消收藏
       </a>
       <a class="item" href ui-sref="app.user({loginname:me.loginname})">
         我的收藏

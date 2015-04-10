@@ -1,12 +1,14 @@
 angular.module('starter')
 
-.controller 'UserCtrl', ($scope, $stateParams, Restangular) ->
+.controller 'UserCtrl', (
+  $scope
+  userService
+  $stateParams
+) ->
 
-  Restangular
-    .one('user', $stateParams.loginname)
-    .get()
-    .then (result) ->
-      $scope.user = result?.data
+  userService.get($stateParams.loginname, true)
+    .then (user) ->
+      $scope.user = user
       $scope.topicType =
         if $scope.showCollect()
           'collect_topics'

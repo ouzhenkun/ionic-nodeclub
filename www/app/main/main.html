@@ -9,11 +9,11 @@
     <ion-nav-buttons side="right">
       <button class="button button-icon button-clear ion-android-person"
               ng-if="!me"
-              ng-click="showLogin()"></button>
+              ng-click="loginModal.show()"></button>
       <a class="button button-clear header-avatar-button"
          ui-sref="app.user({loginname:me.loginname})"
          ng-if="me">
-        <img class="avatar" ng-src="{{me.avatar_url}}">
+        <img class="avatar" ng-src="{{me.avatar_url | prefixServerUrl}}">
       </a>
     </ion-nav-buttons>
   </ion-nav-bar>
