@@ -103,3 +103,18 @@ img {
     color: #999;
   }
 }
+.text-note {
+  color: #aaa;
+}
+.button-link {
+  @include transition(opacity .1s);
+  cursor: pointer;
+  text-decoration: none;
+  &:hover {
+    color: $button-positive-bg !important;
+  }
+  &.active,
+  &.activated {
+    color: $button-positive-active-bg !important;
+  }
+}

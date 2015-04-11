@@ -43,4 +43,3 @@ angular.module('starter')
         duration: 1000
         noBackdrop: true
 
-  console.log 'me', $scope.me

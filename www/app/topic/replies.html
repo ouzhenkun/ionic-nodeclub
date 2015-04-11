@@ -17,18 +17,44 @@
         暂无回复
       </ion-item>
       <ion-item ng-repeat="reply in replies"
-                on-hold="showAction()">
-        <a class="item-author positive"
+                on-hold="showAction(reply)">
+        <a class="item-author positive button-link"
            ui-sref="app.user({loginname: reply.author.loginname})">
-          <img class="avatar" src="{{reply.author.avatar_url | prefixServerUrl}}">
+          <img class="avatar"
+               src="{{reply.author.avatar_url | prefixServerUrl}}">
           {{reply.author.loginname}}
-          <span class="item-note"
-                am-time-ago="reply.create_at">
-          </span>
         </a>
-        <div class="padding-top item-text-wrap"
-             ng-click="showAction()"
-             ng-bind-html="reply.content"></div>
+        <span class="item-note" ng-if="reply.ups.length">
+          {{reply.ups.length}} 赞
+        </span>
+        <p class="padding-vertical item-text-wrap"
+           ng-bind-html="reply.content">
+        </p>
+        <p>
+          <span class="text-note">
+            {{reply.create_at | date: 'yyyy-MM-dd'}}
+          </span>
+          &nbsp;
+          <a class="button-link text-note">
+            <i class="ion ion-reply"></i>
+            回复
+          </a>
+          &nbsp;
+          <span ng-if="reply.ups.indexOf(me.id) != -1">
+            <a class="button-link assertive"
+               ng-click="toggleLike(reply)">
+              <i class="ion ion-thumbsup"></i>
+              已赞
+            </a>
+          </span>
+          <span ng-if="reply.ups.indexOf(me.id) == -1">
+            <a class="button-link text-note"
+               ng-click="toggleLike(reply)">
+              <i class="ion ion-thumbsup"></i>
+              赞
+            </a>
+          </span>
+        </p>
       </ion-item>
     </ion-list>
   </ion-content>

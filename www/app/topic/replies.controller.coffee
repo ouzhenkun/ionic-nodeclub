@@ -2,9 +2,11 @@ angular.module('starter')
 
 .controller 'RepliesCtrl', (
   $scope
+  $state
   $ionicModal
   $stateParams
   topicService
+  $ionicLoading
   $ionicActionSheet
 ) ->
 
@@ -23,23 +25,31 @@ angular.module('starter')
     loading: false
     error: null
     replies: null
-    showAction: ->
+    toggleLike: (reply) ->
+      topicService.toggleLikeReply(reply)
+        .then (action) ->
+          if action isnt 'up' then return
+          $ionicLoading.show
+            template: '已赞'
+            duration: 1000
+            noBackdrop: true
+    showAction: (reply) ->
       $ionicActionSheet.show
         buttons: [
-          text: '点赞'
+          text: '@' + reply.author.loginname
         ,
           text: '复制'
         ,
-          text: '回复'
+          text: '关于'
         ]
         buttonClicked: (index) ->
           switch index
-            when 0
-              console.log '点赞'
             when 1
+              console.log '@' + reply.author.loginname
+            when 0
               console.log '复制'
             else
-              console.log '回复'
+              $state.go('app.user', loginname:reply.author.loginname)
           return true
 
   loadReplies()

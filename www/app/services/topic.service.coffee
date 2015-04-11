@@ -2,6 +2,7 @@ angular.module('starter')
 
 .factory 'topicService', (
   $q
+  storage
   Restangular
 ) ->
 
@@ -54,6 +55,21 @@ angular.module('starter')
           # TODO extend ?
           cache[topicId] = dbTopic
           # TODO return a clone ?
+          console.log dbTopic.replies
           resolve dbTopic.replies
+        .catch reject
+
+  toggleLikeReply: (reply) ->
+    $q (resolve, reject) ->
+      user = storage.get 'user'
+      Restangular
+        .one('reply', reply.id)
+        .post('ups', accesstoken: user?.token)
+        .then (resp) ->
+          if resp.action is 'up'
+            reply.ups.push user.id
+          else
+            _.pull reply.ups, user.id
+          resolve(resp.action)
         .catch reject
 
