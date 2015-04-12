@@ -11,7 +11,7 @@
          ng-if="error">
       囧，出错啦...
     </div>
-    <ion-list ng-if="!loading">
+    <ion-list ng-if="!loading && !error">
       <ion-item class="item-divider"
            ng-if="!replies.length">
         暂无回复

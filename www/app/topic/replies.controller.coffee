@@ -44,9 +44,9 @@ angular.module('starter')
         ]
         buttonClicked: (index) ->
           switch index
-            when 1
-              console.log '@' + reply.author.loginname
             when 0
+              console.log '@' + reply.author.loginname
+            when 1
               console.log '复制'
             else
               $state.go('app.user', loginname:reply.author.loginname)

@@ -66,10 +66,14 @@ angular.module('starter')
         .one('reply', reply.id)
         .post('ups', accesstoken: user?.token)
         .then (resp) ->
-          if resp.action is 'up'
-            reply.ups.push user.id
-          else
-            _.pull reply.ups, user.id
+          switch resp.action
+            when 'up'
+              reply.ups.push user.id
+            when 'down'
+              _.pull reply.ups, user.id
+            else
+              # TODO 错误处理
+              console.log 'unknown action: ' + resp.action
           resolve(resp.action)
         .catch reject
 
