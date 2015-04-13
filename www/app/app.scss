@@ -132,7 +132,6 @@ img {
   background: none;
 
   textarea {
-    @include transition(border-bottom .1s);
     resize: none;
     background: none;
     max-height: 130px;
