@@ -58,4 +58,14 @@
       </ion-item>
     </ion-list>
   </ion-content>
+  <auto-sizing-footer>
+    <label class="new-reply item-input-wrapper">
+      <textarea msd-elastic
+                ng-model="newReply.content"
+                placeholder="写回复">
+      </textarea>
+    </label>
+    <button class="button button-link reply-button"
+            ng-disabled="!newReply.content">发送</button>
+  </auto-sizing-footer>
 </ion-view>

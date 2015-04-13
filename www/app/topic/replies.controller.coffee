@@ -25,6 +25,7 @@ angular.module('starter')
     loading: false
     error: null
     replies: null
+    newReply: {}
     toggleLike: (reply) ->
       topicService.toggleLikeReply(reply)
         .then (action) ->

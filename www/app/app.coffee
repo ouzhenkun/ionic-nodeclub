@@ -8,6 +8,7 @@ angular.module('starter', [
   'ionic'
   'restangular'
   'angularMoment'
+  'monospaced.elastic'
 ])
 
 .run ($ionicPlatform, amMoment) ->

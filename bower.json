@@ -4,7 +4,8 @@
   "dependencies": {
     "ionic": "driftyco/ionic-bower#1.0.0-rc.2",
     "restangular": "~1.5.1",
-    "angular-moment": "~0.9.2"
+    "angular-moment": "~0.9.2",
+    "angular-elastic": "~2.4.2"
   },
   "devDependencies": {},
   "overrides": {
@@ -21,7 +22,7 @@
       "ignore": true
     },
     "ionic": {
-      "main": "js/ionic.bundle.js"
+      "ignore": true
     },
     "moment": {
       "main": [
