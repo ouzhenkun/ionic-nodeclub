@@ -21,6 +21,7 @@
         <a class="item-author positive button-link"
            ui-sref="app.user({loginname: reply.author.loginname})">
           <img class="avatar"
+               alt="{{reply.author.loginname}}"
                src="{{reply.author.avatar_url | prefixServerUrl}}">
           {{reply.author.loginname}}
         </a>
@@ -35,6 +36,7 @@
           &nbsp;
           <span ng-if="newReply.reply_id != reply.id">
             <a class="button-link text-note"
+               href
                ng-click="replyAuthor(reply)">
               <i class="ion ion-reply"></i>
               回复
@@ -42,6 +44,7 @@
           </span>
           <span ng-if="newReply.reply_id == reply.id">
             <a class="button-link text-note positive"
+               href
                ng-click="clearNewReply()">
               <i class="ion ion-reply"></i>
               回复
@@ -50,6 +53,7 @@
           &nbsp;
           <span ng-if="reply.ups.indexOf(me.id) != -1">
             <a class="button-link assertive"
+               href
                ng-click="toggleLike(reply)">
               <i class="ion ion-thumbsup"></i>
               已赞
@@ -57,6 +61,7 @@
           </span>
           <span ng-if="reply.ups.indexOf(me.id) == -1">
             <a class="button-link text-note"
+               href
                ng-click="toggleLike(reply)">
               <i class="ion ion-thumbsup"></i>
               赞

@@ -14,12 +14,15 @@
     </div>
     <div class="item item-avatar"
          ng-if="user">
-      <img ng-if="user.avatar_url" src="{{user.avatar_url | prefixServerUrl}}">
+      <img ng-if="user.avatar_url"
+           alt="{{user.loginname}}"
+           src="{{user.avatar_url | prefixServerUrl}}">
       <h2>{{user.loginname}}</h2>
       <p>{{user.score}}积分</p>
     </div>
     <div class="item item-body" ng-if="user">
       <a href="https://github.com/{{user.githubUsername}}"
+         ng-if="user.gethubUsername"
          target="_blank"
          class="subdued">
         <i class="ion ion-social-github"></i>

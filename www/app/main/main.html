@@ -13,7 +13,9 @@
       <a class="button button-clear header-avatar-button"
          ui-sref="app.user({loginname:me.loginname})"
          ng-if="me">
-        <img class="avatar" ng-src="{{me.avatar_url | prefixServerUrl}}">
+        <img class="avatar"
+             alt="{{me.loginname}}"
+             ng-src="{{me.avatar_url | prefixServerUrl}}">
       </a>
     </ion-nav-buttons>
   </ion-nav-bar>
