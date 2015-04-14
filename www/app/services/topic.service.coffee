@@ -55,6 +55,18 @@ angular.module('starter')
           resolve dbTopic.replies
         .catch reject
 
+  sendReply: (topicId, data) ->
+    $q (resolve, reject) ->
+      user = storage.get 'user'
+      newReply = angular.extend(accesstoken: user?.token, data)
+      Restangular
+        .one('topic', topicId)
+        .post('replies', newReply)
+        .then (resp) ->
+          console.log 'send reply: ' + resp
+          resolve resp
+        .catch reject
+
   toggleLikeReply: (reply) ->
     $q (resolve, reject) ->
       user = storage.get 'user'

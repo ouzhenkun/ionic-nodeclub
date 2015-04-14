@@ -44,10 +44,14 @@ angular.module('starter')
             duration: 1000
             noBackdrop: true
 
-    replyAuthor: (author) ->
-      content = $scope.newReply.content
-      content += " @#{author.loginname}"
-      $scope.newReply.content = content.trim() + ' '
+    replyAuthor: (reply) ->
+      $scope.newReply.content = "@#{reply.author.loginname} "
+      $scope.newReply.reply_id = reply.id
+      focus('focus.newReplyInput')
+
+    clearNewReply: ->
+      $scope.newReply.content = ''
+      $scope.newReply.reply_id = null
       focus('focus.newReplyInput')
 
     showReplyAction: (reply) ->
@@ -56,6 +60,8 @@ angular.module('starter')
           text: '复制'
         ,
           text: '引用'
+        ,
+          text: '@Ta'
         ,
           text: '作者'
         ]
@@ -69,12 +75,20 @@ angular.module('starter')
               content = $scope.newReply.content + "#{quote}"
               $scope.newReply.content = content.trim() + '\n\n'
               focus('focus.newReplyInput')
+            when 2
+              content = $scope.newReply.content
+              content += " @#{reply.author.loginname}"
+              $scope.newReply.content = content.trim() + ' '
+              focus('focus.newReplyInput')
             else
               $state.go('app.user', loginname:reply.author.loginname)
           return true
 
     sendReply: ->
-      console.log 'sendReply', $scope.newReply
+      topicService.sendReply $stateParams.topicId, $scope.newReply
+        .then ->
+          $scope.clearNewReply()
+          loadReplies(true)
 
     showSendAction: ->
       $ionicActionSheet.show
@@ -92,8 +106,7 @@ angular.module('starter')
             when 1
               $scope.replyModal.show()
             else
-              $scope.newReply.content = ''
-              focus('focus.newReplyInput')
+              $scope.clearNewReply()
           return true
 
   loadReplies()

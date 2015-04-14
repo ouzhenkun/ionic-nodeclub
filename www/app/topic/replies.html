@@ -33,11 +33,20 @@
             {{reply.create_at | date: 'yyyy-MM-dd'}}
           </span>
           &nbsp;
-          <a class="button-link text-note"
-             ng-click="replyAuthor(reply.author)">
-            <i class="ion ion-reply"></i>
-            回复
-          </a>
+          <span ng-if="newReply.reply_id != reply.id">
+            <a class="button-link text-note"
+               ng-click="replyAuthor(reply)">
+              <i class="ion ion-reply"></i>
+              回复
+            </a>
+          </span>
+          <span ng-if="newReply.reply_id == reply.id">
+            <a class="button-link text-note positive"
+               ng-click="clearNewReply()">
+              <i class="ion ion-reply"></i>
+              回复
+            </a>
+          </span>
           &nbsp;
           <span ng-if="reply.ups.indexOf(me.id) != -1">
             <a class="button-link assertive"
@@ -62,6 +71,7 @@
       <textarea msd-elastic
                 focus-on="focus.newReplyInput"
                 ng-model="newReply.content"
+                ng-change="!newReply.content&&clearNewReply()"
                 placeholder="添加回复，按住‘发送’预览">
       </textarea>
     </label>
