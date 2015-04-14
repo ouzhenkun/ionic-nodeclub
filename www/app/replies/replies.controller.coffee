@@ -2,13 +2,13 @@ angular.module('starter')
 
 .controller 'RepliesCtrl', (
   focus
+  toast
   $scope
   $state
   $filter
   $ionicModal
   $stateParams
   topicService
-  $ionicLoading
   $ionicActionSheet
 ) ->
 
@@ -23,7 +23,7 @@ angular.module('starter')
         $scope.loading = false
 
   $ionicModal
-    .fromTemplateUrl('app/topic/reply-preview-modal.html', scope: $scope)
+    .fromTemplateUrl('app/replies/reply-preview-modal.html', scope: $scope)
     .then (modal) ->
       $scope.replyModal = modal
 
@@ -39,10 +39,7 @@ angular.module('starter')
       topicService.toggleLikeReply(reply)
         .then (action) ->
           if action isnt 'up' then return
-          $ionicLoading.show
-            template: '已赞'
-            duration: 1000
-            noBackdrop: true
+          toast '已赞'
 
     replyAuthor: (reply) ->
       $scope.newReply.content = "@#{reply.author.loginname} "

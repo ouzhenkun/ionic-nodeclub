@@ -2,6 +2,7 @@ angular.module('starter')
 
 .controller 'MainCtrl', (
   tabs
+  toast
   $scope
   $state
   storage
@@ -22,26 +23,18 @@ angular.module('starter')
     loginModal: null
 
     doLogin: (token) ->
-      $ionicLoading.show(template: '登录中...')
+      $ionicLoading.show()
       userService.login(token)
         .then (user) ->
           $scope.me = user
           $scope.loginModal?.hide()
-          $ionicLoading.show
-            template: '登录成功，欢迎您: ' + user.loginname
-            duration: 1000
-            noBackdrop: true
+          toast '登录成功，欢迎您: ' + user.loginname
         .catch (error) ->
-          $ionicLoading.show
-            template: '登录失败: ' + error?.data?.error_msg
-            duration: 1000
-            noBackdrop: true
+          toast '登录失败: ' + error?.data?.error_msg
+        .finally $ionicLoading.hide
 
     doLogout: ->
       userService.logout()
       $scope.me = null
-      $ionicLoading.show
-        template: '您已登出'
-        duration: 1000
-        noBackdrop: true
+      toast '您已登出'
 

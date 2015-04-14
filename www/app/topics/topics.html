@@ -1,4 +1,18 @@
 <ion-view view-title="{{selectedTab | tabLabel}}">
+  <ion-nav-buttons side="right">
+    <button class="button button-icon button-clear ion-ios-compose-outline"
+            ng-click="newTopicModal.show()"></button>
+    <button class="button button-icon button-clear ion-ios-person-outline"
+            ng-if="!me"
+            ng-click="loginModal.show()"></button>
+    <a class="button button-clear header-avatar-button"
+       ui-sref="app.user({loginname:me.loginname})"
+       ng-if="me">
+      <img class="avatar"
+           alt="{{me.loginname}}"
+           ng-src="{{me.avatar_url | prefixServerUrl}}">
+    </a>
+  </ion-nav-buttons>
   <ion-content>
     <ion-refresher pulling-text="下拉刷新..."
                    pulling-icon="ion-ios-arrow-down"

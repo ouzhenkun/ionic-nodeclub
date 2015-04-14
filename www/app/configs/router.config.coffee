@@ -27,7 +27,7 @@ angular.module('starter')
       url: '/replies/:topicId'
       views:
         mainContent:
-          templateUrl: 'app/topic/replies.html'
+          templateUrl: 'app/replies/replies.html'
           controller: 'RepliesCtrl'
 
     .state 'app.user',

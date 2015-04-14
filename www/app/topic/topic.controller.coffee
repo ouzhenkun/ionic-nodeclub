@@ -1,6 +1,7 @@
 angular.module('starter')
 
 .controller 'TopicCtrl', (
+  toast
   $scope
   $timeout
   $ionicModal
@@ -8,7 +9,6 @@ angular.module('starter')
   topicService
   $stateParams
   $ionicPopover
-  $ionicLoading
 ) ->
 
   $ionicPopover.fromTemplateUrl 'app/topic/topic-popover.html',
@@ -42,10 +42,7 @@ angular.module('starter')
       userService.collectTopic topic
         .then ->
           $scope.isCollected = true
-          $ionicLoading.show
-            template: '收藏成功'
-            duration: 1000
-            noBackdrop: true
+          toast '收藏成功'
 
     deCollectTopic: (topic) ->
       userService.deCollectTopic topic

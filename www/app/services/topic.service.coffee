@@ -13,6 +13,7 @@ angular.module('starter')
   reset: ->
     cache = {}
 
+
   loadMore: (tab, from = 0) ->
     $q (resolve, reject) ->
       page = ~~(from / PAGE_LIMIT) + 1
@@ -28,6 +29,13 @@ angular.module('starter')
             topics: newTopics
             hasMore: newTopics.length is PAGE_LIMIT
         .catch resolve
+
+  postNew: (data) ->
+    user = storage.get 'user'
+    newTopic = angular.extend(accesstoken: user?.token, data)
+    Restangular
+      .all('topics')
+      .post(newTopic)
 
   getDetail: (topicId, reload) ->
     $q (resolve, reject) ->
@@ -56,16 +64,11 @@ angular.module('starter')
         .catch reject
 
   sendReply: (topicId, data) ->
-    $q (resolve, reject) ->
-      user = storage.get 'user'
-      newReply = angular.extend(accesstoken: user?.token, data)
-      Restangular
-        .one('topic', topicId)
-        .post('replies', newReply)
-        .then (resp) ->
-          console.log 'send reply: ' + resp
-          resolve resp
-        .catch reject
+    user = storage.get 'user'
+    newReply = angular.extend(accesstoken: user?.token, data)
+    Restangular
+      .one('topic', topicId)
+      .post('replies', newReply)
 
   toggleLikeReply: (reply) ->
     $q (resolve, reject) ->
