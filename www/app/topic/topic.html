@@ -34,10 +34,10 @@
       </a>
       <div class="padding-vertical" ng-bind-html="topic.content"></div>
     </article>
-    <div class="item item-divider"
+    <div class="item"
          ng-if="!loading"
          ui-sref="app.replies({topicId: topic.id})">
-      <span class="positive" ng-if="topic.reply_count">
+      <span ng-if="topic.reply_count">
         {{topic.reply_count}} 回复
       </span>
       <span ng-if="!topic.reply_count">

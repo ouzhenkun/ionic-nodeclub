@@ -1,0 +1,22 @@
+<ion-modal-view>
+  <ion-header-bar class="bar-positive">
+    <h1 class="title">预览 - markdown</h1>
+    <div class="buttons">
+      <button class="button button-icon button-clear ion-ios-close-empty"
+              ng-click="replyModal.hide()"></button>
+    </div>
+  </ion-header-bar>
+  <ion-content overflow-scroll="true">
+    <form ng-submit="sendReply()">
+      <div class="list">
+        <label class="item reply-item">
+          <div class="markdown-text" btf-markdown="newReply.content"></div>
+        </label>
+        <label class="item">
+          <button class="button button-block button-positive"
+                  type="submit">发送</button>
+        </label>
+      </div>
+    </form>
+  </ion-content>
+</ion-modal-view>

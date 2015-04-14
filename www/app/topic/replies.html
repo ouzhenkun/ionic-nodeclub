@@ -12,12 +12,12 @@
       囧，出错啦...
     </div>
     <ion-list ng-if="!loading && !error">
-      <ion-item class="item-divider"
-           ng-if="!replies.length">
+      <div class="item" ng-if="!replies.length">
         暂无回复
-      </ion-item>
+      </div>
       <ion-item ng-repeat="reply in replies"
-                on-hold="showAction(reply)">
+                class="reply-item"
+                on-hold="showReplyAction(reply)">
         <a class="item-author positive button-link"
            ui-sref="app.user({loginname: reply.author.loginname})">
           <img class="avatar"
@@ -27,10 +27,8 @@
         <span class="item-note" ng-if="reply.ups.length">
           {{reply.ups.length}} 赞
         </span>
-        <p class="padding-vertical item-text-wrap"
-           ng-bind-html="reply.content">
-        </p>
-        <p>
+        <div class="reply-content" ng-bind-html="reply.content"></div>
+        <p class="reply-content">
           <span class="text-note">
             {{reply.create_at | date: 'yyyy-MM-dd'}}
           </span>
@@ -64,10 +62,12 @@
       <textarea msd-elastic
                 focus-on="focus.newReplyInput"
                 ng-model="newReply.content"
-                placeholder="写回复">
+                placeholder="添加回复，按住‘发送’预览">
       </textarea>
     </label>
     <button class="button button-link reply-button"
-            ng-disabled="!newReply.content">发送</button>
+            ng-disabled="!newReply.content"
+            ng-click="sendReply()"
+            on-hold="showSendAction()">发送</button>
   </auto-sizing-footer>
 </ion-view>

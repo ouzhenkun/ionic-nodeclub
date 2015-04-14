@@ -6,4 +6,3 @@ angular.module('starter')
     if _.isEmpty(htmlInput) then return ''
     toMarkdown(htmlInput)
       .replace(/<([^>]+)>/ig, '')
-      .replace(/(?:\r\n|\r|\n)/g, '')

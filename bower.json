@@ -6,7 +6,8 @@
     "restangular": "~1.5.1",
     "angular-moment": "~0.9.2",
     "angular-elastic": "~2.4.2",
-    "to-markdown": "~0.0.3"
+    "to-markdown": "~0.0.3",
+    "angular-markdown-directive": "~0.3.1"
   },
   "devDependencies": {},
   "overrides": {

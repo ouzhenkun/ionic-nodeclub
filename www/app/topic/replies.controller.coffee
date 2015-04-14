@@ -22,11 +22,16 @@ angular.module('starter')
       .finally ->
         $scope.loading = false
 
+  $ionicModal
+    .fromTemplateUrl('app/topic/reply-preview-modal.html', scope: $scope)
+    .then (modal) ->
+      $scope.replyModal = modal
 
   angular.extend $scope,
     loading: false
     error: null
     replies: null
+    replyModal: null
     newReply:
       content: ''
     toggleLike: (reply) ->
@@ -38,27 +43,52 @@ angular.module('starter')
             duration: 1000
             noBackdrop: true
     replyAuthor: (author) ->
-      $scope.newReply.content = "@#{author.loginname} "
+      content = $scope.newReply.content
+      content += " @#{author.loginname}"
+      $scope.newReply.content = content.trim() + ' '
       focus('focus.newReplyInput')
-    showAction: (reply) ->
+    showReplyAction: (reply) ->
       $ionicActionSheet.show
         buttons: [
-          text: '@' + reply.author.loginname
+          text: '复制'
         ,
-          text: '引用内容'
+          text: '引用'
         ,
-          text: '用户信息'
+          text: '作者'
         ]
         buttonClicked: (index) ->
           switch index
             when 0
-              $scope.newReply.content += " @#{reply.author.loginname} "
-              focus('focus.newReplyInput')
+              console.log 'copy...', $filter('toMarkdown')(reply.content)
             when 1
-              $scope.newReply.content += "> #{$filter('toMarkdown')(reply.content)}\n\n"
+              quote = $filter('toMarkdown')(reply.content)
+              quote = '\n' + quote.trim().replace(/([^\n]+)\n*/g, '>$1\n>\n')
+              content = $scope.newReply.content + "#{quote}"
+              $scope.newReply.content = content.trim() + '\n\n'
               focus('focus.newReplyInput')
             else
               $state.go('app.user', loginname:reply.author.loginname)
+          return true
+    sendReply: ->
+      console.log 'sendReply', $scope.newReply
+    showSendAction: ->
+      $ionicActionSheet.show
+        buttons: [
+          text: '发送'
+        ,
+          text: '预览'
+        ,
+          text: '清除'
+        ]
+        buttonClicked: (index) ->
+          switch index
+            when 0
+              $scope.sendReply()
+            when 1
+              $scope.replyModal.show()
+            else
+              $scope.newReply.content = ''
+              focus('focus.newReplyInput')
           return true
 
   loadReplies()

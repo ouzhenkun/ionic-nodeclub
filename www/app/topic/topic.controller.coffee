@@ -3,6 +3,7 @@ angular.module('starter')
 .controller 'TopicCtrl', (
   $scope
   $timeout
+  $ionicModal
   userService
   topicService
   $stateParams
@@ -46,8 +47,6 @@ angular.module('starter')
       userService.deCollectTopic topic
         .then ->
           $scope.collected = false
-    replyTopic: (topic) ->
-      console.log 'replyTopic', $scope.me, topic
 
   $scope.loadTopic()
   userService.checkCollect $stateParams.topicId
