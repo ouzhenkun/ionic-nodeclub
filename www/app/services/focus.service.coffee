@@ -1,7 +1,8 @@
 angular.module('starter')
 
 .factory 'focus', ($rootScope, $timeout) ->
+
   (name) ->
-    $timeout ->
-      console.log 'broadcast focusOn', name
+    broadcastFocusEvent = ->
       $rootScope.$broadcast('focusOn', name) if !_.isEmpty(name)
+    $timeout broadcastFocusEvent

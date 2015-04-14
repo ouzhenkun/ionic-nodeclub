@@ -39,23 +39,19 @@ angular.module('starter')
         .then (resp) ->
           dbTopic = resp.data
           cache[topicId] = dbTopic
-          # TODO return a clone ?
           resolve dbTopic
         .catch reject
 
   getReplies: (topicId, reload) ->
     $q (resolve, reject) ->
       if !reload and replies = cache[topicId]?.replies
-        return resolve replies
+        return resolve(replies)
       Restangular
         .one('topic', topicId)
         .get()
         .then (resp) ->
           dbTopic = resp.data
-          # TODO extend ?
           cache[topicId] = dbTopic
-          # TODO return a clone ?
-          console.log dbTopic.replies
           resolve dbTopic.replies
         .catch reject
 
@@ -70,10 +66,10 @@ angular.module('starter')
             when 'up'
               reply.ups.push user.id
             when 'down'
-              _.pull reply.ups, user.id
+              _.pull(reply.ups, user.id)
             else
               # TODO 错误处理
               console.log 'unknown action: ' + resp.action
-          resolve(resp.action)
+          resolve resp.action
         .catch reject
 

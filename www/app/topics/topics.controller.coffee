@@ -7,11 +7,9 @@ angular.module('starter')
   $stateParams
 ) ->
 
-  selectedTab = $stateParams.tab ? tabs[0].value
-
   loadTopics = ->
     $scope.loading = true
-    topicService.loadMore selectedTab, $scope.topics.length
+    topicService.loadMore $scope.selectedTab, $scope.topics.length
       .then (resp) ->
         $scope.topics = $scope.topics.concat(resp.topics)
         $scope.hasMoreTopics = resp.hasMore
@@ -24,17 +22,19 @@ angular.module('starter')
 
   # Export Properties
   angular.extend $scope,
+    hasMoreTopics: true
     loading: false
     error: null
-    selectedTab: selectedTab
+    selectedTab: $stateParams.tab ? tabs[0].value
     topics: []
-    hasMoreTopics: true
+
     doRefresh: ->
       if $scope.loading then return
       $scope.topics = []
       $scope.error = null
       $scope.hasMoreTopics = true
       loadTopics()
+
     loadMore: ->
       if $scope.loading or $scope.error then return
       loadTopics()

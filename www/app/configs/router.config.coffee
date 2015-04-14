@@ -10,7 +10,7 @@ angular.module('starter')
       controller: 'MainCtrl'
 
     .state 'app.topics',
-      url: '/topics/:tab',
+      url: '/topics/:tab'
       views:
         mainContent:
           templateUrl: 'app/topics/topics.html'

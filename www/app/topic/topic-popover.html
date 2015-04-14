@@ -9,13 +9,13 @@
       </a>
       <a class="item"
          href
-         ng-if="!collected"
+         ng-if="!isCollected"
          ng-click="collectTopic(topic)">
         收藏主题
       </a>
       <a class="item"
          href
-         ng-if="collected"
+         ng-if="isCollected"
          ng-click="deCollectTopic(topic)">
         取消收藏
       </a>

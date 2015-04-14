@@ -18,11 +18,12 @@ angular.module('starter')
         delete $scope.$hasFooter
         delete $scope.$hasSubfooter
 
+      $scope.$watch '$hasTabs', (val) ->
+        $element.toggleClass('has-tabs', !!val)
+
       # update content view bottom position
       $scope.$watch (-> $element[0].clientHeight), (newHeight) -> $timeout ->
         contentQuery = $document[0].getElementsByClassName('has-footer')
         contentElement = angular.element(contentQuery)
         contentElement?.css('bottom', newHeight + 'px')
 
-      $scope.$watch '$hasTabs', (val) ->
-        $element.toggleClass('has-tabs', !!val)

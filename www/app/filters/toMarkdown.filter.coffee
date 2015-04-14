@@ -4,5 +4,4 @@ angular.module('starter')
 
   (htmlInput) ->
     if _.isEmpty(htmlInput) then return ''
-    toMarkdown(htmlInput)
-      .replace(/<([^>]+)>/ig, '')
+    toMarkdown(htmlInput).replace(/<([^>]+)>/ig, '')

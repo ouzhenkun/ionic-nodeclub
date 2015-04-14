@@ -18,7 +18,7 @@ angular.module('starter')
         .post(accesstoken: token)
         .then (user) ->
           storage.set 'user', angular.extend(user, token: token)
-          resolve(user)
+          resolve user
         .catch reject
 
   logout: ->
@@ -38,7 +38,6 @@ angular.module('starter')
         .then (resp) ->
           dbUser = resp.data
           cache[loginname] = dbUser
-          # TODO return a clone ?
           resolve dbUser
         .catch reject
 
@@ -49,9 +48,10 @@ angular.module('starter')
         .all('topic/collect')
         .post(accesstoken: user?.token, topic_id: topic.id)
         .then (resp) ->
+          # 更新已经被cache的user信息
           if cacheUser = cache[user.loginname]
             cacheUser.collect_topics.push topic
-          resolve(resp)
+          resolve resp
         .catch reject
 
   deCollectTopic: (topic) ->
@@ -61,9 +61,10 @@ angular.module('starter')
         .all('topic/de_collect')
         .post(accesstoken: user?.token, topic_id: topic.id)
         .then (resp) ->
+          # 更新已经被cache的user信息
           if cacheUser = cache[user.loginname]
             _.remove(cacheUser.collect_topics, id:topic.id)
-          resolve(resp)
+          resolve resp
         .catch reject
 
   checkCollect: (topicId) ->
@@ -71,6 +72,7 @@ angular.module('starter')
       user = storage.get('user')
       @getDetail(user?.loginname)
         .then (dbUser) ->
-           resolve _.find(dbUser.collect_topics, id:topicId)?
+          isCollected = _.find(dbUser.collect_topics, id:topicId)?
+          resolve isCollected
         .catch reject
 

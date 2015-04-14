@@ -15,7 +15,7 @@
       <div class="item" ng-if="!replies.length">
         暂无回复
       </div>
-      <ion-item ng-repeat="reply in replies"
+      <ion-item ng-repeat="reply in replies track by reply.id"
                 class="reply-item"
                 on-hold="showReplyAction(reply)">
         <a class="item-author positive button-link"

@@ -34,6 +34,7 @@ angular.module('starter')
     replyModal: null
     newReply:
       content: ''
+
     toggleLike: (reply) ->
       topicService.toggleLikeReply(reply)
         .then (action) ->
@@ -42,11 +43,13 @@ angular.module('starter')
             template: '已赞'
             duration: 1000
             noBackdrop: true
+
     replyAuthor: (author) ->
       content = $scope.newReply.content
       content += " @#{author.loginname}"
       $scope.newReply.content = content.trim() + ' '
       focus('focus.newReplyInput')
+
     showReplyAction: (reply) ->
       $ionicActionSheet.show
         buttons: [
@@ -69,8 +72,10 @@ angular.module('starter')
             else
               $state.go('app.user', loginname:reply.author.loginname)
           return true
+
     sendReply: ->
       console.log 'sendReply', $scope.newReply
+
     showSendAction: ->
       $ionicActionSheet.show
         buttons: [
