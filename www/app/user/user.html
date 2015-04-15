@@ -16,7 +16,7 @@
          ng-if="user">
       <img ng-if="user.avatar_url"
            alt="{{user.loginname}}"
-           src="{{user.avatar_url | prefixServerUrl}}">
+           src="{{user.avatar_url | prefixUrl}}">
       <h2>{{user.loginname}}</h2>
       <p>{{user.score}}积分</p>
     </div>
@@ -64,7 +64,7 @@
                 collection-item-width="100%"
                 collection-item-height="72"
                 ui-sref="app.topic({topicId: topic.id})">
-        <img ng-src="{{topic.author.avatar_url | prefixServerUrl}}">
+        <img ng-src="{{topic.author.avatar_url | prefixUrl}}">
         <h2>{{topic.title}}</h2>
         <p>
           {{topic.author.loginname}}

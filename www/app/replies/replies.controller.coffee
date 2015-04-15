@@ -9,7 +9,9 @@ angular.module('starter')
   $ionicModal
   $stateParams
   topicService
+  $ionicLoading
   $ionicActionSheet
+  $ionicScrollDelegate
 ) ->
 
   loadReplies = (reload = false) ->
@@ -17,10 +19,12 @@ angular.module('starter')
     topicService.getReplies $stateParams.topicId, reload
       .then (replies) ->
         $scope.replies = replies
+        $scope.scrollDelegate.scrollBottom(true)
       .catch (error) ->
         $scope.error = error
       .finally ->
         $scope.loading = false
+
 
   $ionicModal
     .fromTemplateUrl('app/replies/reply-preview-modal.html', scope: $scope)
@@ -32,6 +36,7 @@ angular.module('starter')
     error: null
     replies: null
     replyModal: null
+    scrollDelegate: $ionicScrollDelegate.$getByHandle('replies-handle')
     newReply:
       content: ''
 
@@ -82,10 +87,12 @@ angular.module('starter')
           return true
 
     sendReply: ->
+      $ionicLoading.show()
       topicService.sendReply $stateParams.topicId, $scope.newReply
         .then ->
           $scope.clearNewReply()
           loadReplies(true)
+        .finally $ionicLoading.hide
 
     showSendAction: ->
       $ionicActionSheet.show

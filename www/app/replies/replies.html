@@ -1,9 +1,14 @@
 <ion-view view-title="回复">
   <ion-nav-buttons side="right">
+    <button class="button header-replies-button"
+            ng-click="scrollDelegate.scrollBottom(true)"
+            ng-if="replies">
+      {{replies.length}}回复
+    </button>
   </ion-nav-buttons>
-  <ion-content>
+  <ion-content delegate-handle="replies-handle">
     <div class="text-center padding"
-         ng-if="loading">
+         ng-if="loading && !replies">
       <ion-spinner icon="spiral"></ion-spinner>
       <p>加载中...</p>
     </div>
@@ -11,8 +16,9 @@
          ng-if="error">
       囧，出错啦...
     </div>
-    <ion-list ng-if="!loading && !error">
-      <div class="item" ng-if="!replies.length">
+    <ion-list>
+      <div class="item"
+           ng-if="!replies.length && !loading && !error">
         暂无回复
       </div>
       <ion-item ng-repeat="reply in replies track by reply.id"
@@ -22,7 +28,7 @@
            ui-sref="app.user({loginname: reply.author.loginname})">
           <img class="avatar"
                alt="{{reply.author.loginname}}"
-               src="{{reply.author.avatar_url | prefixServerUrl}}">
+               src="{{reply.author.avatar_url | prefixUrl}}">
           {{reply.author.loginname}}
         </a>
         <span class="item-note" ng-if="reply.ups.length">

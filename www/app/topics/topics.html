@@ -10,10 +10,10 @@
        ng-if="me">
       <img class="avatar"
            alt="{{me.loginname}}"
-           ng-src="{{me.avatar_url | prefixServerUrl}}">
+           ng-src="{{me.avatar_url | prefixUrl}}">
     </a>
   </ion-nav-buttons>
-  <ion-content>
+  <ion-content delegate-handle="topics-handle">
     <ion-refresher pulling-text="下拉刷新..."
                    pulling-icon="ion-ios-arrow-down"
                    spinner="spiral"
@@ -25,21 +25,15 @@
                 collection-item-width="100%"
                 collection-item-height="72"
                 ui-sref="app.topic({topicId: topic.id})">
-        <img ng-src="{{topic.author.avatar_url | prefixServerUrl}}">
+        <img ng-src="{{topic.author.avatar_url | prefixUrl}}">
         <h2>{{topic.title}}</h2>
         <p>
           <span class="label label-positive"
-                ng-if="topic.top">
-            置顶
-          </span>
+                ng-if="topic.top">置顶</span>
           <span class="label label-positive"
-                ng-if="selectedTab == 'all' && topic.good && !topic.top">
-            精华
-          </span>
+                ng-if="selectedTab == 'all' && topic.good && !topic.top">精华</span>
           <span class="label label-default"
-                ng-if="selectedTab == 'all' && !topic.top && !topic.good">
-            {{topic.tab | tabLabel}}
-          </span>
+                ng-if="selectedTab == 'all' && !topic.top && !topic.good">{{topic.tab | tabLabel}}</span>
           {{topic.author.loginname}}
           <span class="item-note"
                 am-time-ago="topic.last_reply_at">

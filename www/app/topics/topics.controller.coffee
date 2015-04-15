@@ -4,9 +4,11 @@ angular.module('starter')
   tabs
   toast
   $scope
+  $timeout
   $ionicModal
   $stateParams
   topicService
+  $ionicScrollDelegate
 ) ->
 
   $ionicModal
@@ -34,11 +36,11 @@ angular.module('starter')
     content: ''
     title: ''
 
-
   # Export Properties
   angular.extend $scope,
     newTopicModal: null
     hasMoreTopics: true
+    scrollDelegate: $ionicScrollDelegate.$getByHandle('topics-handle')
     loading: false
     error: null
     selectedTab: selectedTab
@@ -53,12 +55,12 @@ angular.module('starter')
 
       topicService.postNew $scope.newTopic
         .then ->
+          $scope.scrollDelegate.scrollTop(false)
           $scope.newTopic = mkNewTopic()
           $scope.newTopicModal.hide()
-          $scope.doRefresh()
+          $timeout $scope.doRefresh
         .catch (error) ->
           toast('发布失败: ' + error?.data?.error_msg, 2000)
-
 
     doRefresh: ->
       if $scope.loading then return

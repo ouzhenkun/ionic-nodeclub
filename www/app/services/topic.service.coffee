@@ -2,12 +2,11 @@ angular.module('starter')
 
 .factory 'topicService', (
   $q
+  config
   storage
   Restangular
 ) ->
 
-  #TODO config
-  PAGE_LIMIT = 10
   cache = {}
 
   reset: ->
@@ -16,10 +15,10 @@ angular.module('starter')
 
   loadMore: (tab, from = 0) ->
     $q (resolve, reject) ->
-      page = ~~(from / PAGE_LIMIT) + 1
+      page = ~~(from / config.PAGE_LIMIT) + 1
       Restangular
         .one('topics')
-        .get(page: page, limit: PAGE_LIMIT, tab: tab)
+        .get(page: page, limit: config.PAGE_LIMIT, tab: tab)
         .then (resp) ->
           newTopics = resp.data
           # 更新cache topics
@@ -27,7 +26,7 @@ angular.module('starter')
             cache[topic.id] = topic
           resolve
             topics: newTopics
-            hasMore: newTopics.length is PAGE_LIMIT
+            hasMore: newTopics.length is config.PAGE_LIMIT
         .catch resolve
 
   postNew: (data) ->

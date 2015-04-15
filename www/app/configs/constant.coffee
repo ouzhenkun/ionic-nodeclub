@@ -1,5 +1,16 @@
 angular.module('starter')
 
+.constant 'API',
+  #server: 'http://localhost:3000'
+  server: 'https://cnodejs.org'
+  #server: 'http://ionichina.com'
+  path: '/api/'
+  version: 'v1'
+
+.constant 'config',
+  PAGE_LIMIT: 15
+
+
 .constant 'tabs', [
   {label: '全部', value: 'all'}
   {label: '精华', value: 'good'}

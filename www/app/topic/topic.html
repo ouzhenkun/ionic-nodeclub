@@ -22,11 +22,11 @@
     </div>
     <article class="padding"
              ng-if="!loading">
-      <h2>{{topic.title}}</h2>
+      <h3>{{topic.title}}</h3>
       <hr clas="stable"/>
       <a class="item-author positive button-link"
          ui-sref="app.user({loginname: topic.author.loginname})">
-        <img ng-if="topic.author.avatar_url" class="avatar" src="{{topic.author.avatar_url | prefixServerUrl}}">
+        <img ng-if="topic.author.avatar_url" class="avatar" src="{{topic.author.avatar_url | prefixUrl}}">
         {{topic.author.loginname}}
         <span class="item-note"
               am-time-ago="topic.create_at">
