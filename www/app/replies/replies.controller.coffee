@@ -14,12 +14,13 @@ angular.module('starter')
   $ionicScrollDelegate
 ) ->
 
-  loadReplies = (reload = false) ->
+  loadReplies = (reloadForNewReply = false) ->
     $scope.loading = true
-    topicService.getReplies $stateParams.topicId, reload
+    topicService.getReplies $stateParams.topicId, reloadForNewReply
       .then (replies) ->
         $scope.replies = replies
-        $scope.scrollDelegate.scrollBottom(true)
+        if reloadForNewReply
+          $scope.scrollDelegate.scrollBottom(true)
       .catch (error) ->
         $scope.error = error
       .finally ->
