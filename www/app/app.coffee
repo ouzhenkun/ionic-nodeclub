@@ -12,7 +12,12 @@ angular.module('starter', [
   'monospaced.elastic'
 ])
 
-.run ($ionicPlatform, amMoment) ->
+.run (
+  amMoment
+  $rootScope
+  $ionicPlatform
+  $ionicHistory
+) ->
   # TODO reload user
 
   amMoment.changeLocale('zh-cn')
@@ -27,3 +32,9 @@ angular.module('starter', [
       # org.apache.cordova.statusbar required
       StatusBar.styleDefault()
 
+  # FIX 浏览器刷新/后退 nav icon 异常
+  $rootScope.$on '$stateChangeStart', (event, toState) ->
+    # 如何是回到Home页面，设置historyRoot
+    if toState.name is 'app.topics'
+      $ionicHistory.nextViewOptions
+        historyRoot: true
