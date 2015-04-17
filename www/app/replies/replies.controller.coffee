@@ -1,6 +1,7 @@
 angular.module('starter')
 
 .controller 'RepliesCtrl', (
+  $q
   focus
   toast
   $scope
@@ -14,17 +15,22 @@ angular.module('starter')
   $ionicScrollDelegate
 ) ->
 
-  loadReplies = (reloadForNewReply = false) ->
-    $scope.loading = true
-    topicService.getReplies $stateParams.topicId, reloadForNewReply
-      .then (replies) ->
-        $scope.replies = replies
-        if reloadForNewReply
-          $scope.scrollDelegate.scrollBottom(true)
-      .catch (error) ->
-        $scope.error = error
-      .finally ->
-        $scope.loading = false
+  loadReplies = (reload = false) ->
+    $q (resolve, reject) ->
+      $scope.loading = true
+      topicService.getReplies $stateParams.topicId, reload
+        .then (replies) ->
+          # FIXME
+          # 数据大的时候render太慢了，
+          # 先渲染20个，滚动底部再5++
+          $scope.replies = replies
+          resolve(replies)
+        .catch (error) ->
+          reject(error)
+          $scope.error = error
+        .finally ->
+          $scope.$broadcast('scroll.refreshComplete')
+          $scope.loading = false
 
 
   $ionicModal
@@ -40,6 +46,9 @@ angular.module('starter')
     scrollDelegate: $ionicScrollDelegate.$getByHandle('replies-handle')
     newReply:
       content: ''
+
+    doRefresh: ->
+      loadReplies(true)
 
     toggleLike: (reply) ->
       topicService.toggleLikeReply(reply)
@@ -92,7 +101,8 @@ angular.module('starter')
       topicService.sendReply $stateParams.topicId, $scope.newReply
         .then ->
           $scope.clearNewReply()
-          loadReplies(true)
+          loadReplies(true).then ->
+            $scope.scrollDelegate.scrollBottom(true)
         .finally $ionicLoading.hide
 
     showSendAction: ->

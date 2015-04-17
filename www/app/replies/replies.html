@@ -7,6 +7,11 @@
     </button>
   </ion-nav-buttons>
   <ion-content delegate-handle="replies-handle">
+    <ion-refresher pulling-text="下拉刷新..."
+                   pulling-icon="ion-ios-arrow-down"
+                   spinner="spiral"
+                   on-refresh="doRefresh()">
+    </ion-refresher>
     <div class="text-center padding"
          ng-if="loading && !replies">
       <ion-spinner icon="spiral"></ion-spinner>
@@ -16,14 +21,14 @@
          ng-if="error">
       囧，出错啦...
     </div>
-    <ion-list>
+    <div class="list">
       <div class="item"
            ng-if="!replies.length && !loading && !error">
         暂无回复
       </div>
-      <ion-item ng-repeat="reply in replies track by reply.id"
-                class="reply-item"
-                on-hold="showReplyAction(reply)">
+      <div ng-repeat="reply in replies track by reply.id"
+           class="item reply-item"
+           on-hold="showReplyAction(reply)">
         <a class="item-author positive button-link"
            ui-sref="app.user({loginname: reply.author.loginname})">
           <img class="avatar"
@@ -36,8 +41,8 @@
         </span>
         <div class="reply-content" ng-bind-html="reply.content"></div>
         <p class="reply-content">
-          <span class="text-note">
-            {{reply.create_at | date: 'yyyy-MM-dd'}}
+          <span class="text-note"
+                am-time-ago="reply.create_at">
           </span>
           &nbsp;
           <span ng-if="newReply.reply_id != reply.id">
@@ -74,8 +79,8 @@
             </a>
           </span>
         </p>
-      </ion-item>
-    </ion-list>
+      </div>
+    </div>
   </ion-content>
   <auto-sizing-footer>
     <label class="new-reply item-input-wrapper">
