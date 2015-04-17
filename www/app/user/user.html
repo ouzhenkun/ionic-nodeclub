@@ -12,6 +12,8 @@
       <ion-spinner icon="spiral"></ion-spinner>
       <p>加载中...</p>
     </div>
+
+    <!-- user 基本信息 -->
     <div class="item item-avatar"
          ng-if="user">
       <img ng-if="user.avatar_url"
@@ -32,6 +34,8 @@
         注册时间：<span am-time-ago="user.create_at"></span>
       </p>
     </div>
+
+    <!-- user tabs -->
     <div class="item item-divider tabs tabs-secondary tabs-icon-left"
          ng-if="user">
       <a class="tab-item"
@@ -57,13 +61,16 @@
         最近参与
       </a>
     </div>
-    <ion-list ng-if="user">
-      <ion-item ng-if="!user[displayType].length">无话题</ion-item>
-      <ion-item class="item-avatar item-topic"
-                collection-repeat="topic in user[displayType]"
-                collection-item-width="100%"
-                collection-item-height="72"
-                ui-sref="app.topic({topicId: topic.id})">
+
+    <!-- user topics list -->
+    <div class="list" ng-if="user">
+      <div class="item" ng-if="!user[displayType].length">无话题</div>
+      <div class="item item-avatar item-topic"
+           collection-repeat="topic in user[displayType] track by topic.id"
+           item-width="100%"
+           item-height="72"
+           item-render-buffer="10"
+           ui-sref="app.topic({topicId: topic.id})">
         <img ng-src="{{topic.author.avatar_url | prefixUrl}}">
         <h2>{{topic.title}}</h2>
         <p>
@@ -72,8 +79,7 @@
                 am-time-ago="topic.last_reply_at">
           </span>
         </p>
-      </ion-item>
-    </ion-list>
-
+      </div>
+    </div>
   </ion-content>
 </ion-view>

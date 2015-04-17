@@ -18,12 +18,15 @@ angular.module('starter')
 
   selectedTab = $stateParams.tab ? tabs[0].value
 
-  loadTopics = ->
+  loadTopics = (refresh) ->
     $scope.loading = true
-    topicService.loadMore selectedTab, $scope.topics.length
+    from = if refresh then 0 else $scope.topics.length
+    topicService.getTopics selectedTab, from
       .then (resp) ->
+        if refresh
+          $scope.topics.length = 0
         $scope.topics = $scope.topics.concat(resp.topics)
-        $scope.hasMoreTopics = resp.hasMore
+        $scope.hasMore = resp.hasMore
       .catch (error) ->
         $scope.error = error
       .finally ->
@@ -39,7 +42,7 @@ angular.module('starter')
   # Export Properties
   angular.extend $scope,
     newTopicModal: null
-    hasMoreTopics: true
+    hasMore: true
     scrollDelegate: $ionicScrollDelegate.$getByHandle('topics-handle')
     loading: false
     error: null
@@ -64,12 +67,11 @@ angular.module('starter')
 
     doRefresh: ->
       if $scope.loading then return
-      $scope.topics = []
       $scope.error = null
-      $scope.hasMoreTopics = true
-      loadTopics()
+      $scope.hasMore = true
+      loadTopics(refresh = true)
 
     loadMore: ->
       if $scope.loading or $scope.error then return
-      loadTopics()
+      loadTopics(refresh = false)
 

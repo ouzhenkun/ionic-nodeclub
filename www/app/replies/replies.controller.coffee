@@ -15,22 +15,22 @@ angular.module('starter')
   $ionicScrollDelegate
 ) ->
 
-  loadReplies = (reload = false) ->
-    $q (resolve, reject) ->
-      $scope.loading = true
-      topicService.getReplies $stateParams.topicId, reload
-        .then (replies) ->
-          # FIXME
-          # 数据大的时候render太慢了，
-          # 先渲染20个，滚动底部再5++
-          $scope.replies = replies
-          resolve(replies)
-        .catch (error) ->
-          reject(error)
-          $scope.error = error
-        .finally ->
-          $scope.$broadcast('scroll.refreshComplete')
-          $scope.loading = false
+  loadReplies = (refresh) ->
+    $scope.loading = true
+    from = if refresh then 0 else $scope.replies.length
+    topicService.getReplies($stateParams.topicId, from, refresh)
+      .then (resp) ->
+        if refresh
+          $scope.replies.length = 0
+        $scope.replies = $scope.replies.concat(resp.replies)
+        $scope.hasMore = resp.hasMore
+        $scope.nTotal = resp.nTotal
+      .catch (error) ->
+        $scope.error = error
+      .finally ->
+        $scope.loading = false
+        $scope.$broadcast('scroll.refreshComplete')
+        $scope.$broadcast('scroll.infiniteScrollComplete')
 
 
   $ionicModal
@@ -41,14 +41,23 @@ angular.module('starter')
   angular.extend $scope,
     loading: false
     error: null
-    replies: null
+    replies: []
+    hasMore: true
+    nTotal: 0
     replyModal: null
     scrollDelegate: $ionicScrollDelegate.$getByHandle('replies-handle')
     newReply:
       content: ''
 
     doRefresh: ->
-      loadReplies(true)
+      if $scope.loading then return
+      $scope.error = null
+      $scope.hasMore = true
+      loadReplies(refresh = true)
+
+    loadMore: ->
+      if $scope.loading or $scope.error then return
+      loadReplies(refresh = false)
 
     toggleLike: (reply) ->
       topicService.toggleLikeReply(reply)
@@ -98,11 +107,8 @@ angular.module('starter')
 
     sendReply: ->
       $ionicLoading.show()
-      topicService.sendReply $stateParams.topicId, $scope.newReply
-        .then ->
-          $scope.clearNewReply()
-          loadReplies(true).then ->
-            $scope.scrollDelegate.scrollBottom(true)
+      topicService.sendReply($stateParams.topicId, $scope.newReply)
+        .then $scope.clearNewReply
         .finally $ionicLoading.hide
 
     showSendAction: ->
@@ -124,4 +130,3 @@ angular.module('starter')
               $scope.clearNewReply()
           return true
 
-  loadReplies()

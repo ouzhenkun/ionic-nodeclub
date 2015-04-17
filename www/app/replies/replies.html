@@ -3,7 +3,12 @@
     <button class="button header-replies-button"
             ng-click="scrollDelegate.scrollBottom(true)"
             ng-if="replies">
-      {{replies.length}}回复
+      <span ng-if="replies.length == nTotal">
+        {{nTotal}}回复
+      </span>
+      <span ng-if="replies.length < nTotal">
+        {{replies.length}}/{{nTotal}}
+      </span>
     </button>
   </ion-nav-buttons>
   <ion-content delegate-handle="replies-handle">
@@ -12,11 +17,6 @@
                    spinner="spiral"
                    on-refresh="doRefresh()">
     </ion-refresher>
-    <div class="text-center padding"
-         ng-if="loading && !replies">
-      <ion-spinner icon="spiral"></ion-spinner>
-      <p>加载中...</p>
-    </div>
     <div class="padding text-center"
          ng-if="error">
       囧，出错啦...
@@ -27,7 +27,7 @@
         暂无回复
       </div>
       <div ng-repeat="reply in replies track by reply.id"
-           class="item reply-item"
+           class="item item-text-wrap reply-item"
            on-hold="showReplyAction(reply)">
         <a class="item-author positive button-link"
            ui-sref="app.user({loginname: reply.author.loginname})">
@@ -81,6 +81,11 @@
         </p>
       </div>
     </div>
+    <ion-infinite-scroll on-infinite="loadMore()"
+                         ng-if="hasMore && !error"
+                         spinner="spiral"
+                         distance="10%">
+    </ion-infinite-scroll>
   </ion-content>
   <auto-sizing-footer>
     <label class="new-reply item-input-wrapper">

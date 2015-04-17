@@ -7,18 +7,21 @@ angular.module('starter')
   Restangular
 ) ->
 
+  TOPICS_PAGE_LIMIT  = config.TOPICS_PAGE_LIMIT
+  REPLIES_PAGE_LIMIT = config.REPLIES_PAGE_LIMIT
+
   cache = {}
 
   reset: ->
     cache = {}
 
 
-  loadMore: (tab, from = 0) ->
+  getTopics: (tab, from = 0) ->
     $q (resolve, reject) ->
-      page = ~~(from / config.PAGE_LIMIT) + 1
+      page = ~~(from / TOPICS_PAGE_LIMIT) + 1
       Restangular
         .one('topics')
-        .get(page: page, limit: config.PAGE_LIMIT, tab: tab)
+        .get(page: page, limit: TOPICS_PAGE_LIMIT, tab: tab)
         .then (resp) ->
           newTopics = resp.data
           # 更新cache topics
@@ -26,7 +29,7 @@ angular.module('starter')
             cache[topic.id] = topic
           resolve
             topics: newTopics
-            hasMore: newTopics.length is config.PAGE_LIMIT
+            hasMore: newTopics.length is TOPICS_PAGE_LIMIT
         .catch resolve
 
   postNew: (data) ->
@@ -49,17 +52,23 @@ angular.module('starter')
           resolve dbTopic
         .catch reject
 
-  getReplies: (topicId, reload) ->
+  getReplies: (topicId, from = 0, reload = false) ->
     $q (resolve, reject) ->
+      genResult = (allReplies) ->
+        currentReplies = allReplies.slice(from, from+REPLIES_PAGE_LIMIT)
+        nTotal = allReplies.length
+        replies: currentReplies
+        hasMore: (from + currentReplies.length) < nTotal
+        nTotal: nTotal
       if !reload and replies = cache[topicId]?.replies
-        return resolve(replies)
+        return resolve genResult(replies)
       Restangular
         .one('topic', topicId)
         .get()
         .then (resp) ->
           dbTopic = resp.data
           cache[topicId] = dbTopic
-          resolve dbTopic.replies
+          resolve genResult(dbTopic.replies)
         .catch reject
 
   sendReply: (topicId, data) ->

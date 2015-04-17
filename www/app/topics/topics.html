@@ -19,12 +19,15 @@
                    spinner="spiral"
                    on-refresh="doRefresh()">
     </ion-refresher>
-    <ion-list>
-      <ion-item class="item-avatar item-topic"
-                collection-repeat="topic in topics"
-                collection-item-width="100%"
-                collection-item-height="72"
-                ui-sref="app.topic({topicId: topic.id})">
+
+    <!-- topics list -->
+    <div class="list">
+      <div class="item item-avatar item-topic"
+           collection-repeat="topic in topics track by topic.id"
+           item-width="100%"
+           item-height="72"
+           item-render-buffer="10"
+           ui-sref="app.topic({topicId: topic.id})">
         <img ng-src="{{topic.author.avatar_url | prefixUrl}}">
         <h2>{{topic.title}}</h2>
         <p>
@@ -39,15 +42,15 @@
                 am-time-ago="topic.last_reply_at">
           </span>
         </p>
-      </ion-item>
-    </ion-list>
+      </div>
+    </div>
     <ion-infinite-scroll on-infinite="loadMore()"
-                         ng-if="hasMoreTopics && !error"
+                         ng-if="hasMore && !error"
                          spinner="spiral"
-                         distance="1%">
+                         distance="10%">
     </ion-infinite-scroll>
     <div class="padding text-center"
-         ng-if="!loading && (!hasMoreTopics || !topics.length)">
+         ng-if="!loading && (!hasMore || !topics.length)">
       <span ng-if="topics.length">没有了...</span>
       <span ng-if="!error && !topics.length">暂无话题</span>
       <span ng-if="error">囧，出错啦...</span>

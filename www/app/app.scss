@@ -154,16 +154,15 @@ textarea {
 }
 .markdown-text {
   margin: 8px 0;
+  color: #444;
   font-size: 15px;
-  white-space: normal;
+  line-height: 1.6em;
   ol, ul {
     list-style-type: decimal;
     padding-left: 20px;
   }
-  p {
-    font-size: 15px;
-    line-height: 1.6em;
-    white-space: normal;
+  p, ol, ul {
+    color: #444;
   }
 }
 .reply-item {

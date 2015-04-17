@@ -8,7 +8,8 @@ angular.module('starter')
   version: 'v1'
 
 .constant 'config',
-  PAGE_LIMIT: 15
+  TOPICS_PAGE_LIMIT: 15
+  REPLIES_PAGE_LIMIT: 30
 
 
 .constant 'tabs', [

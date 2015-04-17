@@ -10,17 +10,16 @@
 
   <ion-side-menu side="left">
     <ion-content>
-      <ion-list>
-        <ion-item nav-clear
-                  collection-repeat="tab in tabs"
-                  collection-item-width="'100%'"
-                  collection-item-height="50"
-                  ui-sref-active="active positive"
-                  ui-sref="app.topics({tab:tab.value})"
-                  menu-close>
+      <div class="list">
+        <div class="item"
+             nav-clear
+             ng-repeat="tab in tabs track by tab.value"
+             ui-sref-active="active positive"
+             ui-sref="app.topics({tab:tab.value})"
+             menu-close>
           {{tab.label}}
-        </ion-item>
-      </ion-list>
+        </div>
+      </div>
     </ion-content>
   </ion-side-menu>
 
