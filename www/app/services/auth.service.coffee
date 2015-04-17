@@ -75,7 +75,7 @@ angular.module('starter')
 
   logout: ->
     storage.remove 'user'
-    $rootScope.$broadcast 'auth.userLogout', {id:1}
+    $rootScope.$broadcast 'auth.userLogout'
     toast '您已登出'
 
   # 我要确保有些操作是用户已经登录了的
