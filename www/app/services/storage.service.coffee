@@ -1,10 +1,10 @@
 angular.module('starter')
 
-.factory 'storage', ($window) ->
+.factory 'storage', ($window, API) ->
 
   localStorage = $window.localStorage
 
-  genKey = (key) -> 'ionichina-' + key
+  genKey = (key) -> API.server + '/' + key
 
   get: (key) ->
     key = genKey key
