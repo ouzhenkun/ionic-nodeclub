@@ -15,7 +15,6 @@ angular.module('starter')
   reset: ->
     cache = {}
 
-
   getTopics: (tab, from = 0) ->
     $q (resolve, reject) ->
       page = ~~(from / TOPICS_PAGE_LIMIT) + 1

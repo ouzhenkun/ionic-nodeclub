@@ -11,21 +11,6 @@ angular.module('starter')
   reset: ->
     cache = {}
 
-  login: (token) ->
-    $q (resolve, reject) ->
-      Restangular
-        .all('accessToken')
-        .post(accesstoken: token)
-        .then (user) ->
-          storage.set 'user', angular.extend(user, token: token)
-          resolve user
-        .catch reject
-
-  logout: ->
-    @reset()
-    # TODO 加 fakeLogout config
-    #storage.remove 'user'
-
   getDetail: (loginname, reload = false) ->
     $q (resolve, reject) ->
       if _.isEmpty(loginname)

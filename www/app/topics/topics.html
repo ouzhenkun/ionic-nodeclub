@@ -1,10 +1,10 @@
 <ion-view view-title="{{selectedTab | tabLabel}}">
   <ion-nav-buttons side="right">
     <button class="button button-icon button-clear ion-ios-compose-outline"
-            ng-click="newTopicModal.show()"></button>
+            ng-click="createNewTopic()"></button>
     <button class="button button-icon button-clear ion-ios-person-outline"
             ng-if="!me"
-            ng-click="loginModal.show()"></button>
+            ng-click="auth.login()"></button>
     <a class="button button-clear header-avatar-button"
        ui-sref="app.user({loginname:me.loginname})"
        ng-if="me">

@@ -3,8 +3,10 @@ angular.module('starter')
 .controller 'TopicCtrl', (
   toast
   $scope
+  $state
   $timeout
   $ionicModal
+  authService
   userService
   topicService
   $stateParams
@@ -39,15 +41,35 @@ angular.module('starter')
           $scope.loading = false
 
     collectTopic: (topic) ->
-      userService.collectTopic topic
+      authService
+        .isAuthenticated()
         .then ->
-          $scope.isCollected = true
-          toast '收藏成功'
+          userService.collectTopic topic
+            .then ->
+              $scope.isCollected = true
+              toast '收藏成功'
 
     deCollectTopic: (topic) ->
-      userService.deCollectTopic topic
+      authService
+        .isAuthenticated()
         .then ->
-          $scope.isCollected = false
+          userService.deCollectTopic topic
+            .then ->
+              $scope.isCollected = false
+              toast '已取消收藏'
+
+    replyTopic: ->
+      authService
+        .isAuthenticated()
+        .then ->
+          $state.go 'app.replies', topicId:$stateParams.topicId
+
+    myCollect: ->
+      authService
+        .isAuthenticated()
+        .then (me) ->
+          $state.go 'app.user', loginname:me.loginname
+
 
   $scope.loadTopic()
   userService.checkCollect $stateParams.topicId

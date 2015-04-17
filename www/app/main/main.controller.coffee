@@ -2,39 +2,21 @@ angular.module('starter')
 
 .controller 'MainCtrl', (
   tabs
-  toast
   $scope
-  $state
   storage
-  userService
-  $ionicModal
-  $ionicLoading
+  authService
 ) ->
 
-  $ionicModal
-    .fromTemplateUrl('app/main/login-modal.html', scope: $scope)
-    .then (modal) ->
-      $scope.loginModal = modal
-
-  # Export Properties
   angular.extend $scope,
-    me: storage.get 'user'
+    me: null
+    # 我要在menu.html里面显示一些tab
     tabs: tabs
-    loginModal: null
+    # 我要在main.html和user.html里调用-
+    # authService的登录和退出方法
+    auth: authService
 
-    doLogin: (token) ->
-      $ionicLoading.show()
-      userService.login(token)
-        .then (user) ->
-          $scope.me = user
-          $scope.loginModal?.hide()
-          toast '登录成功，欢迎您: ' + user.loginname
-        .catch (error) ->
-          toast '登录失败: ' + error?.data?.error_msg
-        .finally $ionicLoading.hide
+  $scope.$on 'auth.userUpdated', (event, user) ->
+    $scope.me = user
 
-    doLogout: ->
-      userService.logout()
-      $scope.me = null
-      toast '您已登出'
-
+  $scope.$on 'auth.userLogout', ->
+    $scope.me = null

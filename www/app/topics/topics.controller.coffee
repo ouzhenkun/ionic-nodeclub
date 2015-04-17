@@ -7,6 +7,7 @@ angular.module('starter')
   $timeout
   $ionicModal
   $stateParams
+  authService
   topicService
   $ionicScrollDelegate
 ) ->
@@ -50,6 +51,12 @@ angular.module('starter')
     topics: []
     tabs: _.filter(tabs, (t) -> t.value isnt 'all')
     newTopic: mkNewTopic()
+
+    createNewTopic: ->
+      authService
+        .isAuthenticated()
+        .then ->
+          $scope.newTopicModal.show()
 
     doPostTopic: ->
       return toast('发布失败：请先选择一个板块。', 2000) if _.isEmpty($scope.newTopic.tab)

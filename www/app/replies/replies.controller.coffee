@@ -1,12 +1,12 @@
 angular.module('starter')
 
 .controller 'RepliesCtrl', (
-  $q
   focus
   toast
   $scope
   $state
   $filter
+  authService
   $ionicModal
   $stateParams
   topicService
@@ -60,15 +60,21 @@ angular.module('starter')
       loadReplies(refresh = false)
 
     toggleLike: (reply) ->
-      topicService.toggleLikeReply(reply)
-        .then (action) ->
-          if action isnt 'up' then return
-          toast '已赞'
+      authService
+        .isAuthenticated()
+        .then ->
+          topicService.toggleLikeReply(reply)
+            .then (action) ->
+              if action isnt 'up' then return
+              toast '已赞'
 
     replyAuthor: (reply) ->
-      $scope.newReply.content = "@#{reply.author.loginname} "
-      $scope.newReply.reply_id = reply.id
-      focus('focus.newReplyInput')
+      authService
+        .isAuthenticated()
+        .then ->
+          $scope.newReply.content = "@#{reply.author.loginname} "
+          $scope.newReply.reply_id = reply.id
+          focus('focus.newReplyInput')
 
     clearNewReply: ->
       $scope.newReply.content = ''
@@ -106,10 +112,13 @@ angular.module('starter')
           return true
 
     sendReply: ->
-      $ionicLoading.show()
-      topicService.sendReply($stateParams.topicId, $scope.newReply)
-        .then $scope.clearNewReply
-        .finally $ionicLoading.hide
+      authService
+        .isAuthenticated()
+        .then ->
+          $ionicLoading.show()
+          topicService.sendReply($stateParams.topicId, $scope.newReply)
+            .then $scope.clearNewReply
+            .finally $ionicLoading.hide
 
     showSendAction: ->
       $ionicActionSheet.show

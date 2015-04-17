@@ -1,6 +1,6 @@
 <ion-view view-title="{{$stateParams.loginname}}">
   <ion-nav-buttons side="right">
-    <button ng-click="doLogout()"
+    <button ng-click="auth.logout()"
             ng-if="me.loginname==user.loginname"
             class="button button-clear">
       登出
