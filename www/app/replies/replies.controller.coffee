@@ -65,8 +65,7 @@ angular.module('starter')
         .then ->
           topicService.toggleLikeReply(reply)
             .then (action) ->
-              if action isnt 'up' then return
-              toast '已赞'
+              toast '已赞' if action is 'up'
 
     replyAuthor: (reply) ->
       authService
