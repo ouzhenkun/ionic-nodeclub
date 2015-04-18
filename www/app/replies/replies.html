@@ -39,7 +39,7 @@
         <span class="item-note" ng-if="reply.ups.length">
           {{reply.ups.length}} 赞
         </span>
-        <div class="reply-content" ng-bind-html="reply.content"></div>
+        <div class="reply-content" ng-bind-html="reply.content | fixLink"></div>
         <p class="reply-content">
           <span class="text-note"
                 am-time-ago="reply.create_at">

@@ -3,8 +3,8 @@ angular.module('starter')
 .filter 'prefixUrl', (API) ->
 
   (input) ->
-    if /^http/i.test(input)
+    if /^http/gi.test(input)
       return input
-    if /^\/\//i.test(input)
+    if /^\/\//gi.test(input)
       return 'https:' + input
     API.server + input

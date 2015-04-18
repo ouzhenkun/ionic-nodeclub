@@ -32,7 +32,7 @@
               am-time-ago="topic.create_at">
         </span>
       </a>
-      <div class="padding-vertical" ng-bind-html="topic.content"></div>
+      <div class="padding-vertical" ng-bind-html="topic.content | fixLink"></div>
     </article>
     <div class="item"
          ng-if="!loading"
