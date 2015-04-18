@@ -3,24 +3,20 @@
     <button class="button header-replies-button"
             ng-click="scrollDelegate.scrollBottom(true)"
             ng-if="replies">
-      <span ng-if="replies.length == nTotal">
-        {{nTotal}}回复
+      <span ng-if="replies.length == allReplies.length">
+        {{allReplies.length}}回复
       </span>
-      <span ng-if="replies.length < nTotal">
-        {{replies.length}}/{{nTotal}}
+      <span ng-if="replies.length < allReplies.length">
+        {{replies.length}}/{{allReplies.length}}
       </span>
     </button>
   </ion-nav-buttons>
-  <ion-content delegate-handle="replies-handle">
+  <ion-content delegate-handle="replies-handle" overflow-scroll="true">
     <ion-refresher pulling-text="下拉刷新..."
                    pulling-icon="ion-ios-arrow-down"
                    spinner="spiral"
                    on-refresh="doRefresh()">
     </ion-refresher>
-    <div class="padding text-center"
-         ng-if="error">
-      囧，出错啦...
-    </div>
     <div class="list">
       <div class="item"
            ng-if="!replies.length && !loading && !error">
@@ -28,6 +24,7 @@
       </div>
       <div ng-repeat="reply in replies track by reply.id"
            class="item item-text-wrap reply-item"
+           ng-init="initReply($index)"
            on-hold="showReplyAction(reply)">
         <a class="item-author positive button-link"
            ui-sref="app.user({loginname: reply.author.loginname})">
@@ -81,11 +78,22 @@
         </p>
       </div>
     </div>
-    <ion-infinite-scroll on-infinite="loadMore()"
-                         ng-if="hasMore && !error"
-                         spinner="spiral"
-                         distance="10%">
-    </ion-infinite-scroll>
+    <div class="text-center padding"
+         ng-if="loading && !replies">
+      <ion-spinner icon="spiral"></ion-spinner>
+      <p>加载中...</p>
+    </div>
+    <div class="padding text-center"
+         ng-if="error">
+      囧，出错啦...
+    </div>
+    <div class="padding"
+         ng-if="replies.length < allReplies.length">
+      <button class="button button-small button-block button-stable"
+              ng-click="displayAll()">
+        显示全部
+      </button>
+    </div>
   </ion-content>
   <auto-sizing-footer>
     <label class="new-reply item-input-wrapper">

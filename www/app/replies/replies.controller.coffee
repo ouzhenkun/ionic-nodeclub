@@ -17,20 +17,15 @@ angular.module('starter')
 
   loadReplies = (refresh) ->
     $scope.loading = true
-    from = if refresh then 0 else $scope.replies.length
-    topicService.getReplies($stateParams.topicId, from, refresh)
-      .then (resp) ->
-        if refresh
-          $scope.replies.length = 0
-        $scope.replies = $scope.replies.concat(resp.replies)
-        $scope.hasMore = resp.hasMore
-        $scope.nTotal = resp.nTotal
+    topicService.getReplies($stateParams.topicId, refresh)
+      .then (allReplies) ->
+        $scope.allReplies = allReplies
+        $scope.replies = allReplies.slice(0, 30)
       .catch (error) ->
         $scope.error = error
       .finally ->
         $scope.loading = false
         $scope.$broadcast('scroll.refreshComplete')
-        $scope.$broadcast('scroll.infiniteScrollComplete')
 
 
   $ionicModal
@@ -41,9 +36,8 @@ angular.module('starter')
   angular.extend $scope,
     loading: false
     error: null
-    replies: []
-    hasMore: true
-    nTotal: 0
+    allReplies: null
+    replies: null
     replyModal: null
     scrollDelegate: $ionicScrollDelegate.$getByHandle('replies-handle')
     newReply:
@@ -52,12 +46,10 @@ angular.module('starter')
     doRefresh: ->
       if $scope.loading then return
       $scope.error = null
-      $scope.hasMore = true
       loadReplies(refresh = true)
 
-    loadMore: ->
-      if $scope.loading or $scope.error then return
-      loadReplies(refresh = false)
+    displayAll: ->
+      $scope.replies = $scope.allReplies
 
     toggleLike: (reply) ->
       authService
@@ -138,3 +130,4 @@ angular.module('starter')
               $scope.clearNewReply()
           return true
 
+  $scope.doRefresh()

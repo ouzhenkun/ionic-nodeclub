@@ -51,23 +51,17 @@ angular.module('starter')
           resolve dbTopic
         .catch reject
 
-  getReplies: (topicId, from = 0, reload = false) ->
+  getReplies: (topicId, reload = false) ->
     $q (resolve, reject) ->
-      genResult = (allReplies) ->
-        currentReplies = allReplies.slice(from, from+REPLIES_PAGE_LIMIT)
-        nTotal = allReplies.length
-        replies: currentReplies
-        hasMore: (from + currentReplies.length) < nTotal
-        nTotal: nTotal
       if !reload and replies = cache[topicId]?.replies
-        return resolve genResult(replies)
+        return resolve replies
       Restangular
         .one('topic', topicId)
         .get()
         .then (resp) ->
           dbTopic = resp.data
           cache[topicId] = dbTopic
-          resolve genResult(dbTopic.replies)
+          resolve dbTopic.replies
         .catch reject
 
   sendReply: (topicId, data) ->
