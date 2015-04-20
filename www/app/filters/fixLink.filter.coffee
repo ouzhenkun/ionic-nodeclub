@@ -1,4 +1,4 @@
-angular.module('starter')
+angular.module('ionic-nodeclub')
 
 #
 # 基于 github.com/lanceli/cnodejs-ionic 的 'link' filter 做了修改

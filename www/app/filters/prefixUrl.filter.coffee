@@ -1,4 +1,4 @@
-angular.module('starter')
+angular.module('ionic-nodeclub')
 
 .filter 'prefixUrl', (API) ->
 

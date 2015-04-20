@@ -1,4 +1,4 @@
-angular.module('starter')
+angular.module('ionic-nodeclub')
 
 .config (RestangularProvider, API) ->
   RestangularProvider.setBaseUrl(API.server + API.path + API.version)

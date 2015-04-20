@@ -1,4 +1,4 @@
-angular.module('starter')
+angular.module('ionic-nodeclub')
 
 .directive 'autoSizingFooter', ($document, $timeout) ->
   restrict: 'E'

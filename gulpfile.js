@@ -49,5 +49,5 @@ gulp.task('watch', function() {
   gulp.watch(paths.bower, ['vender']);
 });
 
-gulp.task('default', ['sass', 'coffee', 'bower']);
+gulp.task('build', ['sass', 'coffee', 'bower']);
 

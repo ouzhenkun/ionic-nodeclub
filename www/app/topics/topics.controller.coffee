@@ -1,4 +1,4 @@
-angular.module('starter')
+angular.module('ionic-nodeclub')
 
 .controller 'TopicsCtrl', (
   tabs

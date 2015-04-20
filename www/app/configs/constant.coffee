@@ -1,4 +1,4 @@
-angular.module('starter')
+angular.module('ionic-nodeclub')
 
 .constant 'API',
   #server: 'http://localhost:3000'

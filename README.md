@@ -1,15 +1,20 @@
-# Ionic Starter
+# Ionic Nodeclub App
 
-a simple ionic starter project, use coffeescript and sass
+一个基于 [Ionic框架](http://ionicframework.com/) 的 hybrid HTML5 app, 使用 coffeescript 和 sass 开发
 
+数据源/API 使用的是开源社区系统 [Nodeclub](https://github.com/cnodejs/nodeclub/)
+
+[online demo](http://zko.me/ionic-nodeclub)
 
 ## Getting started
 
-### to run the app on your browser
-- `npm install` : install build dependencies
-- `bower install` : install app dependencies
-- `gulp` or `gulp watch` : compile the app
-- `ionic serve` : start the app on your browser
+### 在浏览器上运行
+- `npm install -g cordova`
+- `npm install -g ionic`
+- `npm install -g gulp`
+- `cd ionic-nodeclub`
+- `npm install`
+- `bower install`
+- `gulp build` : 编译 Javascript 和 css
+- `ionic serve` : 启动应用在浏览器运行
 
-## TODO
-- 完善README
