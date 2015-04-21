@@ -5,6 +5,7 @@ angular.module('ionic-nodeclub')
   $scope
   storage
   authService
+  messageService
 ) ->
 
   angular.extend $scope,
@@ -17,6 +18,8 @@ angular.module('ionic-nodeclub')
 
   $scope.$on 'auth.userUpdated', (event, user) ->
     $scope.me = user
+    messageService.refreshUnreadCount()
 
   $scope.$on 'auth.userLogout', ->
     $scope.me = null
+    messageService.reset()

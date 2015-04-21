@@ -1,0 +1,41 @@
+<ion-view view-title="我的消息">
+  <ion-nav-buttons side="right">
+    <button class="button button-clear"
+            ng-click="markAsRead()"
+            ng-if="hasnot_read_messages.length">
+      标记为已读
+    </button>
+  </ion-nav-buttons>
+  <ion-content delegate-handle="replies-handle" overflow-scroll="true">
+    <ion-refresher pulling-text="下拉刷新..."
+                   pulling-icon="ion-ios-arrow-down"
+                   spinner="spiral"
+                   on-refresh="doRefresh()">
+    </ion-refresher>
+    <div class="list">
+      <div class="item"
+           ng-if="!has_read_messages.length && !hasnot_read_messages.length && !loading && !error">
+        暂无消息
+      </div>
+      <div class="item item-divider"
+           ng-if="hasnot_read_messages.length">未读消息</div>
+      <message-tile ng-repeat="message in hasnot_read_messages track by message.id"
+                    message="message">
+      </message-tile>
+      <div class="item item-divider"
+           ng-if="has_read_messages.length">已读消息</div>
+      <message-tile ng-repeat="message in has_read_messages track by message.id"
+                    message="message">
+      </message-tile>
+    </div>
+    <div class="text-center padding"
+         ng-if="loading && !has_read_messages && !hasnot_read_messages">
+      <ion-spinner icon="spiral"></ion-spinner>
+      <p>加载中...</p>
+    </div>
+    <div class="padding text-center"
+         ng-if="error">
+      囧，出错啦...
+    </div>
+  </ion-content>
+</ion-view>

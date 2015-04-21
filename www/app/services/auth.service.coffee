@@ -24,7 +24,6 @@ angular.module('ionic-nodeclub')
       checkToken token
         .then (user) ->
           toast '登录成功，欢迎您: ' + user.loginname
-          storage.set 'user', angular.extend(user, token: token)
           $scope.loginModal?.hide()
         .catch (error) ->
           toast '登录失败: ' + error?.data?.error_msg
@@ -48,6 +47,7 @@ angular.module('ionic-nodeclub')
         .all('accessToken')
         .post(accesstoken: token)
         .then (user) ->
+          storage.set 'user', angular.extend(user, token: token)
           $rootScope.$broadcast 'auth.userUpdated', user
           resolve user
         .catch reject

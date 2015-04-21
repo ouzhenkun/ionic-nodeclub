@@ -20,6 +20,12 @@
            alt="{{user.loginname}}"
            src="{{user.avatar_url | prefixUrl}}">
       <h2>{{user.loginname}}</h2>
+      <a ui-sref="app.messages"
+         ng-if="me.loginname==user.loginname"
+         class="badge badge-assertive unread-message-count"
+         ng-class="{'badge-dark':messageService.getUnreadCount() == 0}">
+        {{messageService.getUnreadCount()}} 消息
+      </a>
       <p>{{user.score}}积分</p>
     </div>
     <div class="item item-body" ng-if="user">
