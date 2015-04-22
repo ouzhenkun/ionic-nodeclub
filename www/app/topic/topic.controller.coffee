@@ -15,55 +15,45 @@ angular.module('ionic-nodeclub')
   $ionicActionSheet
 ) ->
 
+  collectTopic = ->
+    authService
+      .isAuthenticated()
+      .then ->
+        if $scope.isCollected
+          userService.deCollectTopic $scope.topic
+            .then ->
+              $scope.isCollected = false
+              toast '已取消收藏'
+        else
+          userService.collectTopic $scope.topic
+            .then ->
+              $scope.isCollected = true
+              toast '收藏成功'
+
+  loadTopic = (refresh) ->
+    $scope.loading = true
+    topicService.getDetail $stateParams.topicId, refresh
+      .then (topic) ->
+        $scope.topic = topic
+      .catch (error) ->
+        $scope.error = error
+      .finally ->
+        $scope.loading = false
+        $scope.$broadcast('scroll.refreshComplete')
+
   angular.extend $scope,
     loading: false
     isCollected: false
     error: null
     topic: null
 
-    loadTopic: (reload = false) ->
-      $scope.loading = true
-      topicService.getDetail $stateParams.topicId, reload
-        .then (topic) ->
-          $scope.topic = topic
-        .catch (error) ->
-          $scope.error = error
-        .finally ->
-          $scope.loading = false
-
-    collectTopic: (topic) ->
-      authService
-        .isAuthenticated()
-        .then ->
-          if $scope.isCollected
-            userService.deCollectTopic topic
-              .then ->
-                $scope.isCollected = false
-                toast '已取消收藏'
-          else
-            userService.collectTopic topic
-              .then ->
-                $scope.isCollected = true
-                toast '收藏成功'
-
-    replyTopic: ->
-      authService
-        .isAuthenticated()
-        .then ->
-          $state.go 'app.replies', topicId:$stateParams.topicId
-
-    myCollect: ->
-      authService
-        .isAuthenticated()
-        .then (me) ->
-          $state.go 'app.user', loginname:me.loginname
+    doRefresh: ->
+      loadTopic(refresh = true)
 
     showTopicAction: ->
       $ionicActionSheet.show
         buttons: [
-          text: '重新加载'
-        ,
-          text: '回复话题'
+          text: '话题回复'
         ,
           text: if !$scope.isCollected then '收藏话题' else '取消收藏'
         ,
@@ -74,20 +64,17 @@ angular.module('ionic-nodeclub')
         buttonClicked: (index) ->
           switch index
             when 0
-              $scope.loadTopic(true)
+              $state.go 'app.replies', topicId:$stateParams.topicId
             when 1
-              $scope.replyTopic()
+              collectTopic()
             when 2
-              $scope.collectTopic()
-            when 3
               $state.go 'app.user', loginname: $scope.topic.author.loginname
             else
               window.open "#{API.server}/topic/#{$stateParams.topicId}", '_system'
           return true
 
 
-
-  $scope.loadTopic()
+  loadTopic(refresh = false)
   userService.checkCollect $stateParams.topicId
     .then (isCollected) ->
       $scope.isCollected = isCollected

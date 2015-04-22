@@ -8,8 +8,13 @@
   </ion-nav-buttons>
   <!-- TODO overflow-scroll="true" -->
   <ion-content>
+    <ion-refresher pulling-text="下拉刷新..."
+                   pulling-icon="ion-ios-arrow-down"
+                   spinner="spiral"
+                   on-refresh="doRefresh()">
+    </ion-refresher>
     <div class="text-center padding"
-         ng-if="loading">
+         ng-if="loading && !topic">
       <ion-spinner icon="spiral"></ion-spinner>
       <p>加载中...</p>
     </div>
