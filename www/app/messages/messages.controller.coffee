@@ -32,7 +32,7 @@ angular.module('ionic-nodeclub')
       messageService.markAllAsRead()
         .then ->
           $ionicLoading.hide()
-          toast $scope.hasnot_read_messages.length + '个被标记为已读'
+          toast $scope.hasnot_read_messages.length + '个消息被标记为已读'
           loadMessages(refresh = true)
         .catch ->
           $ionicLoading.hide()
