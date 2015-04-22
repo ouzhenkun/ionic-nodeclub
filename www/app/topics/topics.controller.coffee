@@ -5,15 +5,17 @@ angular.module('ionic-nodeclub')
   toast
   $scope
   $timeout
+  authService
   $ionicModal
   $stateParams
-  authService
+  $ionicPopover
   topicService
   $ionicScrollDelegate
 ) ->
 
   $ionicModal
-    .fromTemplateUrl('app/topics/new-topic-modal.html', scope: $scope)
+    .fromTemplateUrl 'app/topics/new-topic-modal.html',
+      scope: $scope
     .then (modal) ->
       $scope.newTopicModal = modal
 

@@ -14,6 +14,9 @@
     left: -1px;
     bottom: -5px;
   }
+  span {
+    margin: 0 !important;
+  }
 }
 .header-avatar-button {
   line-height: 34px;
@@ -37,10 +40,28 @@
     color: $button-positive-active-bg !important;
   }
 }
+.button-float {
+  position: fixed;
+  bottom: 16px;
+  right: 16px;
+  border: none;
+  border-radius: 50%;
+  min-width: 3em;
+  min-height: 3em;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+  z-index: 20;
+  @include transition(0.2s linear);
+  @include transition-property('background-color, box-shadow');
+  &.active,
+  &.activated {
+    box-shadow: 0 3px 7px 0 rgba(0, 0, 0, 0.36) !important;
+  }
+}
 .reply-button {
   margin-left: 0 !important;
   font-size: 16px !important;
   border: none;
+  background-color: #EEE;
 }
 .new-reply {
   background: none;

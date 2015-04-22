@@ -1,9 +1,11 @@
 angular.module('ionic-nodeclub')
 
 .controller 'MessagesCtrl', (
+  toast
   $scope
-  messageService
   $stateParams
+  $ionicLoading
+  messageService
 ) ->
 
   loadMessages = (refresh) ->
@@ -26,7 +28,13 @@ angular.module('ionic-nodeclub')
     doRefresh: ->
       loadMessages(refresh = true)
     markAsRead: ->
+      $ionicLoading.show()
       messageService.markAllAsRead()
-        .then -> loadMessages(refresh = true)
+        .then ->
+          $ionicLoading.hide()
+          toast $scope.hasnot_read_messages.length + '个被标记为已读'
+          loadMessages(refresh = true)
+        .catch ->
+          $ionicLoading.hide()
 
   loadMessages(refresh = false)

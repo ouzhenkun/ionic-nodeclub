@@ -5,10 +5,6 @@
             ng-if="topic">
       {{topic.reply_count}}回复
     </button>
-    <button class="button button-icon icon icon-more"
-            ng-if="popover"
-            ng-click="popover.show($event)">
-    </button>
   </ion-nav-buttons>
   <!-- TODO overflow-scroll="true" -->
   <ion-content>
@@ -40,10 +36,17 @@
          ui-sref="app.replies({topicId: topic.id})">
       <span ng-if="topic.reply_count">
         {{topic.reply_count}} 回复
+        <small class="text-note"> -
+          <span am-time-ago="topic.last_reply_at">
+          </span>
+        </small>
       </span>
       <span ng-if="!topic.reply_count">
         暂无回复
       </span>
     </div>
   </ion-content>
+  <button class="button-float button button-stable icon icon-more-action"
+          ng-if="!hasnot_read_messages.length"
+          ng-click="showTopicAction()"></button>
 </ion-view>

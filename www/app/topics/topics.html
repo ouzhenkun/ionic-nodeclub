@@ -1,9 +1,7 @@
 <ion-view view-title="{{selectedTab | tabLabel}}">
   <ion-nav-buttons side="right">
-    <button class="button button-icon icon icon-new-topic"
-            ng-click="createNewTopic()"></button>
     <span ng-if="!me">
-      <button class="button button-icon icon ion-ios-person-outline"
+      <button class="button button-icon icon icon-person"
               ng-click="auth.login()"></button>
     </span>
     <span ng-if="me">
@@ -14,8 +12,6 @@
              ng-src="{{me.avatar_url | prefixUrl}}">
       </a>
     </span>
-    <button class="button button-icon icon icon-more"
-            ng-click="more()"></button>
   </ion-nav-buttons>
   <!-- TODO overflow-scroll="true" -->
   <ion-content delegate-handle="topics-handle">
@@ -61,4 +57,6 @@
       <span ng-if="error">囧，出错啦...</span>
     </div>
   </ion-content>
+  <button class="button-float button button-assertive icon icon-new-topic"
+          ng-click="createNewTopic()"></button>
 </ion-view>

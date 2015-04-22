@@ -25,7 +25,7 @@ angular.module('ionic-nodeclub')
         .then (user) ->
           toast '登录成功，欢迎您: ' + user.loginname
           $scope.loginModal?.hide()
-        .catch (error) ->
+        , (error) ->
           toast '登录失败: ' + error?.data?.error_msg
 
   $ionicModal
@@ -47,11 +47,13 @@ angular.module('ionic-nodeclub')
         .all('accessToken')
         .post(accesstoken: token)
         .then (user) ->
+          $ionicLoading.hide()
           storage.set 'user', angular.extend(user, token: token)
           $rootScope.$broadcast 'auth.userUpdated', user
           resolve user
-        .catch reject
-        .finally $ionicLoading.hide
+        , (error) ->
+          $ionicLoading.hide()
+          reject(error)
 
   #
   # 我要在初始化的时候检查localStorage的token是否合法

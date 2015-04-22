@@ -1,19 +1,25 @@
-.icon-new-topic {
-  @extend .ion-ios-compose-outline;
+.icon-person {
+ @extend .ion-ios-person-outline;
 }
-.icon-more {
-  @extend .ion-ios-more;
+.icon-new-topic {
+  @extend .ion-ios-paperplane;
+}
+.icon-more-action {
+  @extend .ion-android-more-vertical;
 }
 .icon-close {
   @extend .ion-ios-close-empty;
 }
+.icon-done-all {
+  @extend .ion-android-done-all;
+}
 
 .platform-android {
+  .icon-person {
+   @extend .ion-android-person;
+  }
   .icon-new-topic {
     @extend .ion-android-add;
-  }
-  .icon-more {
-    @extend .ion-android-more-vertical;
   }
   .icon-close {
     @extend .ion-android-close;
