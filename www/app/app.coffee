@@ -1,5 +1,6 @@
 angular.module('ionic-nodeclub', [
   'ionic'
+  'ngCordova'
   'restangular'
   'angularMoment'
   'btford.markdown'

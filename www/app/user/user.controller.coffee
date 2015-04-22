@@ -14,7 +14,6 @@ angular.module('ionic-nodeclub')
           'collect_topics'
         else
           'recent_topics'
-      console.log 'user', $scope.user
 
   angular.extend $scope,
     user: null

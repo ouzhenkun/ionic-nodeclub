@@ -6,14 +6,21 @@ angular.module('ionic-nodeclub')
   $scope
   $state
   $filter
+  $window
   authService
   $ionicModal
   $stateParams
   topicService
   $ionicLoading
+  $cordovaClipboard
   $ionicActionSheet
   $ionicScrollDelegate
 ) ->
+
+  $ionicModal
+    .fromTemplateUrl('app/replies/reply-preview-modal.html', scope: $scope)
+    .then (modal) ->
+      $scope.replyModal = modal
 
   loadReplies = (refresh) ->
     $scope.loading = true
@@ -26,12 +33,6 @@ angular.module('ionic-nodeclub')
       .finally ->
         $scope.loading = false
         $scope.$broadcast('scroll.refreshComplete')
-
-
-  $ionicModal
-    .fromTemplateUrl('app/replies/reply-preview-modal.html', scope: $scope)
-    .then (modal) ->
-      $scope.replyModal = modal
 
   angular.extend $scope,
     loading: false
@@ -86,7 +87,14 @@ angular.module('ionic-nodeclub')
         buttonClicked: (index) ->
           switch index
             when 0
-              console.log 'copy...', $filter('toMarkdown')(reply.content)
+              text = $filter('toMarkdown')(reply.content)
+              if $window.cordova
+                $cordovaClipboard
+                  .copy text
+                  .then ->
+                    toast '已拷贝到粘贴板'
+              else
+                console.log 'copy...' + text
             when 1
               quote = $filter('toMarkdown')(reply.content)
               quote = '\n' + quote.trim().replace(/([^\n]+)\n*/g, '>$1\n>\n')
@@ -122,12 +130,9 @@ angular.module('ionic-nodeclub')
         ]
         buttonClicked: (index) ->
           switch index
-            when 0
-              $scope.sendReply()
-            when 1
-              $scope.replyModal.show()
-            else
-              $scope.clearNewReply()
+            when 0 then $scope.sendReply()
+            when 1 then $scope.replyModal.show()
+            else        $scope.clearNewReply()
           return true
 
   $scope.doRefresh()
