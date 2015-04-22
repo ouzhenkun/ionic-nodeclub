@@ -21,5 +21,12 @@
         </label>
       </div>
     </form>
+    <div class="padding text-center" ng-if="canScan">
+      OR
+      <br/>
+      <button class="button button-block button-positive"
+              type="button"
+              ng-click="doScan()">扫码登录</button>
+    </div>
   </ion-content>
 </ion-modal-view>

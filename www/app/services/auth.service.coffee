@@ -4,11 +4,13 @@ angular.module('ionic-nodeclub')
   $q
   toast
   storage
+  $window
   $timeout
   $rootScope
   Restangular
   $ionicModal
   $ionicLoading
+  $cordovaBarcodeScanner
 ) ->
 
   #
@@ -19,6 +21,7 @@ angular.module('ionic-nodeclub')
 
   angular.extend $scope,
     loginModal: null
+    canScan: $window.cordova
 
     doLogin: (token) ->
       checkToken token
@@ -27,6 +30,17 @@ angular.module('ionic-nodeclub')
           $scope.loginModal?.hide()
         , (error) ->
           toast '登录失败: ' + error?.data?.error_msg
+
+    doScan: ->
+      # FIXME 屏幕旋转，login-modal 界面显示有点乱
+      $cordovaBarcodeScanner
+        .scan()
+        .then (imageData) =>
+          $scope.loginModal?.hide()
+          toast '扫码成功，正在登录...'
+          @doLogin(imageData.text)
+        , (error) ->
+          toast '扫码错误 ' + error
 
   $ionicModal
     .fromTemplateUrl('app/main/login-modal.html', scope: $scope)
