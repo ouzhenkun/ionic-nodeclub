@@ -1,0 +1,24 @@
+.icon-new-topic {
+  @extend .ion-ios-compose-outline;
+}
+.icon-more {
+  @extend .ion-ios-more;
+}
+.icon-close {
+  @extend .ion-ios-close-empty;
+}
+
+.platform-android {
+  .icon-new-topic {
+    @extend .ion-android-add;
+  }
+  .icon-more {
+    @extend .ion-android-more-vertical;
+  }
+  .icon-close {
+    @extend .ion-android-close;
+  }
+}
+.platform-ios {
+
+}

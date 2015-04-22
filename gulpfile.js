@@ -7,7 +7,7 @@ var minifyCss = require('gulp-minify-css');
 var bowerFiles = require("main-bower-files");
 
 var paths = {
-  sass: ['./www/app/**/*.scss'],
+  sass: ['./www/app/scss/*.scss'],
   coffee: ['./www/app/**/*.coffee'],
   bower: ['./www/lib/*.js']
 };
@@ -18,7 +18,7 @@ var handleError = function(error) {
 }
 
 gulp.task('sass', function(done) {
-  gulp.src(paths.sass)
+  gulp.src('./www/app/scss/app.bundle.scss')
     .pipe(sass().on('error', handleError))
     .pipe(rename({ extname: '.css' }))
     .pipe(minifyCss({ keepSpecialComments: 0 }))

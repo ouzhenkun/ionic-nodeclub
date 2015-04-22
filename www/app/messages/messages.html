@@ -1,6 +1,6 @@
 <ion-view view-title="我的消息">
   <ion-nav-buttons side="right">
-    <button class="button button-clear"
+    <button class="button button-small button-positive"
             ng-click="markAsRead()"
             ng-if="hasnot_read_messages.length">
       标记为已读
@@ -13,17 +13,15 @@
                    on-refresh="doRefresh()">
     </ion-refresher>
     <div class="list">
-      <div class="item"
-           ng-if="!has_read_messages.length && !hasnot_read_messages.length && !loading && !error">
-        暂无消息
-      </div>
-      <div class="item item-divider"
-           ng-if="hasnot_read_messages.length">未读消息</div>
       <message-tile ng-repeat="message in hasnot_read_messages track by message.id"
                     message="message">
       </message-tile>
-      <div class="item item-divider"
-           ng-if="has_read_messages.length">已读消息</div>
+      <div class="item"
+           ng-if="!hasnot_read_messages.length && !loading && !error">
+        暂无未读消息
+      </div>
+      <div ng-if="has_read_messages.length"
+           class="item item-divider">已读消息</div>
       <message-tile ng-repeat="message in has_read_messages track by message.id"
                     message="message">
       </message-tile>

@@ -1,10 +1,10 @@
 angular.module('ionic-nodeclub')
 
-.directive 'autoSizingFooter', ($document, $timeout) ->
+.directive 'elasticFooter', ($document, $timeout) ->
   restrict: 'E'
   controller: '$ionicHeaderBar'
   compile: ($element, $attrs) ->
-    $element.addClass 'bar bar-footer auto-sizing-footer'
+    $element.addClass 'bar bar-footer elastic-footer'
 
     pre: ($scope, $element, $attrs) ->
 

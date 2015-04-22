@@ -1,17 +1,21 @@
 <ion-view view-title="{{selectedTab | tabLabel}}">
   <ion-nav-buttons side="right">
-    <button class="button button-icon button-clear ion-ios-compose-outline"
+    <button class="button button-icon icon icon-new-topic"
             ng-click="createNewTopic()"></button>
-    <button class="button button-icon button-clear ion-ios-person-outline"
-            ng-if="!me"
-            ng-click="auth.login()"></button>
-    <a class="button button-clear header-avatar-button"
-       ui-sref="app.user({loginname:me.loginname})"
-       ng-if="me">
-      <img class="avatar"
-           alt="{{me.loginname}}"
-           ng-src="{{me.avatar_url | prefixUrl}}">
-    </a>
+    <!--<span ng-if="!me">-->
+      <!--<button class="button button-icon icon ion-ios-person-outline"-->
+              <!--ng-click="auth.login()"></button>-->
+    <!--</span>-->
+    <!--<span ng-if="me">-->
+      <!--<a class="button button-icon icon header-avatar-button"-->
+         <!--ui-sref="app.user({loginname:me.loginname})">-->
+        <!--<img class="avatar"-->
+             <!--alt="{{me.loginname}}"-->
+             <!--ng-src="{{me.avatar_url | prefixUrl}}">-->
+      <!--</a>-->
+    <!--</span>-->
+    <button class="button button-icon icon icon-more"
+            ng-click="more()"></button>
   </ion-nav-buttons>
   <!-- TODO overflow-scroll="true" -->
   <ion-content delegate-handle="topics-handle">
