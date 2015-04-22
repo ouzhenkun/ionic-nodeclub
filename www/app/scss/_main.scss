@@ -74,6 +74,31 @@ textarea {
     padding-left: 28px;
   }
 }
-.unread-message-count {
-  text-decoration: none;
+.user-item-body {
+  p {
+    margin-top: 0;
+  }
+  .button-icon {
+    min-height: 0;
+    height: 35px;
+    line-height: 1;
+    padding: 0;
+    &:before {
+      font-size: 21px!important;
+      line-height: 13px;
+    }
+  }
+}
+.unread-message-dot {
+  &:before {
+    content: ' ';
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background-color: #FD4638;
+    border-radius: 50%;
+    top: 3px;
+    right: 10px;
+    box-shadow: 1px 1px 1px gray;
+  }
 }

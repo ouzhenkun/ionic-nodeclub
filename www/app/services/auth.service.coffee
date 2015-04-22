@@ -61,7 +61,8 @@ angular.module('ionic-nodeclub')
   #
   if tokenToInit = storage.get('user')?.token
     checkToken(tokenToInit)
-      .catch ->
+      .catch (error) ->
+        console.log 'login error=' + error
         storage.remove 'user'
         toast '登录失败: ' + error?.data?.error_msg
 

@@ -20,21 +20,25 @@
            alt="{{user.loginname}}"
            src="{{user.avatar_url | prefixUrl}}">
       <h2>{{user.loginname}}</h2>
-      <a ui-sref="app.messages"
-         ng-if="me.loginname==user.loginname"
-         class="badge badge-assertive unread-message-count"
-         ng-class="{'badge-dark':messageService.getUnreadCount() == 0}">
-        {{messageService.getUnreadCount()}} 消息
-      </a>
       <p>{{user.score}}积分</p>
     </div>
-    <div class="item item-body" ng-if="user">
+    <div class="item item-body user-item-body" ng-if="user">
+      <div ng-if="me.loginname==user.loginname">
+        <a ui-sref="app.messages"
+           ng-if="msg.getUnreadCount() > 0"
+           class="button button-icon icon assertive ion-email-unread">
+          {{msg.getUnreadCount()}}个未读消息
+        </a>
+        <a ui-sref="app.messages"
+           ng-if="msg.getUnreadCount() == 0"
+           class="button button-icon icon ion-email">
+          我的消息
+        </a>
+      </div>
       <a external-link="https://github.com/{{user.githubUsername}}"
-         href
          ng-if="user.githubUsername"
-         class="subdued">
-        <i class="ion ion-social-github"></i>
-        &nbsp;@{{user.githubUsername}}
+         class="button button-icon icon ion-social-github">
+        @{{user.githubUsername}}
       </a>
       <p class="subdued">
         注册时间：<span am-time-ago="user.create_at"></span>

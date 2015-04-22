@@ -6,6 +6,7 @@
     </span>
     <span ng-if="me">
       <a class="button button-icon icon header-avatar-button"
+         ng-class="{'unread-message-dot':msg.getUnreadCount() > 0}"
          ui-sref="app.user({loginname:me.loginname})">
         <img class="avatar"
              alt="{{me.loginname}}"

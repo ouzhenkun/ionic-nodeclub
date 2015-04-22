@@ -4,7 +4,6 @@ angular.module('ionic-nodeclub')
   $scope
   userService
   $stateParams
-  messageService
 ) ->
 
   userService.getDetail($stateParams.loginname, true)
@@ -21,7 +20,6 @@ angular.module('ionic-nodeclub')
     user: null
     displayType: null
     $stateParams: $stateParams
-    messageService: messageService
 
     isCollectVisible: ->
       isMyDetail = $scope.user and $scope.me?.loginname is $scope.user?.loginname
