@@ -53,15 +53,15 @@ angular.module('ionic-nodeclub')
 
   getReplies: (topicId, reload = false) ->
     $q (resolve, reject) ->
-      if !reload and replies = cache[topicId]?.replies
-        return resolve replies
+      if !reload and topic = cache[topicId]
+        return resolve topic if topic?.replies
       Restangular
         .one('topic', topicId)
         .get()
         .then (resp) ->
           dbTopic = resp.data
           cache[topicId] = dbTopic
-          resolve dbTopic.replies
+          resolve dbTopic
         .catch reject
 
   sendReply: (topicId, data) ->

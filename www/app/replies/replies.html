@@ -2,12 +2,12 @@
   <ion-nav-buttons side="right">
     <button class="button header-replies-button"
             ng-click="scrollDelegate.scrollBottom(true)"
-            ng-if="replies">
-      <span ng-if="replies.length == allReplies.length">
-        {{allReplies.length}}回复
+            ng-if="displayReplies">
+      <span ng-if="displayReplies.length == topic.replies.length">
+        {{topic.replies.length}}回复
       </span>
-      <span ng-if="replies.length < allReplies.length">
-        {{replies.length}}/{{allReplies.length}}
+      <span ng-if="displayReplies.length < topic.replies.length">
+        {{displayReplies.length}}/{{topic.replies.length}}
       </span>
     </button>
   </ion-nav-buttons>
@@ -19,11 +19,15 @@
                    on-refresh="doRefresh()">
     </ion-refresher>
     <div class="list">
+      <div class="item item-divider item-text-wrap">
+        <a class="button-link"
+           ui-sref="app.topic({topicId: topic.id})">{{topic.title}}</a>
+      </div>
       <div class="item"
-           ng-if="!replies.length && !loading && !error">
+           ng-if="!displayReplies.length && !loading && !error">
         暂无回复
       </div>
-      <div ng-repeat="reply in replies track by reply.id"
+      <div ng-repeat="reply in displayReplies track by reply.id"
            class="item item-text-wrap reply-item"
            ng-init="initReply($index)"
            on-hold="showReplyAction(reply)">
@@ -80,7 +84,7 @@
       </div>
     </div>
     <div class="text-center padding"
-         ng-if="loading && !replies">
+         ng-if="loading && !displayReplies">
       <ion-spinner icon="spiral"></ion-spinner>
       <p>加载中...</p>
     </div>
@@ -89,7 +93,7 @@
       囧，出错啦...
     </div>
     <div class="padding"
-         ng-if="replies.length < allReplies.length">
+         ng-if="displayReplies.length < topic.replies.length">
       <button class="button button-small button-block button-stable"
               ng-click="displayAll()">
         显示全部

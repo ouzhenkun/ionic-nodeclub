@@ -18,9 +18,9 @@ angular.module('ionic-nodeclub')
   loadReplies = (refresh) ->
     $scope.loading = true
     topicService.getReplies($stateParams.topicId, refresh)
-      .then (allReplies) ->
-        $scope.allReplies = allReplies
-        $scope.replies = allReplies.slice(0, 30)
+      .then (topic) ->
+        $scope.topic = topic
+        $scope.displayReplies = topic.replies.slice(0, 30)
       .catch (error) ->
         $scope.error = error
       .finally ->
@@ -36,8 +36,8 @@ angular.module('ionic-nodeclub')
   angular.extend $scope,
     loading: false
     error: null
-    allReplies: null
-    replies: null
+    topic: null
+    displayReplies: null
     replyModal: null
     scrollDelegate: $ionicScrollDelegate.$getByHandle('replies-handle')
     newReply:
@@ -49,7 +49,7 @@ angular.module('ionic-nodeclub')
       loadReplies(refresh = true)
 
     displayAll: ->
-      $scope.replies = $scope.allReplies
+      $scope.displayReplies = $scope.topic.replies
 
     toggleLike: (reply) ->
       authService
