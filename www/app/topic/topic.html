@@ -3,7 +3,7 @@
     <button class="button header-replies-button"
             ui-sref="app.replies({topicId: topic.id})"
             ng-if="topic">
-      {{topic.reply_count}}回复
+      {{::topic.reply_count}}回复
     </button>
   </ion-nav-buttons>
   <!-- TODO overflow-scroll="true" -->
@@ -25,25 +25,25 @@
     <article class="padding"
              on-hold="showTopicAction()"
              ng-if="!loading">
-      <h3>{{topic.title}}</h3>
+      <h3>{{::topic.title}}</h3>
       <hr clas="stable"/>
       <a class="item-author positive button-link"
          ui-sref="app.user({loginname: topic.author.loginname})">
-        <img ng-if="topic.author.avatar_url" class="avatar" src="{{topic.author.avatar_url | prefixUrl}}">
-        {{topic.author.loginname}}
+        <img ng-if="topic.author.avatar_url" class="avatar" src="{{::topic.author.avatar_url | prefixUrl}}">
+        {{::topic.author.loginname}}
         <span class="item-note"
-              am-time-ago="topic.create_at">
+              am-time-ago="::topic.create_at">
         </span>
       </a>
-      <div class="padding-vertical" ng-bind-html="topic.content | fixLink"></div>
+      <div class="padding-vertical" ng-bind-html="::topic.content | fixLink"></div>
     </article>
     <div class="item"
          ng-if="!loading"
          ui-sref="app.replies({topicId: topic.id})">
       <span ng-if="topic.reply_count">
-        {{topic.reply_count}} 回复
+        {{::topic.reply_count}} 回复
         <small class="text-note"> -
-          <span am-time-ago="topic.last_reply_at">
+          <span am-time-ago="::topic.last_reply_at">
           </span>
         </small>
       </span>

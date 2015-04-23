@@ -19,7 +19,7 @@
     </div>
     <div class="list">
       <message-tile ng-repeat="message in hasnot_read_messages track by message.id"
-                    message="message">
+                    message="::message">
       </message-tile>
       <div class="item"
            ng-if="!hasnot_read_messages.length && hasnot_read_messages && !error">
@@ -28,7 +28,7 @@
       <div ng-if="has_read_messages.length"
            class="item item-divider">已读消息</div>
       <message-tile ng-repeat="message in has_read_messages track by message.id"
-                    message="message">
+                    message="::message">
       </message-tile>
     </div>
   </ion-content>

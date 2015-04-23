@@ -19,11 +19,11 @@
         <div class="item item-divider">板块列表</div>
         <div class="item"
              nav-clear
-             ng-repeat="tab in tabs track by tab.value"
+             ng-repeat="tab in ::tabs"
              ui-sref-active="active positive"
              ui-sref="app.topics({tab:tab.value})"
              menu-close>
-          {{tab.label}}
+          {{::tab.label}}
         </div>
       </div>
     </ion-content>

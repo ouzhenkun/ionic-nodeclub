@@ -4,10 +4,10 @@
             ng-click="scrollDelegate.scrollBottom(true)"
             ng-if="displayReplies">
       <span ng-if="displayReplies.length == topic.replies.length">
-        {{topic.replies.length}}回复
+        {{::topic.replies.length}}回复
       </span>
       <span ng-if="displayReplies.length < topic.replies.length">
-        {{displayReplies.length}}/{{topic.replies.length}}
+        {{::displayReplies.length}}/{{::topic.replies.length}}
       </span>
     </button>
   </ion-nav-buttons>
@@ -21,7 +21,7 @@
     <div class="list">
       <div class="item item-divider item-text-wrap">
         <a class="button-link"
-           ui-sref="app.topic({topicId: topic.id})">{{topic.title}}</a>
+           ui-sref="app.topic({topicId: topic.id})">{{::topic.title}}</a>
       </div>
       <div class="item"
            ng-if="!displayReplies.length && !loading && !error">
@@ -34,17 +34,17 @@
         <a class="item-author positive button-link"
            ui-sref="app.user({loginname: reply.author.loginname})">
           <img class="avatar"
-               alt="{{reply.author.loginname}}"
-               src="{{reply.author.avatar_url | prefixUrl}}">
-          {{reply.author.loginname}}
+               alt="{{::reply.author.loginname}}"
+               src="{{::reply.author.avatar_url | prefixUrl}}">
+          {{::reply.author.loginname}}
         </a>
         <span class="item-note" ng-if="reply.ups.length">
           {{reply.ups.length}} 赞
         </span>
-        <div class="reply-content" ng-bind-html="reply.content | fixLink"></div>
+        <div class="reply-content" ng-bind-html="::reply.content | fixLink"></div>
         <p class="reply-content">
           <span class="text-note"
-                am-time-ago="reply.create_at">
+                am-time-ago="::reply.create_at">
           </span>
           &nbsp;
           <span ng-if="newReply.reply_id != reply.id">

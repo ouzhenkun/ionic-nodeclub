@@ -15,6 +15,7 @@ img {
   .avatar {
     border-radius: 4px;
     height: 16px;
+    width: 16px;
     float: left;
     margin-right: 5px;
     margin-top: 2px;
@@ -61,8 +62,9 @@ textarea {
   ol, ul {
     list-style-type: decimal;
     padding-left: 20px;
+    color: #444;
   }
-  p, ol, ul {
+  p {
     color: #444;
     white-space: pre-wrap;
   }
@@ -70,6 +72,7 @@ textarea {
 .reply-item {
   .avatar {
     height: 22px;
+    width: 22px;
   }
   .reply-content {
     padding-left: 28px;

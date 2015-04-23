@@ -17,10 +17,10 @@
     <div class="item item-avatar"
          ng-if="user">
       <img ng-if="user.avatar_url"
-           alt="{{user.loginname}}"
-           src="{{user.avatar_url | prefixUrl}}">
-      <h2>{{user.loginname}}</h2>
-      <p>{{user.score}}积分</p>
+           alt="{{::user.loginname}}"
+           src="{{::user.avatar_url | prefixUrl}}">
+      <h2>{{::user.loginname}}</h2>
+      <p>{{::user.score}}积分</p>
     </div>
     <div class="item item-body user-item-body" ng-if="user">
       <div ng-if="me.loginname==user.loginname">
@@ -35,13 +35,13 @@
           我的消息
         </a>
       </div>
-      <a external-link="https://github.com/{{user.githubUsername}}"
+      <a external-link="https://github.com/{{::user.githubUsername}}"
          ng-if="user.githubUsername"
          class="button button-icon icon ion-social-github">
-        @{{user.githubUsername}}
+        @{{::user.githubUsername}}
       </a>
       <p class="subdued">
-        注册时间：<span am-time-ago="user.create_at"></span>
+        注册时间：<span am-time-ago="::user.create_at"></span>
       </p>
     </div>
 
@@ -54,7 +54,7 @@
          ng-class="{'active positive':displayType=='collect_topics'}"
          ng-click="changeType('collect_topics')">
         <i class="icon ion-star"></i>
-        {{user.collect_topics.length}}话题收藏
+        {{::user.collect_topics.length}}话题收藏
       </a>
       <a class="tab-item"
          href

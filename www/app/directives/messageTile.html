@@ -2,19 +2,27 @@
   <a class="item-author positive button-link"
      ui-sref="app.user({loginname: message.author.loginname})">
     <img class="avatar"
-         alt="{{message.author.loginname}}"
-         src="{{message.author.avatar_url | prefixUrl}}">
-    {{message.author.loginname}}
-    <span class="item-note" am-time-ago="message.reply.create_at"></span>
+         alt="{{::message.author.loginname}}"
+         src="{{::message.author.avatar_url | prefixUrl}}">
+    {{::message.author.loginname}}
+    <span class="item-note"
+          am-time-ago="::message.reply.create_at"></span>
   </a>
   <span ng-switch="message.type">
     <span ng-switch-when="reply">
       回复了你的话题
-      <a href ui-sref="app.topic({topicId: message.topic.id})">{{message.topic.title}}</a>
+      <a href
+         ui-sref="app.topic({topicId: message.topic.id})">
+        {{::message.topic.title}}
+      </a>
     </span>
     <span ng-switch-default>
       在回复中@了你
-      <a href class="button-link positive" ui-sref="app.replies({topicId: message.topic.id})">{{message.topic.title}}</a>
+      <a href
+         class="button-link positive"
+         ui-sref="app.replies({topicId: message.topic.id})">
+        {{::message.topic.title}}
+      </a>
     </span>
   </span>
 </div>

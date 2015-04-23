@@ -9,8 +9,8 @@
          ng-class="{'unread-message-dot':msg.getUnreadCount() > 0}"
          ui-sref="app.user({loginname:me.loginname})">
         <img class="avatar"
-             alt="{{me.loginname}}"
-             ng-src="{{me.avatar_url | prefixUrl}}">
+             alt="{{::me.loginname}}"
+             ng-src="{{::me.avatar_url | prefixUrl}}">
       </a>
     </span>
   </ion-nav-buttons>
