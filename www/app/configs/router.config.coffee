@@ -11,6 +11,7 @@ angular.module('ionic-nodeclub')
 
     .state 'app.topics',
       url: '/topics/:tab'
+      historyRoot: true
       views:
         mainContent:
           templateUrl: 'app/topics/topics.html'

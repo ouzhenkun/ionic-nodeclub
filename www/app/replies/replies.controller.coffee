@@ -140,3 +140,4 @@ angular.module('ionic-nodeclub')
 
   $scope.$on '$destroy', ->
     $scope.replyModal?.remove()
+
