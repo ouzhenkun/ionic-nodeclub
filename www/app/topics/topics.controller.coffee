@@ -55,10 +55,8 @@ angular.module('ionic-nodeclub')
     newTopic: mkNewTopic()
 
     createNewTopic: ->
-      authService
-        .isAuthenticated()
-        .then ->
-          $scope.newTopicModal.show()
+      authService.withAuthUser (user) ->
+        $scope.newTopicModal.show()
 
     doPostTopic: ->
       return toast('发布失败：请先选择一个板块。', 2000) if _.isEmpty($scope.newTopic.tab)

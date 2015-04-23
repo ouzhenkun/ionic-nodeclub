@@ -3,12 +3,10 @@ angular.module('ionic-nodeclub')
 .factory 'topicService', (
   $q
   config
-  storage
   Restangular
 ) ->
 
   TOPICS_PAGE_LIMIT  = config.TOPICS_PAGE_LIMIT
-  REPLIES_PAGE_LIMIT = config.REPLIES_PAGE_LIMIT
 
   cache = {}
 
@@ -31,9 +29,8 @@ angular.module('ionic-nodeclub')
             hasMore: newTopics.length is TOPICS_PAGE_LIMIT
         .catch resolve
 
-  postNew: (data) ->
-    user = storage.get 'user'
-    newTopic = angular.extend(accesstoken: user?.token, data)
+  postNew: (data, authUser) ->
+    newTopic = angular.extend(accesstoken: authUser?.token, data)
     Restangular
       .all('topics')
       .post(newTopic)
@@ -64,25 +61,23 @@ angular.module('ionic-nodeclub')
           resolve dbTopic
         .catch reject
 
-  sendReply: (topicId, data) ->
-    user = storage.get 'user'
-    newReply = angular.extend(accesstoken: user?.token, data)
+  sendReply: (topicId, data, authUser) ->
+    newReply = angular.extend(accesstoken: authUser?.token, data)
     Restangular
       .one('topic', topicId)
       .post('replies', newReply)
 
-  toggleLikeReply: (reply) ->
+  toggleLikeReply: (reply, authUser) ->
     $q (resolve, reject) ->
-      user = storage.get 'user'
       Restangular
         .one('reply', reply.id)
-        .post('ups', accesstoken: user?.token)
+        .post('ups', accesstoken: authUser?.token)
         .then (resp) ->
           switch resp.action
             when 'up'
-              reply.ups.push user.id
+              reply.ups.push authUser.id
             when 'down'
-              _.pull(reply.ups, user.id)
+              _.pull(reply.ups, authUser.id)
             else
               # TODO 错误处理
               console.log 'unknown action: ' + resp.action

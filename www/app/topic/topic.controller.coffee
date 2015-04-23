@@ -16,19 +16,17 @@ angular.module('ionic-nodeclub')
 ) ->
 
   collectTopic = ->
-    authService
-      .isAuthenticated()
-      .then ->
-        if $scope.isCollected
-          userService.deCollectTopic $scope.topic
-            .then ->
-              $scope.isCollected = false
-              toast '已取消收藏'
-        else
-          userService.collectTopic $scope.topic
-            .then ->
-              $scope.isCollected = true
-              toast '收藏成功'
+    authService.withAuthUser (authUser) ->
+      if $scope.isCollected
+        userService.deCollectTopic($scope.topic, authUser)
+          .then ->
+            $scope.isCollected = false
+            toast '已取消收藏'
+      else
+        userService.collectTopic($scope.topic, authUser)
+          .then ->
+            $scope.isCollected = true
+            toast '收藏成功'
 
   loadTopic = (refresh) ->
     $scope.loading = true
@@ -73,9 +71,13 @@ angular.module('ionic-nodeclub')
               window.open "#{API.server}/topic/#{$stateParams.topicId}", '_system'
           return true
 
-
+  # 我在获取这个主题的内容
+  # 这里不强制刷新，允许从缓存里面拿
   loadTopic(refresh = false)
-  userService.checkCollect $stateParams.topicId
-    .then (isCollected) ->
+
+  # 我在检查用户是否收藏了这个主题
+  userService.getDetail($scope.me?.loginname)
+    .then (dbUser) ->
+      isCollected = _.find(dbUser.collect_topics, id:$stateParams.topicId)?
       $scope.isCollected = isCollected
 

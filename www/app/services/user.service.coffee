@@ -2,7 +2,6 @@ angular.module('ionic-nodeclub')
 
 .factory 'userService', (
   $q
-  storage
   Restangular
 ) ->
 
@@ -26,38 +25,27 @@ angular.module('ionic-nodeclub')
           resolve dbUser
         .catch reject
 
-  collectTopic: (topic) ->
+  collectTopic: (topic, authUser) ->
     $q (resolve, reject) ->
-      user = storage.get('user')
       Restangular
         .all('topic/collect')
-        .post(accesstoken: user?.token, topic_id: topic.id)
+        .post(accesstoken: authUser?.token, topic_id: topic.id)
         .then (resp) ->
           # 更新已经被cache的user信息
-          if cacheUser = cache[user.loginname]
+          if cacheUser = cache[authUser.loginname]
             cacheUser.collect_topics.push topic
           resolve resp
         .catch reject
 
-  deCollectTopic: (topic) ->
+  deCollectTopic: (topic, authUser) ->
     $q (resolve, reject) ->
-      user = storage.get('user')
       Restangular
         .all('topic/de_collect')
-        .post(accesstoken: user?.token, topic_id: topic.id)
+        .post(accesstoken: authUser?.token, topic_id: topic.id)
         .then (resp) ->
           # 更新已经被cache的user信息
-          if cacheUser = cache[user.loginname]
-            _.remove(cacheUser.collect_topics, id:topic.id)
+          if cacheUser = cache[authUser.loginname]
+            _.remove(cacheUser.collect_topics, id: topic.id)
           resolve resp
-        .catch reject
-
-  checkCollect: (topicId) ->
-    $q (resolve, reject) =>
-      user = storage.get('user')
-      @getDetail(user?.loginname)
-        .then (dbUser) ->
-          isCollected = _.find(dbUser.collect_topics, id:topicId)?
-          resolve isCollected
         .catch reject
 

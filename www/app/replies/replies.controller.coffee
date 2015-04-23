@@ -17,11 +17,6 @@ angular.module('ionic-nodeclub')
   $ionicScrollDelegate
 ) ->
 
-  $ionicModal
-    .fromTemplateUrl('app/replies/reply-preview-modal.html', scope: $scope)
-    .then (modal) ->
-      $scope.replyModal = modal
-
   loadReplies = (refresh) ->
     $scope.loading = true
     topicService.getReplies($stateParams.topicId, refresh)
@@ -38,8 +33,8 @@ angular.module('ionic-nodeclub')
     loading: false
     error: null
     topic: null
-    displayReplies: null
     replyModal: null
+    displayReplies: null
     scrollDelegate: $ionicScrollDelegate.$getByHandle('replies-handle')
     newReply:
       content: ''
@@ -53,25 +48,20 @@ angular.module('ionic-nodeclub')
       $scope.displayReplies = $scope.topic.replies
 
     toggleLike: (reply) ->
-      authService
-        .isAuthenticated()
-        .then ->
-          topicService.toggleLikeReply(reply)
-            .then (action) ->
-              toast '已赞' if action is 'up'
+      authService.withAuthUser (authUser) ->
+        topicService.toggleLikeReply(reply, authUser)
+          .then (action) ->
+            toast '已赞' if action is 'up'
 
     replyAuthor: (reply) ->
-      authService
-        .isAuthenticated()
-        .then ->
-          $scope.newReply.content = "@#{reply.author.loginname} "
-          $scope.newReply.reply_id = reply.id
-          focus('focus.newReplyInput')
+      authService.withAuthUser (authUser) ->
+        $scope.newReply.content = "@#{reply.author.loginname} "
+        $scope.newReply.reply_id = reply.id
+        focus('focus.newReplyInput')
 
     clearNewReply: ->
       $scope.newReply.content = ''
       $scope.newReply.reply_id = null
-      focus('focus.newReplyInput')
 
     showReplyAction: (reply) ->
       $ionicActionSheet.show
@@ -86,6 +76,7 @@ angular.module('ionic-nodeclub')
         ]
         buttonClicked: (index) ->
           switch index
+            # copy content
             when 0
               text = $filter('toMarkdown')(reply.content)
               if $window.cordova
@@ -95,29 +86,30 @@ angular.module('ionic-nodeclub')
                     toast '已拷贝到粘贴板'
               else
                 console.log 'copy...' + text
+            # quote content
             when 1
               quote = $filter('toMarkdown')(reply.content)
               quote = '\n' + quote.trim().replace(/([^\n]+)\n*/g, '>$1\n>\n')
               content = $scope.newReply.content + "#{quote}"
               $scope.newReply.content = content.trim() + '\n\n'
               focus('focus.newReplyInput')
+            # @ someone
             when 2
               content = $scope.newReply.content
               content += " @#{reply.author.loginname}"
               $scope.newReply.content = content.trim() + ' '
               focus('focus.newReplyInput')
+            # about author
             else
-              $state.go('app.user', loginname:reply.author.loginname)
+              $state.go('app.user', loginname: reply.author.loginname)
           return true
 
     sendReply: ->
-      authService
-        .isAuthenticated()
-        .then ->
-          $ionicLoading.show()
-          topicService.sendReply($stateParams.topicId, $scope.newReply)
-            .then $scope.clearNewReply
-            .finally $ionicLoading.hide
+      authService.withAuthUser (authUser) ->
+        $ionicLoading.show()
+        topicService.sendReply($stateParams.topicId, $scope.newReply, authUser)
+          .then $scope.clearNewReply
+          .finally $ionicLoading.hide
 
     showSendAction: ->
       $ionicActionSheet.show
@@ -125,14 +117,26 @@ angular.module('ionic-nodeclub')
           text: '发送'
         ,
           text: '预览'
-        ,
-          text: '清除'
         ]
         buttonClicked: (index) ->
           switch index
-            when 0 then $scope.sendReply()
-            when 1 then $scope.replyModal.show()
-            else        $scope.clearNewReply()
+            when 0
+              $scope.sendReply()
+            else
+              if $scope.replyModal?
+                $scope.replyModal.show()
+              else
+                $ionicLoading.show()
+                $ionicModal
+                  .fromTemplateUrl('app/replies/reply-preview-modal.html', scope: $scope)
+                  .then (modal) ->
+                    $scope.replyModal = modal
+                    $scope.replyModal.show()
+                  .finally ->
+                    $ionicLoading.hide()
           return true
 
-  $scope.doRefresh()
+  loadReplies(refresh = true)
+
+  $scope.$on '$destroy', ->
+    $scope.replyModal?.remove()
