@@ -16,7 +16,9 @@
     "com.ionic.keyboard",
     "org.apache.cordova.device",
     "org.apache.cordova.console",
-    "org.apache.cordova.inappbrowser"
+    "org.apache.cordova.inappbrowser",
+    "com.phonegap.plugins.barcodescanner",
+    "com.verso.cordova.clipboard"
   ],
   "cordovaPlatforms": [
     {
