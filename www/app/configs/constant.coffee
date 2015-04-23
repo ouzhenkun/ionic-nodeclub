@@ -9,6 +9,8 @@ angular.module('ionic-nodeclub')
 
 .constant 'config',
   TOPICS_PAGE_LIMIT: 15
+  TOAST_SHORT_DELAY: 2000
+  TOAST_LONG_DELAY: 3500
 
 
 .constant 'tabs', [

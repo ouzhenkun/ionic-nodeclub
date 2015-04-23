@@ -5,3 +5,4 @@ www/lib
 www/**/*.js
 www/**/*.css
 npm-debug.log
+resources/

@@ -59,9 +59,9 @@ angular.module('ionic-nodeclub')
         $scope.newTopicModal.show()
 
     doPostTopic: ->
-      return toast('发布失败：请先选择一个板块。', 2000) if _.isEmpty($scope.newTopic.tab)
-      return toast('发布失败：请先输入标题。'    , 2000) if _.isEmpty($scope.newTopic.title)
-      return toast('发布失败：话题内容不能为空。', 2000) if _.isEmpty($scope.newTopic.content)
+      return toast('发布失败：请先选择一个板块。') if _.isEmpty($scope.newTopic.tab)
+      return toast('发布失败：请先输入标题。'    ) if _.isEmpty($scope.newTopic.title)
+      return toast('发布失败：话题内容不能为空。') if _.isEmpty($scope.newTopic.content)
 
       topicService.postNew $scope.newTopic
         .then ->
@@ -70,7 +70,7 @@ angular.module('ionic-nodeclub')
           $scope.newTopicModal.hide()
           $timeout $scope.doRefresh
         .catch (error) ->
-          toast('发布失败: ' + error?.data?.error_msg, 2000)
+          toast('发布失败: ' + error?.data?.error_msg, 'long')
 
     doRefresh: ->
       if $scope.loading then return

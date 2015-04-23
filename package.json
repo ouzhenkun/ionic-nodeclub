@@ -18,18 +18,11 @@
     "org.apache.cordova.console",
     "org.apache.cordova.inappbrowser",
     "com.phonegap.plugins.barcodescanner",
-    "com.verso.cordova.clipboard"
+    "com.verso.cordova.clipboard",
+    "nl.x-services.plugins.toast"
   ],
   "cordovaPlatforms": [
-    {
-      "platform": "android",
-      "version": "3.6.4",
-      "locator": "android"
-    },
-    {
-      "platform": "ios",
-      "version": "Not installed",
-      "locator": "ios"
-    }
+    "android",
+    "ios"
   ]
 }

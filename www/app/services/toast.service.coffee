@@ -1,16 +1,25 @@
 angular.module('ionic-nodeclub')
 
-.factory 'toast', ($ionicLoading, $timeout) ->
+.factory 'toast', (
+  config
+  $window
+  $timeout
+  $ionicLoading
+  $cordovaToast
+) ->
 
-  (message, duration = 1000, noBackdrop = true) ->
-    #
-    # 我加 $timeout 为了避免同时调用 $ionicLoading.hide 的时候 toast 也被关掉
-    #
-    # FIXME
-    # 请换掉，不要用 $ionicLoading 和 这个有冲突
-    #
-    $timeout ->
-      $ionicLoading.show
-        template: message
-        duration: duration
-        noBackdrop: noBackdrop
+  (message, duration = 'short') ->
+
+    if $window.plugins?.toast?
+      $cordovaToast.show message, duration, 'center'
+    else
+      # 我加$timeout, 避免同时调用$ionicLoading.hide的时候toast也被关掉
+      if duration is 'long'
+        duration = config.TOAST_LONG_DELAY
+      else
+        duration = config.TOAST_SHORT_DELAY
+      $timeout ->
+        $ionicLoading.show
+          template: message
+          duration: duration
+          noBackdrop: true

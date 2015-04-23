@@ -12,6 +12,7 @@ angular.module('ionic-nodeclub')
   $ionicModal
   $ionicLoading
   $ionicPlatform
+  $cordovaClipboard
   IONIC_BACK_PRIORITY
   $cordovaBarcodeScanner
 ) ->
@@ -109,7 +110,7 @@ angular.module('ionic-nodeclub')
       if user?.token
         next(user)
       else
-        toast '请先登录', 1500
+        toast '请先登录'
         $timeout @login, 500
   }
 
