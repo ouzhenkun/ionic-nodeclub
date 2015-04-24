@@ -5,7 +5,7 @@
             ng-click="scrollDelegate.scrollBottom(true)"
             on-hold="doRefresh()"
             ng-if="latestReplies">
-      {{::topic.replies.length}}回复
+      {{latestReplies.length}}回复
     </button>
   </ion-nav-buttons>
   <ion-content delegate-handle="replies-handle"
@@ -54,15 +54,15 @@
       <!-- 最新回复 -->
       <div ng-if="latestReplies.length"
            class="item item-divider positive">最新回复</div>
-      <reply-tile ng-repeat="reply in latestReplies track by reply.id">
+      <reply-tile ng-repeat="reply in latestReplies |limitTo:nLatest track by reply.id">
       </reply-tile>
 
       <!-- 一个显示全部回复的按钮 -->
       <div class="item"
-           ng-if="latestReplies.length < topic.replies.length">
+           ng-if="nLatest < latestReplies.length">
         <button class="button button-small button-block button-stable"
-                ng-click="displayAll()">
-          显示全部
+                ng-click="displayMore()">
+          显示更多 ({{latestReplies.length - nLatest}})
         </button>
       </div>
     </div>

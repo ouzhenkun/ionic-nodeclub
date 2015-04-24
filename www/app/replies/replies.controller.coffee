@@ -18,21 +18,19 @@ angular.module('ionic-nodeclub')
   $ionicScrollDelegate
 ) ->
 
-  updatelikeableReplies = ->
-    if $scope.allReplies.length > config.REPLIES_LIKEABLE_ENABLE
-      likeableReplies = _.filter $scope.allReplies, (reply) ->
-        reply.ups.length > 0
-      $scope.likeableReplies = likeableReplies.sort (a, b) ->
-        b.ups.length - a.ups.length
-
   loadReplies = (refresh) ->
     $scope.loading = true
     topicService.getReplies($stateParams.topicId, refresh)
       .then (topic) ->
         $scope.topic = topic
-        $scope.allReplies = topic.replies.reverse()
-        $scope.latestReplies = $scope.allReplies.slice(0, config.REPLIES_LATEST_DEFAULT)
-        updatelikeableReplies()
+        # 我设置最新的回复
+        $scope.latestReplies = topic.replies.reverse()
+        # 我设置最赞的回复
+        if $scope.latestReplies.length > config.REPLIES_LIKEABLE_ENABLE
+          $scope.likeableReplies = _($scope.latestReplies) # 我用lodash的chaining链式调用
+            .filter (reply) -> reply.ups.length > 0        # 我过滤出有赞的回复
+            .sortBy (reply) -> -reply.ups.length           # 我把比较赞的回复排在前面
+            .value()
       .catch (error) ->
         $scope.error = error
       .finally ->
@@ -44,6 +42,7 @@ angular.module('ionic-nodeclub')
     error: null
     topic: null
     config: config
+    nLatest: config.REPLIES_LATEST_DEFAULT
     replyModal: null
     likeableReplies: null
     allReplies: null
@@ -56,10 +55,11 @@ angular.module('ionic-nodeclub')
       if $scope.loading then return
       $scope.scrollDelegate.scrollTop(true)
       $scope.error = null
+      $scope.nLatest = config.REPLIES_LATEST_DEFAULT
       loadReplies(refresh = true)
 
-    displayAll: ->
-      $scope.latestReplies = $scope.allReplies
+    displayMore: ->
+      $scope.nLatest = $scope.latestReplies.length
 
     toggleLike: (reply) ->
       authService.withAuthUser (authUser) ->
