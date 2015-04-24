@@ -40,15 +40,15 @@
       </div>
 
       <!-- 最赞回复 Top ? -->
-      <div ng-if="likeableReplies.length"
+      <div ng-if="popReplies.length"
            class="item item-divider assertive">
         最赞回复
         <span class="item-note"
-              ng-if="likeableReplies.length > config.REPLIES_LIKEABLE_LIMIT">
-          top {{::config.REPLIES_LIKEABLE_LIMIT}}
+              ng-if="popReplies.length > config.POP_REPLIES_LIMIT">
+          top {{::config.POP_REPLIES_LIMIT}}
         </span>
       </div>
-      <reply-tile ng-repeat="reply in likeableReplies |limitTo:config.REPLIES_LIKEABLE_LIMIT track by reply.id">
+      <reply-tile ng-repeat="reply in popReplies |limitTo:config.POP_REPLIES_LIMIT track by reply.id">
       </reply-tile>
 
       <!-- 最新回复 -->
