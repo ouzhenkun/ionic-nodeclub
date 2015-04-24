@@ -14,45 +14,59 @@
                    <!--spinner="spiral"-->
                    <!--on-refresh="doRefresh()">-->
     <!--</ion-refresher>-->
+
+    <!-- 提示信息 -->
     <div class="text-center padding"
          ng-if="loading">
       <ion-spinner icon="spiral"></ion-spinner>
       <p>加载中...</p>
     </div>
+
     <div class="padding text-center"
          ng-if="error">
       囧，出错啦...
     </div>
+
+    <!-- topic 主题详情 -->
     <article class="padding"
              on-hold="showTopicAction()"
              ng-if="!loading">
       <h3>{{::topic.title}}</h3>
       <hr clas="stable"/>
+      <!-- topic author -->
       <a class="item-author positive button-link"
          ui-sref="app.user({loginname: topic.author.loginname})">
-        <img ng-if="topic.author.avatar_url" class="avatar" src="{{::topic.author.avatar_url | prefixUrl}}">
+        <img ng-if="topic.author.avatar_url"
+             class="avatar"
+             src="{{::topic.author.avatar_url | prefixUrl}}">
         {{::topic.author.loginname}}
         <span class="item-note"
               am-time-ago="::topic.create_at">
         </span>
       </a>
-      <div class="padding-vertical" ng-bind-html="::topic.content | fixLink"></div>
+      <!-- topic content -->
+      <div class="padding-vertical"
+           ng-bind-html="::topic.content | fixLink"></div>
     </article>
+
+    <!-- 该主题的回复信息 -->
     <div class="item"
          ng-if="!loading"
          ui-sref="app.replies({topicId: topic.id})">
       <span ng-if="topic.reply_count">
         {{::topic.reply_count}} 回复
         <small class="text-note"> -
-          <span am-time-ago="::topic.last_reply_at">
-          </span>
+          <span am-time-ago="::topic.last_reply_at"></span>
         </small>
       </span>
       <span ng-if="!topic.reply_count">
         暂无回复
       </span>
     </div>
+
   </ion-content>
+
+  <!-- 菜单按钮 -->
   <button class="button-float button button-stable icon icon-more-action"
           ng-if="!hasnot_read_messages.length"
           ng-click="showTopicAction()"></button>

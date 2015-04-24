@@ -5,11 +5,12 @@ angular.module('ionic-nodeclub')
   toast
   $scope
   $timeout
-  authService
   $ionicModal
+  authService
   $stateParams
-  $ionicPopover
   topicService
+  $ionicPopover
+  messageService
   $ionicScrollDelegate
 ) ->
 
@@ -23,11 +24,11 @@ angular.module('ionic-nodeclub')
 
   loadTopics = (refresh) ->
     $scope.loading = true
-    from = if refresh then 0 else $scope.topics.length
+    from = if refresh then 0 else $scope.topics?.length ? 0
     topicService.getTopics selectedTab, from
       .then (resp) ->
-        if refresh
-          $scope.topics.length = 0
+        if refresh or !$scope.topics
+          $scope.topics = []
         $scope.topics = $scope.topics.concat(resp.topics)
         $scope.hasMore = resp.hasMore
       .catch (error) ->
@@ -44,15 +45,17 @@ angular.module('ionic-nodeclub')
 
   # Export Properties
   angular.extend $scope,
-    newTopicModal: null
     hasMore: true
-    scrollDelegate: $ionicScrollDelegate.$getByHandle('topics-handle')
     loading: false
     error: null
+    topics: null
+    auth: authService
+    msg: messageService
     selectedTab: selectedTab
-    topics: []
     tabs: _.filter(tabs, (t) -> t.value isnt 'all')
     newTopic: mkNewTopic()
+    newTopicModal: null
+    scrollDelegate: $ionicScrollDelegate.$getByHandle('topics-handle')
 
     createNewTopic: ->
       authService.withAuthUser (user) ->

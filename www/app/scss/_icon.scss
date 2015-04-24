@@ -1,8 +1,8 @@
 .icon-person {
- @extend .ion-ios-person-outline;
+  @extend .ion-ios-person-outline;
 }
 .icon-new-topic {
-  @extend .ion-ios-paperplane;
+  @extend .ion-android-add;
 }
 .icon-more-action {
   @extend .ion-android-more-vertical;
@@ -14,17 +14,9 @@
   @extend .ion-android-done-all;
 }
 
+// android overwrite
 .platform-android {
   .icon-person {
-   @extend .ion-android-person;
+    @extend .ion-android-person;
   }
-  .icon-new-topic {
-    @extend .ion-android-add;
-  }
-  .icon-close {
-    @extend .ion-android-close;
-  }
-}
-.platform-ios {
-
 }

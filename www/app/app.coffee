@@ -9,12 +9,15 @@ angular.module('ionic-nodeclub', [
 
 .run (
   toast
-  $state
   config
   amMoment
   $timeout
   $rootScope
+  authService
+  userService
+  topicService
   $ionicHistory
+  messageService
   $ionicPlatform
   $cordovaKeyboard
   $cordovaStatusbar
@@ -55,10 +58,27 @@ angular.module('ionic-nodeclub', [
 
   , IONIC_BACK_PRIORITY.view+1
 
-
   # 我在修复浏览器刷新/后退导致'nav button'显示异常的BUG
   $rootScope.$on '$stateChangeStart', (event, toState) ->
     # 通过设置historyRoot可以让'nav button'的状态重置
     if toState.historyRoot
       $ionicHistory.nextViewOptions
         historyRoot: true
+
+  #
+  # 我在初始化rootScope的变量
+  #
+  $rootScope.me = null
+
+  $rootScope.$on 'auth.userUpdated', (event, user) ->
+    $rootScope.me = user
+    messageService.refreshUnreadCount()
+
+  $rootScope.$on 'auth.userLogout', ->
+    $rootScope.me = null
+    userService.reset()
+    topicService.reset()
+    messageService.reset()
+
+  authService.init()
+

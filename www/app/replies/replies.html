@@ -1,10 +1,10 @@
 <ion-view>
-  <ion-nav-title on-hold="doRefresh()">最新回复</ion-nav-title>
+  <ion-nav-title on-hold="doRefresh()">回复</ion-nav-title>
   <ion-nav-buttons side="right">
     <button class="button header-replies-button"
             ng-click="scrollDelegate.scrollBottom(true)"
             on-hold="doRefresh()"
-            ng-if="displayReplies">
+            ng-if="latestReplies">
       {{::topic.replies.length}}回复
     </button>
   </ion-nav-buttons>
@@ -15,6 +15,8 @@
                    <!--spinner="spiral"-->
                    <!--on-refresh="doRefresh()">-->
     <!--</ion-refresher>-->
+
+    <!-- 提示信息 -->
     <div class="text-center padding"
          ng-if="loading">
       <ion-spinner icon="spiral"></ion-spinner>
@@ -24,32 +26,50 @@
          ng-if="error">
       囧，出错啦...
     </div>
+
+    <!-- 回复列表 -->
     <div class="list" ng-if="topic">
+      <!-- 主题名 -->
       <div class="item item-divider item-text-wrap">
         <a ui-sref="app.topic({topicId: topic.id})"
            class="button-link dark">{{::topic.title}}</a>
       </div>
       <div class="item"
-           ng-if="!displayReplies.length && !loading && !error">
+           ng-if="!latestReplies.length && !loading && !error">
         暂无回复
       </div>
-      <div ng-if="hotReplies.length"
-           class="item item-divider assertive">热门评论</div>
-      <reply-tile ng-repeat="reply in hotReplies track by reply.id"
-                  reply="::reply"></reply-tile>
-      <div ng-if="hotReplies.length"
-           class="item item-divider positive">最新评论</div>
-      <reply-tile ng-repeat="reply in displayReplies track by reply.id"
-                  reply="::reply"></reply-tile>
+
+      <!-- 最赞回复 Top ? -->
+      <div ng-if="likeableReplies.length"
+           class="item item-divider assertive">
+        最赞回复
+        <span class="item-note"
+              ng-if="likeableReplies.length > config.REPLIES_LIKEABLE_LIMIT">
+          top {{::config.REPLIES_LIKEABLE_LIMIT}}
+        </span>
+      </div>
+      <reply-tile ng-repeat="reply in likeableReplies |limitTo:config.REPLIES_LIKEABLE_LIMIT track by reply.id">
+      </reply-tile>
+
+      <!-- 最新回复 -->
+      <div ng-if="latestReplies.length"
+           class="item item-divider positive">最新回复</div>
+      <reply-tile ng-repeat="reply in latestReplies track by reply.id">
+      </reply-tile>
+
+      <!-- 一个显示全部回复的按钮 -->
       <div class="item"
-           ng-if="displayReplies.length < topic.replies.length">
+           ng-if="latestReplies.length < topic.replies.length">
         <button class="button button-small button-block button-stable"
                 ng-click="displayAll()">
           显示全部
         </button>
       </div>
     </div>
+
   </ion-content>
+
+  <!-- 新回复输入框 -->
   <elastic-footer>
     <label class="new-reply item-input-wrapper">
       <textarea msd-elastic

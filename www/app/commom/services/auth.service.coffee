@@ -12,27 +12,9 @@ angular.module('ionic-nodeclub')
   $ionicModal
   $ionicLoading
   $ionicPlatform
-  $cordovaClipboard
   IONIC_BACK_PRIORITY
   $cordovaBarcodeScanner
 ) ->
-
-  # 我定义一个'重新获取authUser'的方法
-  # 让之后的Login可以调用
-  reloadAuthUser = (token) ->
-    $q (resolve, reject) ->
-      $ionicLoading.show()
-      Restangular
-        .all('accessToken')
-        .post(accesstoken: token)
-        .then (user) ->
-          $ionicLoading.hide()
-          storage.set 'user', angular.extend(user, token: token)
-          $rootScope.$broadcast 'auth.userUpdated', user
-          resolve user
-        , (error) ->
-          $ionicLoading.hide()
-          reject(error)
 
   # 我创建一个scope以便之后让login-modal调用
   mkLoginModalScope = ->
@@ -42,15 +24,21 @@ angular.module('ionic-nodeclub')
       canScan: $window.cordova?
 
       doLogin: (token) ->
-        reloadAuthUser(token)
+        $ionicLoading.show()
+        Restangular
+          .all('accessToken')
+          .post(accesstoken: token)
           .then (user) =>
-            toast '登录成功，欢迎您: ' + user.loginname
+            storage.set 'user', angular.extend(user, token: token)
             @loginModal?.hide()
+            $ionicLoading.hide()
+            $rootScope.$broadcast 'auth.userUpdated', user
+            toast '登录成功，欢迎您: ' + user.loginname
           , (error) ->
+            $ionicLoading.hide()
             toast '登录失败: ' + error?.data?.error_msg
 
       doScan: ->
-
         # 我在这里覆盖'点返回按钮关闭modal'的逻辑
         # 为了修复扫码的时候按了返回按钮把loginModal关掉的BUG
         deregisterBackButton = $ionicPlatform
@@ -82,18 +70,15 @@ angular.module('ionic-nodeclub')
     console.log 'remove login modal'
     scope.loginModal?.remove()
 
-  # 我在authService初始化的时候，检查storage里的token是否合法
-  if initedToken = storage.get('user')?.token
-    reloadAuthUser(initedToken)
-      .catch (error) ->
-        console.log 'login error=' + error
-        storage.remove 'user'
-        toast '登录失败: ' + error?.data?.error_msg
-
   #
   # service methods
   #
   return {
+
+    # 我重新检查storage里的token是否合法
+    init: ->
+      if initedUser = storage.get('user')
+        $rootScope.$broadcast 'auth.userUpdated', initedUser
 
     login: ->
       scope.loginModal.show()

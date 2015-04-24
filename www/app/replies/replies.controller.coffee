@@ -3,6 +3,7 @@ angular.module('ionic-nodeclub')
 .controller 'RepliesCtrl', (
   focus
   toast
+  config
   $scope
   $state
   $filter
@@ -17,14 +18,12 @@ angular.module('ionic-nodeclub')
   $ionicScrollDelegate
 ) ->
 
-  updateHotReplies = ->
-    if $scope.allReplies.length > 10
-      hotReplies = _.filter $scope.allReplies, (reply) ->
+  updatelikeableReplies = ->
+    if $scope.allReplies.length > config.REPLIES_LIKEABLE_ENABLE
+      likeableReplies = _.filter $scope.allReplies, (reply) ->
         reply.ups.length > 0
-      if hotReplies.length > 0
-        hotReplies = hotReplies.sort (a, b) ->
-          b.ups.length - a.ups.length
-        $scope.hotReplies = hotReplies.slice(0, 5)
+      $scope.likeableReplies = likeableReplies.sort (a, b) ->
+        b.ups.length - a.ups.length
 
   loadReplies = (refresh) ->
     $scope.loading = true
@@ -32,8 +31,8 @@ angular.module('ionic-nodeclub')
       .then (topic) ->
         $scope.topic = topic
         $scope.allReplies = topic.replies.reverse()
-        $scope.displayReplies = $scope.allReplies.slice(0, 30)
-        updateHotReplies()
+        $scope.latestReplies = $scope.allReplies.slice(0, config.REPLIES_LATEST_DEFAULT)
+        updatelikeableReplies()
       .catch (error) ->
         $scope.error = error
       .finally ->
@@ -44,10 +43,11 @@ angular.module('ionic-nodeclub')
     loading: false
     error: null
     topic: null
+    config: config
     replyModal: null
-    hotReplies: null
+    likeableReplies: null
     allReplies: null
-    displayReplies: null
+    latestReplies: null
     scrollDelegate: $ionicScrollDelegate.$getByHandle('replies-handle')
     newReply:
       content: ''
@@ -59,7 +59,7 @@ angular.module('ionic-nodeclub')
       loadReplies(refresh = true)
 
     displayAll: ->
-      $scope.displayReplies = $scope.allReplies
+      $scope.latestReplies = $scope.allReplies
 
     toggleLike: (reply) ->
       authService.withAuthUser (authUser) ->

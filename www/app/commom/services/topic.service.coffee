@@ -6,8 +6,6 @@ angular.module('ionic-nodeclub')
   Restangular
 ) ->
 
-  TOPICS_PAGE_LIMIT  = config.TOPICS_PAGE_LIMIT
-
   cache = {}
 
   reset: ->
@@ -15,10 +13,10 @@ angular.module('ionic-nodeclub')
 
   getTopics: (tab, from = 0) ->
     $q (resolve, reject) ->
-      page = ~~(from / TOPICS_PAGE_LIMIT) + 1
+      page = ~~(from / config.TOPICS_PAGE_LIMIT) + 1
       Restangular
         .one('topics')
-        .get(page: page, limit: TOPICS_PAGE_LIMIT, tab: tab)
+        .get(page: page, limit: config.TOPICS_PAGE_LIMIT, tab: tab)
         .then (resp) ->
           newTopics = resp.data
           # 更新cache topics
@@ -26,7 +24,7 @@ angular.module('ionic-nodeclub')
             cache[topic.id] = topic
           resolve
             topics: newTopics
-            hasMore: newTopics.length is TOPICS_PAGE_LIMIT
+            hasMore: newTopics.length is config.TOPICS_PAGE_LIMIT
         .catch resolve
 
   postNew: (data, authUser) ->

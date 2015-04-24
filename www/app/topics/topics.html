@@ -1,9 +1,11 @@
 <ion-view view-title="{{selectedTab | tabLabel}}">
   <ion-nav-buttons side="right">
+    <!-- 登录按钮 -->
     <span ng-if="!me">
       <button class="button button-icon icon icon-person"
               ng-click="auth.login()"></button>
     </span>
+    <!-- 显示已登录用户信息 -->
     <span ng-if="me">
       <a class="button button-icon icon header-avatar-button"
          ng-class="{'unread-message-dot':msg.getUnreadCount() > 0}"
@@ -16,48 +18,35 @@
   </ion-nav-buttons>
   <!-- TODO overflow-scroll="true" -->
   <ion-content delegate-handle="topics-handle">
+    <!-- 下拉刷新 -->
     <ion-refresher pulling-text="下拉刷新..."
                    pulling-icon="ion-ios-arrow-down"
                    spinner="spiral"
                    on-refresh="doRefresh()">
     </ion-refresher>
 
-    <!-- topics list -->
-    <div class="list">
-      <div class="item item-avatar item-topic"
-           collection-repeat="topic in topics track by topic.id"
-           item-width="100%"
-           item-height="72"
-           item-render-buffer="10"
-           ui-sref="app.topic({topicId: topic.id})">
-        <img ng-src="{{topic.author.avatar_url | prefixUrl}}">
-        <h2>{{topic.title}}</h2>
-        <p>
-          <span class="label label-positive"
-                ng-if="topic.top">置顶</span>
-          <span class="label label-positive"
-                ng-if="selectedTab == 'all' && topic.good && !topic.top">精华</span>
-          <span class="label label-default"
-                ng-if="selectedTab == 'all' && !topic.top && !topic.good">{{topic.tab | tabLabel}}</span>
-          {{topic.author.loginname}}
-          <span class="item-note"
-                am-time-ago="topic.last_reply_at">
-          </span>
-        </p>
-      </div>
-    </div>
+    <!-- 主题列表，user页面也会用到 -->
+    <topics-list topics="topics"></topics-list>
+
+    <!-- 滚动加载更多 -->
     <ion-infinite-scroll on-infinite="loadMore()"
                          ng-if="hasMore && !error"
                          spinner="spiral"
                          distance="10%">
     </ion-infinite-scroll>
+
+    <!-- 提示信息 -->
     <div class="padding text-center"
-         ng-if="!loading && (!hasMore || !topics.length)">
-      <span ng-if="topics.length">没有了...</span>
-      <span ng-if="!error && !topics.length">暂无话题</span>
-      <span ng-if="error">囧，出错啦...</span>
+         ng-if="!loading && !hasMore && topics.length">
+      没有了...
+    </div>
+    <div class="padding text-center"
+         ng-if="!loading && error">
+      囧，出错啦...
     </div>
   </ion-content>
+
+  <!-- 创建新主题按钮 -->
   <button class="button-float button button-assertive icon icon-new-topic"
           ng-click="createNewTopic()"></button>
 </ion-view>

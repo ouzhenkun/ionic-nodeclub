@@ -7,6 +7,8 @@
     </button>
   </ion-nav-buttons>
   <ion-content>
+
+    <!-- 提示信息 -->
     <div class="text-center padding"
          ng-if="!user">
       <ion-spinner icon="spiral"></ion-spinner>
@@ -51,45 +53,29 @@
       <a class="tab-item"
          ng-if="isCollectVisible()"
          href
-         ng-class="{'active positive':displayType=='collect_topics'}"
+         ng-class="{'active positive':displayTopics=='collect_topics'}"
          ng-click="changeType('collect_topics')">
         <i class="icon ion-star"></i>
         {{::user.collect_topics.length}}话题收藏
       </a>
       <a class="tab-item"
          href
-         ng-class="{'active positive':displayType=='recent_topics'}"
+         ng-class="{'active positive':displayTopics=='recent_topics'}"
          ng-click="changeType('recent_topics')">
         <i class="icon ion-chatbox"></i>
         最近创建
       </a>
       <a class="tab-item"
          href
-         ng-class="{'active positive':displayType=='recent_replies'}"
+         ng-class="{'active positive':displayTopics=='recent_replies'}"
          ng-click="changeType('recent_replies')">
         <i class="icon ion-chatboxes"></i>
         最近参与
       </a>
     </div>
 
-    <!-- user topics list -->
-    <div class="list" ng-if="user">
-      <div class="item" ng-if="!user[displayType].length">无话题</div>
-      <div class="item item-avatar item-topic"
-           collection-repeat="topic in user[displayType] track by topic.id"
-           item-width="100%"
-           item-height="72"
-           item-render-buffer="10"
-           ui-sref="app.topic({topicId: topic.id})">
-        <img ng-src="{{topic.author.avatar_url | prefixUrl}}">
-        <h2>{{topic.title}}</h2>
-        <p>
-          {{topic.author.loginname}}
-          <span class="item-note"
-                am-time-ago="topic.last_reply_at">
-          </span>
-        </p>
-      </div>
-    </div>
+    <!-- user topics 列表 -->
+    <topics-list topics="user[displayTopics]"></topics-list>
+
   </ion-content>
 </ion-view>

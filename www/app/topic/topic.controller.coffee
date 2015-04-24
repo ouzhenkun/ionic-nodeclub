@@ -12,6 +12,7 @@ angular.module('ionic-nodeclub')
   topicService
   $stateParams
   $ionicPopover
+  messageService
   $ionicActionSheet
 ) ->
 
@@ -44,6 +45,7 @@ angular.module('ionic-nodeclub')
     isCollected: false
     error: null
     topic: null
+    msg: messageService
 
     doRefresh: ->
       loadTopic(refresh = true)

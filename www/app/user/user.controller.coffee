@@ -3,13 +3,15 @@ angular.module('ionic-nodeclub')
 .controller 'UserCtrl', (
   $scope
   userService
+  authService
   $stateParams
+  messageService
 ) ->
 
   userService.getDetail($stateParams.loginname, true)
     .then (user) ->
       $scope.user = user
-      $scope.displayType =
+      $scope.displayTopics =
         if $scope.isCollectVisible()
           'collect_topics'
         else
@@ -17,7 +19,9 @@ angular.module('ionic-nodeclub')
 
   angular.extend $scope,
     user: null
-    displayType: null
+    displayTopics: null
+    auth: authService
+    msg: messageService
     $stateParams: $stateParams
 
     isCollectVisible: ->
@@ -26,5 +30,5 @@ angular.module('ionic-nodeclub')
       isMyDetail or hasCollectedTopics
 
     changeType: (type) ->
-      $scope.displayType = type
+      $scope.displayTopics = type
 
