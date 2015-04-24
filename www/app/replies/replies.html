@@ -1,90 +1,22 @@
-<ion-view view-title="回复">
+<ion-view>
+  <ion-nav-title on-hold="doRefresh()">最新回复</ion-nav-title>
   <ion-nav-buttons side="right">
     <button class="button header-replies-button"
             ng-click="scrollDelegate.scrollBottom(true)"
+            on-hold="doRefresh()"
             ng-if="displayReplies">
-      <span ng-if="displayReplies.length == topic.replies.length">
-        {{::topic.replies.length}}回复
-      </span>
-      <span ng-if="displayReplies.length < topic.replies.length">
-        {{::displayReplies.length}}/{{::topic.replies.length}}
-      </span>
+      {{::topic.replies.length}}回复
     </button>
   </ion-nav-buttons>
-  <!-- TODO overflow-scroll="true" -->
-  <ion-content delegate-handle="replies-handle">
-    <ion-refresher pulling-text="下拉刷新..."
-                   pulling-icon="ion-ios-arrow-down"
-                   spinner="spiral"
-                   on-refresh="doRefresh()">
-    </ion-refresher>
-    <div class="list">
-      <div class="item item-divider item-text-wrap">
-        <a class="button-link"
-           ui-sref="app.topic({topicId: topic.id})">{{::topic.title}}</a>
-      </div>
-      <div class="item"
-           ng-if="!displayReplies.length && !loading && !error">
-        暂无回复
-      </div>
-      <div ng-repeat="reply in displayReplies track by reply.id"
-           class="item item-text-wrap reply-item"
-           ng-init="initReply($index)"
-           on-hold="showReplyAction(reply)">
-        <a class="item-author positive button-link"
-           ui-sref="app.user({loginname: reply.author.loginname})">
-          <img class="avatar"
-               alt="{{::reply.author.loginname}}"
-               src="{{::reply.author.avatar_url | prefixUrl}}">
-          {{::reply.author.loginname}}
-        </a>
-        <span class="item-note" ng-if="reply.ups.length">
-          {{reply.ups.length}} 赞
-        </span>
-        <div class="reply-content" ng-bind-html="::reply.content | fixLink"></div>
-        <p class="reply-content">
-          <span class="text-note"
-                am-time-ago="::reply.create_at">
-          </span>
-          &nbsp;
-          <span ng-if="newReply.reply_id != reply.id">
-            <a class="button-link text-note"
-               href
-               ng-click="replyAuthor(reply)">
-              <i class="ion ion-reply"></i>
-              回复
-            </a>
-          </span>
-          <span ng-if="newReply.reply_id == reply.id">
-            <a class="button-link text-note positive"
-               href
-               ng-click="clearNewReply()">
-              <i class="ion ion-reply"></i>
-              回复
-            </a>
-          </span>
-          &nbsp;
-          <span ng-if="reply.ups.indexOf(me.id) != -1">
-            <a class="button-link assertive"
-               href
-               ng-click="toggleLike(reply)">
-              <i class="ion ion-thumbsup"></i>
-              已赞
-            </a>
-          </span>
-          <span ng-if="reply.ups.indexOf(me.id) == -1">
-            <a class="button-link text-note"
-               href
-               ng-click="toggleLike(reply)">
-              <i class="ion ion-thumbsup"></i>
-              赞
-            </a>
-          </span>
-        </p>
-      </div>
-    </div>
+  <ion-content delegate-handle="replies-handle"
+               overflow-scroll="true">
+    <!--<ion-refresher pulling-text="下拉刷新..."-->
+                   <!--pulling-icon="ion-ios-arrow-down"-->
+                   <!--spinner="spiral"-->
+                   <!--on-refresh="doRefresh()">-->
+    <!--</ion-refresher>-->
     <div class="text-center padding"
-         ng-if="loading && !displayReplies">
+         ng-if="loading">
       <ion-spinner icon="spiral"></ion-spinner>
       <p>加载中...</p>
     </div>
@@ -92,12 +24,30 @@
          ng-if="error">
       囧，出错啦...
     </div>
-    <div class="padding"
-         ng-if="displayReplies.length < topic.replies.length">
-      <button class="button button-small button-block button-stable"
-              ng-click="displayAll()">
-        显示全部
-      </button>
+    <div class="list" ng-if="topic">
+      <div class="item item-divider item-text-wrap">
+        <a ui-sref="app.topic({topicId: topic.id})"
+           class="button-link dark">{{::topic.title}}</a>
+      </div>
+      <div class="item"
+           ng-if="!displayReplies.length && !loading && !error">
+        暂无回复
+      </div>
+      <div ng-if="hotReplies.length"
+           class="item item-divider assertive">热门评论</div>
+      <reply-tile ng-repeat="reply in hotReplies track by reply.id"
+                  reply="::reply"></reply-tile>
+      <div ng-if="hotReplies.length"
+           class="item item-divider positive">最新评论</div>
+      <reply-tile ng-repeat="reply in displayReplies track by reply.id"
+                  reply="::reply"></reply-tile>
+      <div class="item"
+           ng-if="displayReplies.length < topic.replies.length">
+        <button class="button button-small button-block button-stable"
+                ng-click="displayAll()">
+          显示全部
+        </button>
+      </div>
     </div>
   </ion-content>
   <elastic-footer>

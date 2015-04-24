@@ -57,7 +57,9 @@ angular.module('ionic-nodeclub')
         ,
           text: '关于作者'
         ,
-          text: '浏览器打开'
+          text: '刷新一下'
+        ,
+          text: '在浏览器中打开'
         ]
         buttonClicked: (index) ->
           switch index
@@ -67,6 +69,8 @@ angular.module('ionic-nodeclub')
               collectTopic()
             when 2
               $state.go 'app.user', loginname: $scope.topic.author.loginname
+            when 3
+              loadTopic(refresh = true)
             else
               window.open "#{API.server}/topic/#{$stateParams.topicId}", '_system'
           return true

@@ -17,12 +17,23 @@ angular.module('ionic-nodeclub')
   $ionicScrollDelegate
 ) ->
 
+  updateHotReplies = ->
+    if $scope.allReplies.length > 10
+      hotReplies = _.filter $scope.allReplies, (reply) ->
+        reply.ups.length > 0
+      if hotReplies.length > 0
+        hotReplies = hotReplies.sort (a, b) ->
+          b.ups.length - a.ups.length
+        $scope.hotReplies = hotReplies.slice(0, 5)
+
   loadReplies = (refresh) ->
     $scope.loading = true
     topicService.getReplies($stateParams.topicId, refresh)
       .then (topic) ->
         $scope.topic = topic
-        $scope.displayReplies = topic.replies.slice(0, 30)
+        $scope.allReplies = topic.replies.reverse()
+        $scope.displayReplies = $scope.allReplies.slice(0, 30)
+        updateHotReplies()
       .catch (error) ->
         $scope.error = error
       .finally ->
@@ -34,6 +45,8 @@ angular.module('ionic-nodeclub')
     error: null
     topic: null
     replyModal: null
+    hotReplies: null
+    allReplies: null
     displayReplies: null
     scrollDelegate: $ionicScrollDelegate.$getByHandle('replies-handle')
     newReply:
@@ -41,11 +54,12 @@ angular.module('ionic-nodeclub')
 
     doRefresh: ->
       if $scope.loading then return
+      $scope.scrollDelegate.scrollTop(true)
       $scope.error = null
       loadReplies(refresh = true)
 
     displayAll: ->
-      $scope.displayReplies = $scope.topic.replies
+      $scope.displayReplies = $scope.allReplies
 
     toggleLike: (reply) ->
       authService.withAuthUser (authUser) ->

@@ -1,20 +1,21 @@
-<ion-view view-title="正文">
+<ion-view>
+  <ion-nav-title on-hold="doRefresh()">正文</ion-nav-title>
   <ion-nav-buttons side="right">
     <button class="button header-replies-button"
+            on-hold="doRefresh()"
             ui-sref="app.replies({topicId: topic.id})"
             ng-if="topic">
       {{::topic.reply_count}}回复
     </button>
   </ion-nav-buttons>
-  <!-- TODO overflow-scroll="true" -->
-  <ion-content>
-    <ion-refresher pulling-text="下拉刷新..."
-                   pulling-icon="ion-ios-arrow-down"
-                   spinner="spiral"
-                   on-refresh="doRefresh()">
-    </ion-refresher>
+  <ion-content overflow-scroll="true">
+    <!--<ion-refresher pulling-text="下拉刷新..."-->
+                   <!--pulling-icon="ion-ios-arrow-down"-->
+                   <!--spinner="spiral"-->
+                   <!--on-refresh="doRefresh()">-->
+    <!--</ion-refresher>-->
     <div class="text-center padding"
-         ng-if="loading && !topic">
+         ng-if="loading">
       <ion-spinner icon="spiral"></ion-spinner>
       <p>加载中...</p>
     </div>
