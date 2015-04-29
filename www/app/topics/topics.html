@@ -15,6 +15,8 @@
              ng-src="{{::me.avatar_url | prefixUrl}}">
       </a>
     </span>
+    <button class="button button-icon icon icon-more"
+            ng-click="morePopover.show($event)"></button>
   </ion-nav-buttons>
   <!-- TODO overflow-scroll="true" -->
   <ion-content delegate-handle="topics-handle">

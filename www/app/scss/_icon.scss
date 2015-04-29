@@ -13,10 +13,16 @@
 .icon-done-all {
   @extend .ion-android-done-all;
 }
+.icon-more {
+  @extend .ion-ios-more;
+}
 
 // android overwrite
 .platform-android {
   .icon-person {
     @extend .ion-android-person;
+  }
+  .icon-more {
+    @extend .ion-android-more-vertical;
   }
 }

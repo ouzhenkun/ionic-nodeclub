@@ -20,6 +20,12 @@ angular.module('ionic-nodeclub')
     .then (modal) ->
       $scope.newTopicModal = modal
 
+  $ionicPopover
+    .fromTemplateUrl 'app/topics/more-popover.html',
+      scope: $scope
+    .then (popover) ->
+      $scope.morePopover = popover
+
   selectedTab = $stateParams.tab ? tabs[0].value
 
   loadTopics = (refresh) ->
@@ -55,6 +61,7 @@ angular.module('ionic-nodeclub')
     tabs: _.filter(tabs, (t) -> t.value isnt 'all')
     newTopic: mkNewTopic()
     newTopicModal: null
+    morePopover: null
     scrollDelegate: $ionicScrollDelegate.$getByHandle('topics-handle')
 
     createNewTopic: ->
@@ -84,4 +91,8 @@ angular.module('ionic-nodeclub')
     loadMore: ->
       if $scope.loading or $scope.error then return
       loadTopics(refresh = false)
+
+  $scope.$on '$destroy', ->
+    $scope.newTopicModal?.remove()
+    $scope.morePopover?.remove()
 
