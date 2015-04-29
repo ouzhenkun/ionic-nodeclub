@@ -11,7 +11,7 @@ angular.module('ionic-nodeclub')
   (message, duration = 'short') ->
 
     if $window.plugins?.toast?
-      $cordovaToast.show message, duration, 'bottom'
+      $cordovaToast.show message, duration, 'center'
     else
       # 我加$timeout, 避免同时调用$ionicLoading.hide的时候toast也被关掉
       if duration is 'long'
