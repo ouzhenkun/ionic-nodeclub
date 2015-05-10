@@ -7,7 +7,9 @@
       <div class="item item-toggle">
        是否显示最热回复
        <label class="toggle toggle-positive">
-         <input type="checkbox" ng-checked="'1'">
+         <input type="checkbox"
+                ng-model="settings.popRepliesVisible"
+                ng-change="updateSettings()">
          <div class="track">
            <div class="handle"></div>
          </div>
@@ -17,7 +19,9 @@
       <div class="item item-toggle">
        倒序显示最新回复
        <label class="toggle toggle-positive">
-         <input type="checkbox" ng-checked="'1'">
+         <input type="checkbox"
+                ng-model="settings.latestRepliesDesc"
+                ng-change="updateSettings()">
          <div class="track">
            <div class="handle"></div>
          </div>

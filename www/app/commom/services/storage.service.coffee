@@ -20,6 +20,3 @@ angular.module('ionic-nodeclub')
     key = genKey key
     localStorage.removeItem key
 
-  clear: ->
-    localStorage.clear()
-

@@ -87,13 +87,13 @@ angular.module('ionic-nodeclub')
 
     switchNodeclub: ->
       $ionicActionSheet.show
-        buttons: _.map API.servers, (s) ->
+        buttons: _.map API.allServers, (s) ->
           if s is API.server
             text: "<span class='positive'>#{s} (当前)</span>"
           else
             text: s
         buttonClicked: (index) ->
-          localStorage.server = API.servers[index]
+          localStorage.server = API.allServers[index]
           $window.location.reload(true)
           return true
 

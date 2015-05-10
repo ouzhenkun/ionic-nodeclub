@@ -8,6 +8,7 @@ angular.module('ionic-nodeclub')
   $state
   $filter
   $window
+  settings
   authService
   $ionicModal
   $stateParams
@@ -18,18 +19,24 @@ angular.module('ionic-nodeclub')
   $ionicScrollDelegate
 ) ->
 
+  curSettings = settings.get()
+
   loadReplies = (refresh) ->
     $scope.loading = true
     topicService.getReplies($stateParams.topicId, refresh)
       .then (topic) ->
         $scope.topic = topic
         # 我设置最新的回复
-        $scope.latestReplies = topic.replies.reverse()
+        $scope.latestReplies =
+          if curSettings.latestRepliesDesc
+            topic.replies.reverse()
+          else
+            topic.replies
         # 我设置最赞的回复
-        if $scope.latestReplies.length > config.POP_REPLIES_TRIGGER_NUM
+        if curSettings.popRepliesVisible and $scope.latestReplies.length > config.POP_REPLIES_TRIGGER_NUM
           $scope.popReplies = _($scope.latestReplies) # 我用lodash的chaining链式调用
-            .filter (reply) -> reply.ups.length > 0        # 我过滤出有赞的回复
-            .sortBy (reply) -> -reply.ups.length           # 我把比较赞的回复排在前面
+            .filter (reply) -> reply.ups.length > 0   # 我过滤出有赞的回复
+            .sortBy (reply) -> -reply.ups.length      # 我把比较赞的回复排在前面
             .value()
       .catch (error) ->
         $scope.error = error
