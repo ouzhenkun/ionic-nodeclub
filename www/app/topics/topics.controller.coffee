@@ -1,9 +1,11 @@
 angular.module('ionic-nodeclub')
 
 .controller 'TopicsCtrl', (
+  API
   tabs
   toast
   $scope
+  $window
   $timeout
   $ionicModal
   authService
@@ -11,6 +13,7 @@ angular.module('ionic-nodeclub')
   topicService
   $ionicPopover
   messageService
+  $ionicActionSheet
   $ionicScrollDelegate
 ) ->
 
@@ -81,6 +84,18 @@ angular.module('ionic-nodeclub')
           $timeout $scope.doRefresh
         .catch (error) ->
           toast('发布失败: ' + error?.data?.error_msg, 'long')
+
+    switchNodeclub: ->
+      $ionicActionSheet.show
+        buttons: _.map API.servers, (s) ->
+          if s is API.server
+            text: "<span class='positive'>#{s} (当前)</span>"
+          else
+            text: s
+        buttonClicked: (index) ->
+          localStorage.server = API.servers[index]
+          $window.location.reload(true)
+          return true
 
     doRefresh: ->
       if $scope.loading then return

@@ -45,5 +45,12 @@ angular.module('ionic-nodeclub')
           templateUrl: 'app/messages/messages.html'
           controller: 'MessagesCtrl'
 
+    .state 'app.settings',
+      url: '/settings'
+      views:
+        mainContent:
+          templateUrl: 'app/settings/settings.html'
+          controller: 'SettingsCtrl'
+
   $urlRouterProvider.otherwise "/app/topics/#{tabs[0].value}"
 

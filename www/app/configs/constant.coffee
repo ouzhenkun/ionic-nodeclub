@@ -1,8 +1,8 @@
 angular.module('ionic-nodeclub')
 
 .constant 'API',
-  #server: 'http://localhost:3000'
-  server: 'https://cnodejs.org'
+  servers: ['https://cnodejs.org', 'http://ionichina.com']
+  server: localStorage.server ? @servers[0]
   #server: 'http://ionichina.com'
   path: '/api/'
   version: 'v1'
@@ -14,7 +14,6 @@ angular.module('ionic-nodeclub')
   POP_REPLIES_LIMIT: 5               # 最赞回复默认显示5个
   TOAST_SHORT_DELAY: 2000            # 短的toast显示时长为2秒
   TOAST_LONG_DELAY: 3500             # 长的toast显示时长为3.5秒
-
 
 .constant 'tabs', [
   {label: '全部', value: 'all'}
