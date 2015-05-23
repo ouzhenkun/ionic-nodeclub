@@ -5,6 +5,7 @@ angular.module('ionic-nodeclub')
   tabs
   toast
   $scope
+  $state
   $window
   $timeout
   $ionicModal
@@ -94,7 +95,8 @@ angular.module('ionic-nodeclub')
             text: s
         buttonClicked: (index) ->
           localStorage.server = API.allServers[index]
-          $window.location.reload(true)
+          $state.go('app.topics', tab:'all')
+          $window.location.reload(false)
           return true
 
     doRefresh: ->

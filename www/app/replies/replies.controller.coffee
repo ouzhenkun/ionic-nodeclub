@@ -129,8 +129,11 @@ angular.module('ionic-nodeclub')
       authService.withAuthUser (authUser) ->
         $ionicLoading.show()
         topicService.sendReply($stateParams.topicId, $scope.newReply, authUser)
-          .then $scope.clearNewReply
-          .finally $ionicLoading.hide
+          .then ->
+            $scope.clearNewReply()
+            $scope.doRefresh()
+          .finally ->
+            $ionicLoading.hide()
 
     showSendAction: ->
       $ionicActionSheet.show

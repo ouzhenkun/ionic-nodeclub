@@ -4,29 +4,17 @@
   <ion-content>
     <div class="list">
 
-      <div class="item item-toggle">
+     <ion-toggle class="toggle-positive"
+                 ng-model="settings.popRepliesVisible"
+                 ng-change="updateSettings()">
        是否显示最热回复
-       <label class="toggle toggle-positive">
-         <input type="checkbox"
-                ng-model="settings.popRepliesVisible"
-                ng-change="updateSettings()">
-         <div class="track">
-           <div class="handle"></div>
-         </div>
-       </label>
-      </div>
+     </ion-toggle>
 
-      <div class="item item-toggle">
-       倒序显示最新回复
-       <label class="toggle toggle-positive">
-         <input type="checkbox"
-                ng-model="settings.latestRepliesDesc"
-                ng-change="updateSettings()">
-         <div class="track">
-           <div class="handle"></div>
-         </div>
-       </label>
-      </div>
+     <ion-toggle class="toggle-positive"
+                 ng-model="settings.latestRepliesDesc"
+                 ng-change="updateSettings()">
+        倒序显示最新回复
+     </ion-toggle>
 
       <div class="item"
            ng-if="appVersion">

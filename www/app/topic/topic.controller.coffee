@@ -53,28 +53,28 @@ angular.module('ionic-nodeclub')
     showTopicAction: ->
       $ionicActionSheet.show
         buttons: [
-          text: '话题回复'
+          text: '在浏览器中打开'
         ,
-          text: if !$scope.isCollected then '收藏话题' else '取消收藏'
+          text: '重新加载'
         ,
           text: '关于作者'
         ,
-          text: '刷新一下'
+          text: if !$scope.isCollected then '收藏话题' else '取消收藏'
         ,
-          text: '在浏览器中打开'
+          text: '回复话题'
         ]
         buttonClicked: (index) ->
           switch index
             when 0
-              $state.go 'app.replies', topicId:$stateParams.topicId
+              window.open "#{API.server}/topic/#{$stateParams.topicId}", '_system'
             when 1
-              collectTopic()
+              loadTopic(refresh = true)
             when 2
               $state.go 'app.user', loginname: $scope.topic.author.loginname
             when 3
-              loadTopic(refresh = true)
+              collectTopic()
             else
-              window.open "#{API.server}/topic/#{$stateParams.topicId}", '_system'
+              $state.go 'app.replies', topicId:$stateParams.topicId
           return true
 
   # 我在获取这个主题的内容

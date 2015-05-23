@@ -9,16 +9,13 @@
     </button>
   </ion-nav-buttons>
   <ion-content overflow-scroll="true">
-    <!--<ion-refresher pulling-text="下拉刷新..."-->
-                   <!--pulling-icon="ion-ios-arrow-down"-->
-                   <!--spinner="spiral"-->
-                   <!--on-refresh="doRefresh()">-->
+    <!--<ion-refresher on-refresh="doRefresh()">-->
     <!--</ion-refresher>-->
 
     <!-- 提示信息 -->
     <div class="text-center padding"
          ng-if="loading">
-      <ion-spinner icon="spiral"></ion-spinner>
+      <ion-spinner></ion-spinner>
       <p>加载中...</p>
     </div>
 
