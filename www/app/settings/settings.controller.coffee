@@ -3,13 +3,42 @@ angular.module('ionic-nodeclub')
 .controller 'SettingsCtrl', (
   $scope
   settings
+  Restangular
+  $cordovaAppVersion
 ) ->
+
+  versionCompare = (v1, v2) ->
+    return 0 if !v1 or !v2
+    v1parts = v1.split('.').map(Number)
+    v2parts = v2.split('.').map(Number)
+    if v1parts.length > v2parts.length
+      return 1
+    if v1parts.length < v2parts.length
+      return -1
+    for i in [0...v1parts.length]
+      if v1parts[i] is v2parts[i]
+        continue
+      else if v1parts[i] > v2parts[i]
+        return 1
+      else
+        return -1
+    return 0
+
+  if window.cordova
+    $cordovaAppVersion.getAppVersion()
+      .then (version) ->
+        $scope.appVersion = version
 
   angular.extend $scope,
     settings: settings.get()
+    appVersion: null
+    newVersionData: null
     updateSettings: ->
       settings.set($scope.settings)
 
-  # TODO
-  # 1.打包的时候设置当前版本
-  # 2.自动检查更新: http://fir.im/api/v2/app/version/5540b7aefe9978f3100002f4
+  Restangular
+    .oneUrl('getNewVersion', 'http://fir.im/api/v2/app/version/5540b7aefe9978f3100002f4')
+    .get()
+    .then (newVersionData) ->
+      $scope.newVersionData = newVersionData
+      $scope.hasNewVersion = versionCompare($scope.newVersionData.versionShort, $scope.appVersion)

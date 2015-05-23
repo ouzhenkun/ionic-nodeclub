@@ -1,6 +1,6 @@
 {
   "name": "ionic-nodeclub",
-  "version": "0.0.1",
+  "version": "0.0.4",
   "description": "An Ionic project",
   "dependencies": {},
   "devDependencies": {
@@ -19,7 +19,8 @@
     "org.apache.cordova.inappbrowser",
     "com.phonegap.plugins.barcodescanner",
     "com.verso.cordova.clipboard",
-    "nl.x-services.plugins.toast"
+    "nl.x-services.plugins.toast",
+    "uk.co.whiteoctober.cordova.appversion"
   ],
   "cordovaPlatforms": [
     "android",

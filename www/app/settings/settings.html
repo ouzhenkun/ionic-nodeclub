@@ -28,8 +28,19 @@
        </label>
       </div>
 
-      <div class="item">
-        当前版本<span class="item-note">v0.001</span>
+      <div class="item"
+           ng-if="appVersion">
+        当前版本<span class="item-note">{{::appVersion}}</span>
+      </div>
+      <div class="item"
+           ng-if="appVersion && hasNewVersion">
+        <a class="button button-positive button-full"
+           external-link="{{::newVersionData.installUrl}}">
+          下载更新
+          <small class="text-note">
+            {{::newVersionData.versionShort}}
+          </small>
+        </a>
       </div>
 
     </div>
