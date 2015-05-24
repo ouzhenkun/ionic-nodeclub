@@ -77,8 +77,7 @@ angular.module('ionic-nodeclub')
             when 'down'
               _.pull(reply.ups, authUser.id)
             else
-              # TODO 错误处理
-              console.log 'unknown action: ' + resp.action
+              reject(resp)
           resolve resp.action
         .catch reject
 

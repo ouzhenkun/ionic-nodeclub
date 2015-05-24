@@ -73,6 +73,9 @@ angular.module('ionic-nodeclub')
         topicService.toggleLikeReply(reply, authUser)
           .then (action) ->
             toast '已赞' if action is 'up'
+          .catch (error) ->
+            toast error.error_msg
+
 
     replyAuthor: (reply) ->
       authService.withAuthUser (authUser) ->

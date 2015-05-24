@@ -77,14 +77,15 @@ angular.module('ionic-nodeclub')
       return toast('发布失败：请先输入标题。'    ) if _.isEmpty($scope.newTopic.title)
       return toast('发布失败：话题内容不能为空。') if _.isEmpty($scope.newTopic.content)
 
-      topicService.postNew $scope.newTopic
-        .then ->
-          $scope.scrollDelegate.scrollTop(false)
-          $scope.newTopic = mkNewTopic()
-          $scope.newTopicModal.hide()
-          $timeout $scope.doRefresh
-        .catch (error) ->
-          toast('发布失败: ' + error?.data?.error_msg, 'long')
+      authService.withAuthUser (user) ->
+        topicService.postNew $scope.newTopic, user
+          .then ->
+            $scope.scrollDelegate.scrollTop(false)
+            $scope.newTopic = mkNewTopic()
+            $scope.newTopicModal.hide()
+            $timeout $scope.doRefresh
+          .catch (error) ->
+            toast('发布失败: ' + error?.data?.error_msg, 'long')
 
     switchNodeclub: ->
       $ionicActionSheet.show
