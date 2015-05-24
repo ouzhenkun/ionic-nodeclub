@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<widget
-  id="me.zko.ionicnodeclub"
-  version="0.0.5"
-  xmlns="http://www.w3.org/ns/widgets"
-  xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="me.zko.ionicnodeclub" version="0.0.6" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
   <name>Ionic Nodeclub</name>
   <description>
     一个Nodeclub开源社区系统的手机客户端
