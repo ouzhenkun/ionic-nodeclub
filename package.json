@@ -23,7 +23,7 @@
     "uk.co.whiteoctober.cordova.appversion"
   ],
   "cordovaPlatforms": [
-    "android",
-    "ios"
+    "ios",
+    "android"
   ]
 }
