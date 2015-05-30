@@ -78,6 +78,16 @@ textarea {
     padding-left: 28px;
   }
 }
+.message-item {
+  .avatar {
+    height: 22px;
+    width: 22px;
+  }
+  p {
+    padding-left: 28px;
+    margin-top: 5px;
+  }
+}
 .user-item-body {
   p {
     margin-top: 0;

@@ -1,4 +1,4 @@
-<div class="item item-text-wrap">
+<div class="item item-text-wrap message-item">
   <a class="item-author positive button-link"
      ui-sref="app.user({loginname: message.author.loginname})">
     <img class="avatar"
@@ -8,21 +8,26 @@
     <span class="item-note"
           am-time-ago="::message.reply.create_at"></span>
   </a>
-  <span ng-switch="message.type">
+  <span ng-switch="message.type" class="text-note">
     <span ng-switch-when="reply">
       回复了你的话题
-      <a href
-         ui-sref="app.topic({topicId: message.topic.id})">
-        {{::message.topic.title}}
-      </a>
+      <p>
+        <a href
+           class="button-link positive"
+           ui-sref="app.replies({topicId: message.topic.id})">
+          {{::message.topic.title}}
+        </a>
+      </p>
     </span>
     <span ng-switch-default>
       在回复中@了你
-      <a href
-         class="button-link positive"
-         ui-sref="app.replies({topicId: message.topic.id})">
-        {{::message.topic.title}}
-      </a>
+      <p>
+        <a href
+           class="button-link positive"
+           ui-sref="app.replies({topicId: message.topic.id})">
+          {{::message.topic.title}}
+        </a>
+      </p>
     </span>
   </span>
 </div>

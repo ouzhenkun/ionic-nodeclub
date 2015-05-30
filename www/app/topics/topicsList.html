@@ -11,9 +11,9 @@
       <span class="label label-positive"
             ng-if="topic.top">置顶</span>
       <span class="label label-positive"
-            ng-if="selectedTab == 'all' && topic.good && !topic.top">精华</span>
+            ng-if="topic.good && !topic.top">精华</span>
       <span class="label label-default"
-            ng-if="selectedTab == 'all' && !topic.top && !topic.good">{{topic.tab | tabLabel}}</span>
+            ng-if="!topic.top && !topic.good">{{topic.tab | tabLabel}}</span>
       {{topic.author.loginname}}
       <span class="item-note"
             am-time-ago="topic.last_reply_at">

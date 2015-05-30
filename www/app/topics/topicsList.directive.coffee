@@ -5,3 +5,4 @@ angular.module('ionic-nodeclub')
   templateUrl: 'app/topics/topicsList.html'
   scope:
     topics: '='
+    selectedTab: '='

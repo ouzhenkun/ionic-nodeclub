@@ -42,5 +42,6 @@
 
   <!-- 标记为已读的按钮 -->
   <button class="button-float button button-stable icon icon-done-all"
+          ng-if="hasnot_read_messages.length"
           ng-click="markAsRead()"></button>
 </ion-view>
