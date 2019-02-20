@@ -4,7 +4,7 @@
 
 数据源/API 使用的是开源社区系统 [Nodeclub](https://github.com/cnodejs/nodeclub/)
 
-[online demo](http://zko.me/ionic-nodeclub) 或者 [下载安装](http://fir.im/ionic)
+[online demo](http://ouzhenkun.com/ionic-nodeclub) 或者 [下载安装](http://fir.im/ionic)
 
 
 ## Getting started
